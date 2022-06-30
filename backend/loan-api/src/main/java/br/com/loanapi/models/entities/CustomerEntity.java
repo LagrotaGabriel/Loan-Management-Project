@@ -3,6 +3,7 @@ package br.com.loanapi.models.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,11 +27,13 @@ public class CustomerEntity {
     @Column(name = "customer_lastNname", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "customer_birthDate", length = 10)
-    private String birthDate;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "customer_birthDate")
+    private Date birthDate;
 
-    @Column(name = "customer_birthDate", length = 10)
-    private String signUpDate;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "customer_signUpDate")
+    private Date signUpDate;
 
     @Column(name = "customer_rg", length = 12)
     private String rg;
@@ -42,7 +45,7 @@ public class CustomerEntity {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "id_address")
+    @JoinColumn(name = "address_id")
     private AddressEntity address;
 
     @OneToOne(cascade = CascadeType.ALL)

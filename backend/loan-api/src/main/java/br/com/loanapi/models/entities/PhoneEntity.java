@@ -32,7 +32,7 @@ public class PhoneEntity {
     private PhoneTypeEnum phoneType;
 
     @ManyToOne
-    @JoinColumn(name = "id_customer", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
 }

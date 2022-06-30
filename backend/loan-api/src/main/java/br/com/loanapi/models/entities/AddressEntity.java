@@ -33,7 +33,7 @@ public class AddressEntity {
     private String postalCode;
 
     @ManyToOne
-    @JoinColumn(name = "id_city")
+    @JoinColumn(name = "city_id")
     private CityEntity city;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

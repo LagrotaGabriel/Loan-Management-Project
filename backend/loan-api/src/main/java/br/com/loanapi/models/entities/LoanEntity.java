@@ -5,7 +5,7 @@ import br.com.loanapi.models.enums.PaymentDateEnum;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,7 +26,7 @@ public class LoanEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "loan_startDate", nullable = false)
-    private LocalDateTime startDate;
+    private Date startDate;
 
     @Column(name = "loan_originalValue", nullable = false)
     private Double originalValue;
@@ -49,7 +49,7 @@ public class LoanEntity {
     private AmortizationEnum amortization;
 
     @ManyToOne
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -45,7 +45,7 @@ public class InstallmentEntity {
     private Double value;
 
     @ManyToOne
-    @JoinColumn(name = "id_loan")
+    @JoinColumn(name = "loan_id")
     private LoanEntity loan;
 
 }
