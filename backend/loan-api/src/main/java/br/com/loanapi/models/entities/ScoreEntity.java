@@ -4,6 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/** Class that contains all attributes of the object of type ScoreEntity
+ ** @author Gabriel Lagrota
+ ** @version 1.0.0
+ ** @since 30/06/2022
+ ** @email gabriellagrota23@gmail.com
+ ** @github https://github.com/LagrotaGabriel/Loan-Project/blob/master/backend/loan-api/src/main/java/br/com/loanapi/models/entities/ScoreEntity.java */
 @Entity
 @Table(name = "TB_SCORE")
 @Getter
