@@ -1,0 +1,34 @@
+package br.com.loanapi.mocks;
+
+import br.com.loanapi.models.entities.InstallmentEntity;
+import br.com.loanapi.utils.DateFormatter;
+
+import java.text.ParseException;
+
+public class InstallmentEntityDataBuilder {
+
+    InstallmentEntityDataBuilder(){}
+    InstallmentEntity installment;
+
+    public static InstallmentEntityDataBuilder builder() throws ParseException {
+
+        InstallmentEntityDataBuilder builder = new InstallmentEntityDataBuilder();
+        builder.installment = new InstallmentEntity();
+
+        builder.installment.setId(1L);
+        builder.installment.setMaturityDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2011"));
+        builder.installment.setPaymentDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2021"));
+        builder.installment.setExpired(false);
+        builder.installment.setMonth(4);
+        builder.installment.setAmortization(1000.0);
+        builder.installment.setInterest(10.0);
+        builder.installment.setValue(1100.0);
+        builder.installment.setLoan(LoanEntityDataBuilder.builder().build());
+
+        return builder;
+    }
+
+    public InstallmentEntity build(){
+        return installment;
+    }
+}
