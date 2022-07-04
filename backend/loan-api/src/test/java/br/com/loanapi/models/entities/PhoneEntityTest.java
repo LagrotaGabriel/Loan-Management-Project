@@ -1,7 +1,7 @@
 package br.com.loanapi.models.entities;
 
-import br.com.loanapi.mocks.CustomerEntityDataBuilder;
-import br.com.loanapi.mocks.PhoneEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
+import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import br.com.loanapi.models.enums.PhoneTypeEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

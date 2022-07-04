@@ -3,7 +3,6 @@ package br.com.loanapi.models.dto;
 import br.com.loanapi.models.enums.StateEnum;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type CityDTO

@@ -1,4 +1,4 @@
-package br.com.loanapi.mocks;
+package br.com.loanapi.mocks.entity;
 
 import br.com.loanapi.models.entities.CityEntity;
 import br.com.loanapi.models.enums.StateEnum;

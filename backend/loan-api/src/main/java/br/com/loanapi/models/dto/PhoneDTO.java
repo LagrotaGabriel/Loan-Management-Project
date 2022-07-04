@@ -3,8 +3,6 @@ package br.com.loanapi.models.dto;
 import br.com.loanapi.models.enums.PhoneTypeEnum;
 import lombok.*;
 
-import javax.persistence.*;
-
 /** Class that contains all attributes of the object of type PhoneDTO
  ** @author Gabriel Lagrota
  ** @version 1.0.0

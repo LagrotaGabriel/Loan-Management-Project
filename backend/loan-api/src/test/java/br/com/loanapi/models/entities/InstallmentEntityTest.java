@@ -1,7 +1,7 @@
 package br.com.loanapi.models.entities;
 
-import br.com.loanapi.mocks.InstallmentEntityDataBuilder;
-import br.com.loanapi.mocks.LoanEntityDataBuilder;
+import br.com.loanapi.mocks.entity.InstallmentEntityDataBuilder;
+import br.com.loanapi.mocks.entity.LoanEntityDataBuilder;
 import br.com.loanapi.utils.DateFormatter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

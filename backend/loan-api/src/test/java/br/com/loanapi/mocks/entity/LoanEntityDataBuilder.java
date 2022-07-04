@@ -1,4 +1,4 @@
-package br.com.loanapi.mocks;
+package br.com.loanapi.mocks.entity;
 
 import br.com.loanapi.models.entities.LoanEntity;
 import br.com.loanapi.models.enums.AmortizationEnum;

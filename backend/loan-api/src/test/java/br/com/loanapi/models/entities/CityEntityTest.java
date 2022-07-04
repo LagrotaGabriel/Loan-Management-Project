@@ -1,6 +1,6 @@
 package br.com.loanapi.models.entities;
 
-import br.com.loanapi.mocks.CityEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CityEntityDataBuilder;
 import br.com.loanapi.models.enums.StateEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

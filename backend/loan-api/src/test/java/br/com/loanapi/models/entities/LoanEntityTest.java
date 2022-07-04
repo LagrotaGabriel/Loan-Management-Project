@@ -1,7 +1,7 @@
 package br.com.loanapi.models.entities;
 
-import br.com.loanapi.mocks.CustomerEntityDataBuilder;
-import br.com.loanapi.mocks.LoanEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
+import br.com.loanapi.mocks.entity.LoanEntityDataBuilder;
 import br.com.loanapi.models.enums.AmortizationEnum;
 import br.com.loanapi.models.enums.PaymentDateEnum;
 import br.com.loanapi.utils.DateFormatter;
