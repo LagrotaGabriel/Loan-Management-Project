@@ -24,6 +24,26 @@ public class AddressDTODataBuilder {
 
     }
 
+    public AddressDTODataBuilder withTooLongStreet(){
+        address.setStreet("This is a street too long. Too long that the characters numbers is + 65");
+        return this;
+    }
+
+    public AddressDTODataBuilder withTooLongNeighborhood(){
+        address.setNeighborhood("This is a neighborhood too long. Too long that the characters numbers is + 65");
+        return this;
+    }
+
+    public AddressDTODataBuilder withTooLongNumber(){
+        address.setNumber(5830000);
+        return this;
+    }
+
+    public AddressDTODataBuilder withAlphanumPostalCode(){
+        address.setPostalCode("abcd1-abc");
+        return this;
+    }
+
     public AddressDTO build(){
         return address;
     }
