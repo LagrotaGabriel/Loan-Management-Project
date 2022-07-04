@@ -26,20 +26,20 @@ public class AddressEntity {
     @Column(name = "address_id", unique = true, nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "address_street", length = 100, nullable = false)
+    @Column(name = "address_street", length = 65, nullable = false)
     private String street;
 
-    @Column(name = "address_neighborhood", length = 100)
+    @Column(name = "address_neighborhood", length = 65, nullable = false)
     private String neighborhood;
 
-    @Column(name = "address_number")
+    @Column(name = "address_number", length = 5, nullable = false)
     private Integer number;
 
-    @Column(name = "address_postalCode", length = 9)
+    @Column(name = "address_postalCode", length = 9, nullable = false)
     private String postalCode;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", nullable = false)
     private CityEntity city;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

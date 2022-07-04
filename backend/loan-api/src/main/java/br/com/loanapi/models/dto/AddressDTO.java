@@ -1,5 +1,6 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class AddressDTO {
+
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String street;
     private String neighborhood;
