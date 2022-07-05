@@ -25,11 +25,8 @@ import java.util.List;
 @Api(value = "The api may provide a crud to Address persistence")
 public class AddressResource {
 
-    @Autowired
-    AddressService service;
-
-    @Autowired
-    AddressDAO dao;
+    @Autowired AddressService service;
+    @Autowired AddressDAO dao;
 
     @ApiOperation(
             value = "Create",
@@ -49,30 +46,67 @@ public class AddressResource {
 
     @ApiOperation(
             value = "Find all",
-            notes = "This request will find all address saved in database",
+            notes = "This request will find all addresses saved in database",
             produces = MediaType.APPLICATION_JSON,
             consumes = MediaType.APPLICATION_JSON
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Addresses finded with success", response = AddressDTO.class),
             @ApiResponse(code = 401, message = "Unauthorized access"),
-            @ApiResponse(code = 404, message = "There is no address saved in the database", response = ObjectNotFoundException.class)
+            @ApiResponse(code = 404, message = "There is no addresses saved in database", response = ObjectNotFoundException.class)
     })
     @GetMapping
     public ResponseEntity<List<AddressDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
+    @ApiOperation(
+            value = "Find by id",
+            notes = "This request will find a address saved in database by id",
+            produces = MediaType.APPLICATION_JSON,
+            consumes = MediaType.APPLICATION_JSON
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Address finded with success", response = AddressDTO.class),
+            @ApiResponse(code = 401, message = "Unauthorized access"),
+            @ApiResponse(code = 404, message = "There is no address saved in database by the passed id",
+                    response = ObjectNotFoundException.class)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<AddressDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(service.findById(id));
     }
 
+    @ApiOperation(
+            value = "Update",
+            notes = "This request will update a address in database of the project by id",
+            produces = MediaType.APPLICATION_JSON,
+            consumes = MediaType.APPLICATION_JSON
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Address updated with success", response = AddressDTO.class),
+            @ApiResponse(code = 400, message = "Fail on address update", response = InvalidRequestException.class),
+            @ApiResponse(code = 401, message = "Unauthorized access"),
+            @ApiResponse(code = 404, message = "There is no address saved in database with the passed id",
+                    response = ObjectNotFoundException.class),
+    })
     @PutMapping("/{id}")
     public ResponseEntity<AddressDTO> update(@RequestBody AddressDTO address, @PathVariable Long id){
         return ResponseEntity.ok().body(service.update(id, address));
     }
 
+    @ApiOperation(
+            value = "Delete",
+            notes = "This request will delete a address by id",
+            produces = MediaType.APPLICATION_JSON,
+            consumes = MediaType.APPLICATION_JSON
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Address deleted with success", response = Boolean.class),
+            @ApiResponse(code = 401, message = "Unauthorized access"),
+            @ApiResponse(code = 404, message = "There is no address saved in database by the passed id",
+                    response = ObjectNotFoundException.class)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return ResponseEntity.ok().body(dao.deleteById(id));

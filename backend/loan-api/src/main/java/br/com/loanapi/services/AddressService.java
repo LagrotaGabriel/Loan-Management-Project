@@ -25,13 +25,13 @@ public class AddressService {
 
     public AddressDTO create(AddressDTO address){
         if(validation.validateRequest(address)) return modelMapper.mapper().map(addressDAO.create(address), AddressDTO.class);
-        throw new InvalidRequestException("Address validation failed. Some of the attributes is null or empty.");
+        throw new InvalidRequestException("Address validation failed");
     }
 
     public List<AddressDTO> findAll(){
         if(!addressDAO.findAll().isEmpty()) return addressDAO.findAll().stream()
                 .map(x -> modelMapper.mapper().map(x, AddressDTO.class)).collect(Collectors.toList());
-        throw new ObjectNotFoundException("There is no address saved in the database");
+        throw new ObjectNotFoundException("There is no addresses saved in the database");
     }
 
     public AddressDTO findById(Long id){
@@ -39,7 +39,8 @@ public class AddressService {
     }
 
     public AddressDTO update(Long id, AddressDTO address){
-        //TODO Verify if nested objects come with Entity type. If comes, change to DTO type
+        //TODO Verify if nested objects come with Entity type. If comes, change to DTO type and ADD the cascade to list
+        //TODO ADD VALIDATION IN UPDATE
         return modelMapper.mapper().map(addressDAO.update(id, address), AddressDTO.class);
     }
 
