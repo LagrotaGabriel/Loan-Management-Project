@@ -22,6 +22,11 @@ public class CityDTODataBuilder {
 
     }
 
+    public CityDTODataBuilder withTooLongCity(){
+        cityDTO.setCity("A city name too long that will throws a too long exception in the validation class.");
+        return this;
+    }
+
     public CityDTO build(){
         return cityDTO;
     }
