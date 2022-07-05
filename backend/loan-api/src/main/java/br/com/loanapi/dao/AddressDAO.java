@@ -1,5 +1,6 @@
 package br.com.loanapi.dao;
 
+import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.entities.AddressEntity;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  ** @since 02/07/2022 */
 public interface AddressDAO {
 
-    AddressEntity create(AddressEntity address);
+    AddressEntity create(AddressDTO address);
     List<AddressEntity> findAll();
     AddressEntity findById(Long id);
-    AddressEntity update(Long id, AddressEntity address);
+    AddressEntity update(Long id, AddressDTO address);
     Boolean deleteById(Long id);
 
 }
