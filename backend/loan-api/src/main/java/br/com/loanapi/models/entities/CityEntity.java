@@ -28,7 +28,7 @@ public class CityEntity {
     @Column(name = "city_id", unique = true, nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "city_desc", nullable = false, length = 100)
+    @Column(name = "city_desc", nullable = false, length = 65)
     private String city;
 
     @Enumerated(EnumType.STRING)
