@@ -27,4 +27,19 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<StandartError> objectNotFoundException(ObjectNotFoundException objectNotFoundException,
+                                                                 HttpServletRequest httpServletRequest){
+
+        StandartError standartError = new StandartError(
+                LocalDateTime.now(),
+                404,
+                objectNotFoundException.getMessage(),
+                httpServletRequest.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standartError);
+
+    }
+
 }
