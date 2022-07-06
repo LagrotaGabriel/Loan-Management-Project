@@ -34,6 +34,36 @@ public class CustomerDTODataBuilder {
         return builder;
     }
 
+    public CustomerDTODataBuilder withTooLongName(){
+        customer.setName("This is a too long name that will throws a exception at the validation class");
+        return this;
+    }
+
+    public CustomerDTODataBuilder withTooLongLastName(){
+        customer.setLastName("This is a too long last name that will throws a exception at the validation class");
+        return this;
+    }
+
+    public CustomerDTODataBuilder withRealisticBirthDate() throws ParseException {
+        customer.setBirthDate(DateFormatter.convertStringToDateWithBrPattern("11-11-1998"));
+        return this;
+    }
+
+    public CustomerDTODataBuilder withInvalidRg(){
+        customer.setRg("555.826.822-21");
+        return this;
+    }
+
+    public CustomerDTODataBuilder withInvalidCpf(){
+        customer.setCpf("55.826.822-9");
+        return this;
+    }
+
+    public CustomerDTODataBuilder withInvalidEmail(){
+        customer.setEmail("gabriel.com");
+        return this;
+    }
+
     public CustomerDTO build(){
         return customer;
     }
