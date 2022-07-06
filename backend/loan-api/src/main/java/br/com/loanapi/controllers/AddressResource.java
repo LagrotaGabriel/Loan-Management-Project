@@ -1,4 +1,4 @@
-package br.com.loanapi.resources;
+package br.com.loanapi.controllers;
 
 import br.com.loanapi.dao.AddressDAO;
 import br.com.loanapi.exceptions.InvalidRequestException;

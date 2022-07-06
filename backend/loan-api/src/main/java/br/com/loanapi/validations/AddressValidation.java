@@ -3,6 +3,9 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.AddressDTO;
 
+import static br.com.loanapi.utils.RegexPatterns.POSTAL_CODE_REGEX_PATTERN;
+import static br.com.loanapi.utils.RegexPatterns.STREET_NUMBER_REGEX_PATTERN;
+
 public class AddressValidation {
 
     public boolean validateRequest(AddressDTO address){
@@ -35,13 +38,13 @@ public class AddressValidation {
     }
 
     public boolean verifyNumber(Integer number){
-        if(number.toString().matches("[0-9]{1,5}")) return true;
+        if(number.toString().matches(STREET_NUMBER_REGEX_PATTERN)) return true;
         throw new InvalidRequestException("Address validation failed. " +
                 "The number must have only numbers with the max size of 5 characters.");
     }
 
     public boolean verifyPostalCode(String postalCode){
-        if(postalCode.matches("[0-9]{5}-[0-9]{3}")) return true;
+        if(postalCode.matches(POSTAL_CODE_REGEX_PATTERN)) return true;
         throw new InvalidRequestException("Address validation failed. The postal code should follow the pattern " +
                 "xxxxx-xxx, with only numbers");
     }

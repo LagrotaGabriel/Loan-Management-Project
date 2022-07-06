@@ -48,7 +48,6 @@ public class CityDaoImpl implements CityDAO {
         cityById.setState(city.getState());
         cityById.setAddresses(city.getAddresses().stream().map(x -> modelMapper.mapper().map(x, AddressEntity.class))
                 .collect(Collectors.toList()));
-
         return repository.save(cityById);
     }
 
