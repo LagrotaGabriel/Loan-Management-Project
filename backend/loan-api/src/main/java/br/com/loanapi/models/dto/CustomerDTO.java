@@ -1,7 +1,9 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class CustomerDTO {
+
+    @Transient
     private Long id;
     private String name;
     private String lastName;
@@ -26,8 +30,14 @@ public class CustomerDTO {
     private String cpf;
     private String email;
     private AddressDTO address;
+
+    @Transient
     private ScoreDTO score;
+
+    @JsonProperty(value = "customers", access = JsonProperty.Access.READ_ONLY)
     private List<PhoneDTO> phones;
+
+    @JsonProperty(value = "customers", access = JsonProperty.Access.READ_ONLY)
     private List<LoanDTO> loans;
 
 }

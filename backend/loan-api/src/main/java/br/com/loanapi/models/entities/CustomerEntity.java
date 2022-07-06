@@ -27,10 +27,10 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "customer")
     private Long id;
 
-    @Column(name = "customer_name", nullable = false, length = 50)
+    @Column(name = "customer_name", nullable = false, length = 65)
     private String name;
 
-    @Column(name = "customer_lastNname", nullable = false, length = 100)
+    @Column(name = "customer_lastNname", nullable = false, length = 65)
     private String lastName;
 
     @Temporal(TemporalType.DATE)
@@ -38,7 +38,7 @@ public class CustomerEntity {
     private Date birthDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "customer_signUpDate")
+    @Column(name = "customer_signUpDate", nullable = false)
     private Date signUpDate;
 
     @Column(name = "customer_rg", length = 12)
@@ -47,7 +47,7 @@ public class CustomerEntity {
     @Column(name = "customer_cpf", length = 14)
     private String cpf;
 
-    @Column(name = "customer_email", length = 100)
+    @Column(name = "customer_email", length = 65, nullable = false)
     private String email;
 
     @ManyToOne
