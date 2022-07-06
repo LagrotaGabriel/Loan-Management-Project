@@ -1,5 +1,6 @@
 package br.com.loanapi.dao;
 
+import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.entities.CustomerEntity;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  ** @since 02/07/2022 */
 public interface CustomerDAO {
 
-    CustomerEntity create(CustomerEntity customer);
+    CustomerEntity create(CustomerDTO customer);
     List<CustomerEntity> findAll();
     CustomerEntity findById(Long id);
-    CustomerEntity update(Long id, CustomerEntity customer);
+    CustomerEntity update(Long id, CustomerDTO customer);
     Boolean deleteById(Long id);
 
 }
