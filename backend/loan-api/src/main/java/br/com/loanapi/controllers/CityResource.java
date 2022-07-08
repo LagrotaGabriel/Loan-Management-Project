@@ -1,6 +1,5 @@
 package br.com.loanapi.controllers;
 
-import br.com.loanapi.dao.CityDAO;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.CityDTO;
@@ -27,7 +26,6 @@ import java.util.List;
 public class CityResource {
 
     @Autowired CityService service;
-    @Autowired CityDAO dao;
 
     @ApiOperation(
             value = "Create",
@@ -110,6 +108,6 @@ public class CityResource {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(dao.deleteById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteById(id));
     }
 }

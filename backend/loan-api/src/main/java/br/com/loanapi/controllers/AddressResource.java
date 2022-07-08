@@ -1,6 +1,5 @@
 package br.com.loanapi.controllers;
 
-import br.com.loanapi.dao.AddressDAO;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.AddressDTO;
@@ -26,7 +25,6 @@ import java.util.List;
 public class AddressResource {
 
     @Autowired AddressService service;
-    @Autowired AddressDAO dao;
 
     @ApiOperation(
             value = "Create",
@@ -109,7 +107,7 @@ public class AddressResource {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        return ResponseEntity.ok().body(dao.deleteById(id));
+        return ResponseEntity.ok().body(service.deleteById(id));
     }
 
 }

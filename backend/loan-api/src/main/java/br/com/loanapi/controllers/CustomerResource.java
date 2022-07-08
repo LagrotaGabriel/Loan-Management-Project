@@ -1,6 +1,5 @@
 package br.com.loanapi.controllers;
 
-import br.com.loanapi.dao.CustomerDAO;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.CustomerDTO;
@@ -27,8 +26,6 @@ public class CustomerResource {
 
     @Autowired
     CustomerService service;
-    @Autowired
-    CustomerDAO dao;
 
     @ApiOperation(
             value = "Create",
@@ -111,7 +108,7 @@ public class CustomerResource {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        return ResponseEntity.ok().body(dao.deleteById(id));
+        return ResponseEntity.ok().body(service.deleteById(id));
     }
 
 }

@@ -86,7 +86,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate rg validation with null rg")
-    void shouldValidateRgValidationWithNullRg() throws ParseException {
+    void shouldValidateRgValidationWithNullRg() {
         Assertions.assertTrue(validation.verifyRg(null));
     }
 
@@ -113,7 +113,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate Cpf validation with null cpf")
-    void shouldValidateCpfValidationWithNullCpf() throws ParseException {
+    void shouldValidateCpfValidationWithNullCpf() {
         Assertions.assertTrue(validation.verifyCpf(null));
     }
 
@@ -214,6 +214,7 @@ class CustomerValidationTest {
             Assertions.assertEquals("Customer validation failed. Some of the attributes is null or empty.",
                     exception.getMessage());
         }
+
     }
 
     @Test
