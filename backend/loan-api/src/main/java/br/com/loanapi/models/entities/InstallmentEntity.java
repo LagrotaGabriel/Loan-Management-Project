@@ -32,7 +32,7 @@ public class InstallmentEntity {
     private Date maturityDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "installment_paymentDate", nullable = false)
+    @Column(name = "installment_paymentDate")
     private Date paymentDate;
 
     @Column(name = "installment_expired", nullable = false)
@@ -51,7 +51,7 @@ public class InstallmentEntity {
     private Double value;
 
     @ManyToOne
-    @JoinColumn(name = "loan_id")
+    @JoinColumn(name = "loan_id", nullable = false)
     private LoanEntity loan;
 
 }

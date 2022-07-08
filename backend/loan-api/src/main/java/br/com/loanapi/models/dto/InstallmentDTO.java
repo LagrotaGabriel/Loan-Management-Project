@@ -2,6 +2,7 @@ package br.com.loanapi.models.dto;
 
 import lombok.*;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 /** Class that contains all attributes of the object of type InstallmentDTO
@@ -17,7 +18,10 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 public class InstallmentDTO {
+
+    @Transient
     private Long id;
+
     private Date maturityDate;
     private Date paymentDate;
     private Boolean expired;
@@ -25,5 +29,7 @@ public class InstallmentDTO {
     private Double amortization;
     private Double interest;
     private Double value;
+
+    @Transient
     private LoanDTO loan;
 }
