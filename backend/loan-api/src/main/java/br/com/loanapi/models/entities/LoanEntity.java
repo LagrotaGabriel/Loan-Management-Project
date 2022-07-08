@@ -55,7 +55,7 @@ public class LoanEntity {
     private AmortizationEnum amortization;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
