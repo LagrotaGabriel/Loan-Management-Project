@@ -28,6 +28,24 @@ public class InstallmentDTODataBuilder {
         return builder;
     }
 
+    public InstallmentDTODataBuilder withTooLongMonth(){
+        installment.setMonth(1000);
+        return this;
+    }
+
+    public InstallmentDTODataBuilder withTooLongAmortization(){
+        installment.setAmortization(9999999999.0);
+        return this;
+    }
+    public InstallmentDTODataBuilder withTooLongInterest(){
+        installment.setInterest(9999999999.0);
+        return this;
+    }
+    public InstallmentDTODataBuilder withTooLongValue(){
+        installment.setValue(9999999999.0);
+        return this;
+    }
+
     public InstallmentDTO build(){
         return installment;
     }
