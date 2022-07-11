@@ -2,8 +2,10 @@ package br.com.loanapi.models.dto;
 
 import br.com.loanapi.models.enums.AmortizationEnum;
 import br.com.loanapi.models.enums.PaymentDateEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +22,23 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class LoanDTO {
+
+    @Transient
     private Long id;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date startDate;
+
     private Double originalValue;
     private Double debitBalance;
     private Double interestRate;
     private Integer numberOfInstallments;
     private PaymentDateEnum paymentDate;
     private AmortizationEnum amortization;
+
+    @Transient
     private CustomerDTO customer;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<InstallmentDTO> installments;
 }
