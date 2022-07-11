@@ -31,6 +31,26 @@ public class LoanDTODataBuilder {
         return builder;
     }
 
+    public LoanDTODataBuilder withTooLongOriginalValue(){
+        loan.setOriginalValue(9999999999.0);
+        return this;
+    }
+
+    public LoanDTODataBuilder withTooLongDebitBalance(){
+        loan.setDebitBalance(9999999999.0);
+        return this;
+    }
+
+    public LoanDTODataBuilder withTooLongInterestRate(){
+        loan.setInterestRate(101.0);
+        return this;
+    }
+
+    public LoanDTODataBuilder withTooLongNumberOfInstallments(){
+        loan.setNumberOfInstallments(9999);
+        return this;
+    }
+
     public LoanDTO build(){
         return loan;
     }
