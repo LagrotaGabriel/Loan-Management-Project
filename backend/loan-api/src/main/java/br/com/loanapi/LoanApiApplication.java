@@ -15,6 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class LoanApiApplication {
 
+	//TODO ADICIONAR MORA NO ATRASO DO PAGAMENTO
+
 	public static void main(String[] args) {
 		SpringApplication.run(LoanApiApplication.class, args);
 	}
