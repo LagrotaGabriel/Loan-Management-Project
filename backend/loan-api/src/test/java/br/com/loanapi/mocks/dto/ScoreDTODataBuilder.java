@@ -21,6 +21,11 @@ public class ScoreDTODataBuilder {
         return builder;
     }
 
+    public ScoreDTODataBuilder withWrongPontuation() {
+        scoreDTO.setPontuation(101.0);
+        return this;
+    }
+
     public ScoreDTO build(){
         return scoreDTO;
     }

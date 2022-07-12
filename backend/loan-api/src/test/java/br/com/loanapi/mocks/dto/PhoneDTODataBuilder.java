@@ -24,6 +24,16 @@ public class PhoneDTODataBuilder {
         return builder;
     }
 
+    public PhoneDTODataBuilder withWrongPrefix(){
+        phoneDTO.setPrefix(111);
+        return this;
+    }
+
+    public PhoneDTODataBuilder withWrongNumber(){
+        phoneDTO.setNumber("(11)97981-5415");
+        return this;
+    }
+
     public PhoneDTO build(){
         return phoneDTO;
     }

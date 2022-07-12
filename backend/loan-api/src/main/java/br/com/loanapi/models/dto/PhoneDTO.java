@@ -3,6 +3,8 @@ package br.com.loanapi.models.dto;
 import br.com.loanapi.models.enums.PhoneTypeEnum;
 import lombok.*;
 
+import javax.persistence.Transient;
+
 /** Class that contains all attributes of the object of type PhoneDTO
  ** @author Gabriel Lagrota
  ** @version 1.0.0
@@ -16,9 +18,14 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class PhoneDTO {
+
+    @Transient
     private Long id;
+
     private Integer prefix;
     private String number;
     private PhoneTypeEnum phoneType;
+
+    @Transient
     private CustomerDTO customer;
 }

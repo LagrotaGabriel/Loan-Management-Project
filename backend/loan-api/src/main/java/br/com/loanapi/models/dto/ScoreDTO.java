@@ -1,6 +1,9 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import javax.persistence.Transient;
 
 /** Class that contains all attributes of the object of type ScoreDTO
  ** @author Gabriel Lagrota
@@ -14,7 +17,12 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class ScoreDTO {
+
+    @Transient
     private Long id;
+
     private Double pontuation;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private CustomerDTO customer;
 }
