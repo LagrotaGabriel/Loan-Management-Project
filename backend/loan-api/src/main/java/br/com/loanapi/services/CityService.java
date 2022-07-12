@@ -48,24 +48,32 @@ public class CityService {
     }
 
     public CityDTO update(Long id, CityDTO city){
-        //TODO Verify if nested objects come with Entity type. If comes, change to DTO type and ADD the cascade to list
-        if(validation.validateRequest(city)) {
-            CityDTO cityById = findById(id);
-            cityById.setCity(city.getCity());
-            cityById.setState(city.getState());
-            cityById.setAddresses(city.getAddresses());
-            return modelMapper.mapper().map(
-                    repository.save(modelMapper.mapper().map(cityById, CityEntity.class)), CityDTO.class);
+
+        if (validation.validateRequest(city)) {
+
+            CityDTO dto = modelMapper.mapper().map(repository.findById(id), CityDTO.class);
+
+            dto.setCity(city.getCity());
+            dto.setAddresses(city.getAddresses());
+            dto.setState(city.getState());
+
+            return modelMapper.mapper().map(repository.save(
+                    modelMapper.mapper().map(dto, CityEntity.class)), CityDTO.class);
         }
         else{
             throw new InvalidRequestException("City validation failed");
         }
+
     }
 
     public Boolean deleteById(Long id) {
-        CityDTO city = findById(id);
-        repository.delete(modelMapper.mapper().map(city, CityEntity.class));
-        return true;
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
+            return true;
+        }
+        else{
+            throw new ObjectNotFoundException("City not found");
+        }
     }
 
 }
