@@ -1,8 +1,9 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Transient;
 import java.util.Date;
 
 /** Class that contains all attributes of the object of type InstallmentDTO
@@ -19,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode
 public class InstallmentDTO {
 
-    @Transient
+    @JsonIgnore
     private Long id;
 
     private Date maturityDate;
@@ -30,6 +31,6 @@ public class InstallmentDTO {
     private Double interest;
     private Double value;
 
-    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LoanDTO loan;
 }

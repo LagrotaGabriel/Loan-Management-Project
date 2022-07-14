@@ -1,10 +1,10 @@
 package br.com.loanapi.models.dto;
 
 import br.com.loanapi.models.enums.StateEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type CityDTO
@@ -21,12 +21,12 @@ import java.util.List;
 @EqualsAndHashCode
 public class CityDTO {
 
-    @Transient
+    @JsonIgnore
     private Long id;
 
     private String city;
     private StateEnum state;
 
-    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<AddressDTO> addresses;
 }

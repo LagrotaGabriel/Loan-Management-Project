@@ -1,9 +1,9 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +20,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class CustomerDTO {
 
-    @Transient
+    @JsonIgnore
     private Long id;
+
     private String name;
     private String lastName;
     private Date birthDate;
@@ -29,15 +30,17 @@ public class CustomerDTO {
     private String rg;
     private String cpf;
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AddressDTO address;
 
-    @Transient
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ScoreDTO score;
 
-    @JsonProperty(value = "customers", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<PhoneDTO> phones;
 
-    @JsonProperty(value = "customers", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<LoanDTO> loans;
 
 }

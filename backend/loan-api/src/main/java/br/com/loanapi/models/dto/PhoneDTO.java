@@ -1,9 +1,10 @@
 package br.com.loanapi.models.dto;
 
 import br.com.loanapi.models.enums.PhoneTypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Transient;
 
 /** Class that contains all attributes of the object of type PhoneDTO
  ** @author Gabriel Lagrota
@@ -19,13 +20,13 @@ import javax.persistence.Transient;
 @EqualsAndHashCode
 public class PhoneDTO {
 
-    @Transient
+    @JsonIgnore
     private Long id;
 
     private Integer prefix;
     private String number;
     private PhoneTypeEnum phoneType;
 
-    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private CustomerDTO customer;
 }

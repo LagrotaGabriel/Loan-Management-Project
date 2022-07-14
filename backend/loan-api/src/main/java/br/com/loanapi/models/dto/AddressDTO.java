@@ -1,9 +1,9 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type AddressDTO
@@ -19,15 +19,17 @@ import java.util.List;
 @EqualsAndHashCode
 public class AddressDTO {
 
-    @Transient
+    @JsonIgnore
     private Long id;
 
     private String street;
     private String neighborhood;
     private Integer number;
     private String postalCode;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private CityDTO city;
 
-    @JsonProperty(value = "customers", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CustomerDTO> customers;
 }

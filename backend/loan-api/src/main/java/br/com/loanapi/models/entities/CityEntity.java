@@ -25,14 +25,14 @@ public class CityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "city")
-    @Column(name = "city_id", unique = true, nullable = false, updatable = false)
+    @Column(name = "city_id")
     private Long id;
 
-    @Column(name = "city_desc", nullable = false, length = 65)
+    @Column(name = "city_desc", length = 65)
     private String city;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "city_state", nullable = false)
+    @Column(name = "city_state")
     private StateEnum state;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

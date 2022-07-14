@@ -23,14 +23,14 @@ import java.util.List;
 public class CustomerEntity {
 
     @Id
-    @Column(name = "customer_id", nullable = false, updatable = false, unique = true)
+    @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "customer")
     private Long id;
 
-    @Column(name = "customer_name", nullable = false, length = 65)
+    @Column(name = "customer_name", length = 65)
     private String name;
 
-    @Column(name = "customer_lastNname", nullable = false, length = 65)
+    @Column(name = "customer_lastNname", length = 65)
     private String lastName;
 
     @Temporal(TemporalType.DATE)
@@ -38,7 +38,7 @@ public class CustomerEntity {
     private Date birthDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "customer_signUpDate", nullable = false)
+    @Column(name = "customer_signUpDate")
     private Date signUpDate;
 
     @Column(name = "customer_rg", length = 12)
@@ -47,7 +47,7 @@ public class CustomerEntity {
     @Column(name = "customer_cpf", length = 14)
     private String cpf;
 
-    @Column(name = "customer_email", length = 65, nullable = false)
+    @Column(name = "customer_email", length = 65)
     private String email;
 
     @ManyToOne

@@ -23,26 +23,26 @@ public class AddressEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "address")
-    @Column(name = "address_id", unique = true, nullable = false, updatable = false)
+    @Column(name = "address_id")
     private Long id;
 
-    @Column(name = "address_street", length = 65, nullable = false)
+    @Column(name = "address_street", length = 65)
     private String street;
 
-    @Column(name = "address_neighborhood", length = 65, nullable = false)
+    @Column(name = "address_neighborhood", length = 65)
     private String neighborhood;
 
-    @Column(name = "address_number", length = 5, nullable = false)
+    @Column(name = "address_number", length = 5)
     private Integer number;
 
-    @Column(name = "address_postalCode", length = 9, nullable = false)
+    @Column(name = "address_postalCode", length = 9)
     private String postalCode;
 
     @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "city_id")
     private CityEntity city;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private List<CustomerEntity> customers;
 
 }
