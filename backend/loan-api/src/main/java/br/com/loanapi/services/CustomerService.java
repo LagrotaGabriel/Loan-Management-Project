@@ -47,7 +47,7 @@ public class CustomerService {
     }
 
     public CustomerDTO update(Long id, CustomerDTO customer){
-        //TODO Verify if nested objects come with Entity type. If comes, change to DTO type and ADD the cascade to list
+
         if (validation.validateRequest(customer)) {
             CustomerDTO customerDTO = findById(id);
 

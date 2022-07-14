@@ -50,19 +50,14 @@ public class CustomerValidation {
     }
 
     public boolean verifyRg(String rg){
-        if(rg != null) {
-            if (rg.matches(RG_REGEX_PATTERN)) return true;
-            throw new InvalidRequestException("Rg validation failed. The rg pattern is invalid");
-        }
-        return true;
+        if (rg.matches(RG_REGEX_PATTERN)) return true;
+        throw new InvalidRequestException("Rg validation failed. The rg pattern is invalid");
+
     }
 
     public boolean verifyCpf(String cpf){
-        if(cpf != null) {
-            if (cpf.matches(CPF_REGEX_PATTERN)) return true;
-            throw new InvalidRequestException("Cpf validation failed. The cpf pattern is invalid");
-        }
-        return true;
+        if (cpf.matches(CPF_REGEX_PATTERN)) return true;
+        throw new InvalidRequestException("Cpf validation failed. The cpf pattern is invalid");
     }
 
     public boolean verifyEmail(String email){
@@ -71,12 +66,9 @@ public class CustomerValidation {
     }
 
     public boolean verifyAddress(AddressDTO address){
-        if(address != null) {
-            AddressValidation validation = new AddressValidation();
-            if (validation.validateRequest(address)) return true;
-        }
-        return true;
+        AddressValidation validation = new AddressValidation();
+        if (validation.validateRequest(address)) return true;
+        throw new InvalidRequestException("Address validation failed");
     }
-
 
 }
