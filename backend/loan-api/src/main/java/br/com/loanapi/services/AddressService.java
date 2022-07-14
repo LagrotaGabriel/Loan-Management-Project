@@ -34,7 +34,7 @@ public class AddressService {
     String VALIDATION_FAILED = "Address validation failed";
 
     String LOG_BAR = "=======================================================================================" +
-            "=======================================================";
+            "==========================================";
 
     @Autowired
     ModelMapperConfig modelMapper;
@@ -156,27 +156,69 @@ public class AddressService {
 
     public AddressDTO update(Long id, AddressDTO address){
 
-        if (validation.validateRequest(address)) {
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting update method");
 
-            AddressDTO dto = modelMapper.mapper().map(repository.findById(id), AddressDTO.class);
+        log.info("[PROGRESS] Searching for a address by id {}...", id);
+        Optional<AddressEntity> addressEntityOptional = repository.findById(id);
 
-            dto.setStreet(address.getStreet());
-            dto.setNumber(address.getNumber());
-            dto.setCity(address.getCity());
-            dto.setCustomers(address.getCustomers());
-            dto.setNeighborhood(address.getNeighborhood());
-            dto.setPostalCode(address.getPostalCode());
+        if(addressEntityOptional.isPresent()){
 
-            return modelMapper.mapper().map(repository.save(
-                    modelMapper.mapper().map(dto, AddressEntity.class)), AddressDTO.class);
+            log.info("[INFO] Address finded: {}, {}", addressEntityOptional.get().getStreet(), addressEntityOptional.get().getNumber());
+            AddressDTO addressDTO = modelMapper.mapper().map(addressEntityOptional.get(), AddressDTO.class);
+            CityDTO cityDTO = addressDTO.getCity();
+
+            if (validation.validateRequest(address)){
+
+                log.info("[PROGRESS] Updating the finded address with the JSON body content...");
+                addressDTO.setStreet(address.getStreet());
+                addressDTO.setNumber(address.getNumber());
+                addressDTO.setNeighborhood(address.getNeighborhood());
+                addressDTO.setPostalCode(address.getPostalCode());
+                addressDTO.setCity(address.getCity());
+
+                if (cityDTO.getCity().equals(address.getCity().getCity()) && cityDTO.getState().equals(address.getCity().getState())){
+
+                    log.warn("[INFO] The city passed in JSON body is the same saved previously");
+                    addressDTO.getCity().setId(cityDTO.getId());
+                    addressDTO.getCity().setAddresses(cityDTO.getAddresses());
+
+                    log.info("[PROGRESS] Updating the address list of the current city with the new address attributes...");
+                    cityDTO.getAddresses().set(cityDTO.getAddresses().indexOf(addressDTO), addressDTO);
+
+                    log.info("[PROGRESS] Removing the older address of the database...");
+                    repository.deleteById(id);
+
+                    log.info("[PROGRESS] Saving the new address at database with updating attributes...");
+                    cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
+                    log.info("[SUCCESS]  Request successfull");
+                }
+
+                else{
+
+                    log.warn("[INFO] The city passed in JSON body is different than the city saved previously");
+                    deleteById(id);
+                    create(address);
+                }
+
+            }
+            else{
+                log.error("[FAILURE] Address attributes validation failed");
+                throw new InvalidRequestException("Address validation failed");
+            }
+
+            return addressDTO;
+
         }
         else{
-            throw new InvalidRequestException(VALIDATION_FAILED);
+            log.error("[FAILURE] Address not found at database");
+            throw new ObjectNotFoundException(ADDRESS_NOT_FOUND);
         }
 
     }
 
     public Boolean deleteById(Long id) {
+
         log.info(LOG_BAR);
         log.info("[STARTING] Starting deleteById method...");
 
@@ -185,7 +227,7 @@ public class AddressService {
         log.info("[PROGRESS] Searching a Address by id {}...", id);
         if (addressEntityOptional.isPresent()) {
 
-            log.warn("[  INFO  ] Address finded in database");
+            log.warn("[INFO] Address finded in database");
 
             log.info("[PROGRESS] Making the instantiation of the Address and his current City...");
             AddressEntity addressEntity = addressEntityOptional.get();
@@ -206,8 +248,8 @@ public class AddressService {
             throw new ObjectNotFoundException("City not found");
         }
         else{
-            log.error("[FAILURE]  Address not found");
-            throw new ObjectNotFoundException("Address not found");
+            log.error("[FAILURE] " + ADDRESS_NOT_FOUND);
+            throw new ObjectNotFoundException(ADDRESS_NOT_FOUND);
         }
     }
 
