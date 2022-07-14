@@ -20,7 +20,7 @@ public class AddressValidation {
         verifyNumber(address.getNumber());
         verifyPostalCode(address.getPostalCode());
 
-        log.info("[SUCCESS] Validation successfull");
+        log.info("[SUCCESS]  Validation successfull");
         return true;
     }
 

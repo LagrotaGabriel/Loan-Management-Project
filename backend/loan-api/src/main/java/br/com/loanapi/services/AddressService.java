@@ -29,14 +29,12 @@ public class AddressService {
     @Autowired
     CityRepository cityRepository;
 
-    @Autowired
-    CityService cityService;
-
     String ADDRESS_NOT_FOUND = "Address not found";
 
     String VALIDATION_FAILED = "Address validation failed";
 
-    String LOG_BAR = "===========================================================================================";
+    String LOG_BAR = "=======================================================================================" +
+            "=======================================================";
 
     @Autowired
     ModelMapperConfig modelMapper;
@@ -50,67 +48,81 @@ public class AddressService {
 
         if(validation.validateRequest(address)) {
 
-            log.info("[PROGRESS] Searching for a CityEntity with the city name: {} and state: {}", address.getCity().getCity(), address.getCity().getState().getPrefix());
-            Optional<CityEntity> city = cityRepository.findByCityAndState(address.getCity().getCity(), address.getCity().getState());
+            log.info("[PROGRESS] Verifying if the address already exists in the database");
+            if(repository.findByStreetNumberAndPostalCode(address.getStreet(), address.getNumber(), address.getPostalCode()).isEmpty()) {
 
-            if (city.isPresent()) {
+                log.info("[PROGRESS] The address doesn't exist in the database");
 
-                log.warn("[INFO] City finded: {}", city.get().getCity() + " - " + city.get().getState().getPrefix());
-                CityDTO cityDTO = modelMapper.mapper().map(city.get(), CityDTO.class);
-                address.setCity(cityDTO);
+                log.info("[PROGRESS] Searching for a CityEntity with the city name: {} and state: {}", address.getCity().getCity(), address.getCity().getState().getPrefix());
+                Optional<CityEntity> city = cityRepository.findByCityAndState(address.getCity().getCity(), address.getCity().getState());
 
-                log.info("[PROGRESS] Checking if the current city have addresses saved...");
-                if (cityDTO.getAddresses() == null){
+                if (city.isPresent()) {
 
-                    log.warn("[INFO] The CityEntity addresses list is null");
+                    log.warn("[INFO] City finded: {}", city.get().getCity() + " - " + city.get().getState().getPrefix());
+                    CityDTO cityDTO = modelMapper.mapper().map(city.get(), CityDTO.class);
+                    address.setCity(cityDTO);
+
+                    log.info("[PROGRESS] Checking if the current city have addresses saved...");
+                    if (cityDTO.getAddresses() == null) {
+
+                        log.warn("[INFO] The CityEntity addresses list is null");
+
+                        log.info("[PROGRESS] Creating a null arraylist for the CityEntity adresses...");
+                        List<AddressDTO> addresses = new ArrayList<>();
+
+                        log.info("[PROGRESS] Adding the address to ArrayList...");
+                        addresses.add(address);
+
+                        log.info("[PROGRESS] Setting the CityDTO addresses list with the new ArrayList now instantiated...");
+                        cityDTO.setAddresses(addresses);
+
+                    }
+
+                    else {
+
+                        log.warn("[INFO] The CityEntity addresses list is filled");
+
+                        log.info("[PROGRESS] Adding the address to CityEntity addresses list...");
+                        cityDTO.getAddresses().add(address);
+
+                    }
+
+                    log.info("[PROGRESS] Updating the city with a new address in database...");
+                    cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
+
+                }
+
+                else {
+
+                    log.warn("[PROGRESS] City not found. Creating a new city...");
+
+                    CityDTO cityDTO = address.getCity();
+                    log.info("[PROGRESS] Instantiated a variable cityDTO with City value included... {}", cityDTO);
 
                     log.info("[PROGRESS] Creating a null arraylist for the CityEntity adresses...");
                     List<AddressDTO> addresses = new ArrayList<>();
 
-                    log.info("[PROGRESS] Adding the address to ArrayList...");
+                    log.info("[PROGRESS] Adding the address {} to addresses ArrayList...", address);
                     addresses.add(address);
 
                     log.info("[PROGRESS] Setting the CityDTO addresses list with the new ArrayList now instantiated...");
                     cityDTO.setAddresses(addresses);
 
-                }
-                else {
-
-                    log.warn("[INFO] The CityEntity addresses list is filled");
-
-                    log.info("[PROGRESS] Adding the address to CityEntity addresses list...");
-                    cityDTO.getAddresses().add(address);
+                    log.info("[PROGRESS] CityEntity and AddressEntity are being created at database...");
+                    cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
 
                 }
 
-                log.info("[PROGRESS] Updating the city with a new address in database...");
-                cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
-
+                log.info("[SUCCESS]  Request successfull");
+                return address;
             }
 
             else{
 
-                log.warn("[PROGRESS] City not found. Creating a new city...");
-
-                CityDTO cityDTO = address.getCity();
-                log.info("[PROGRESS] Instantiated a variable cityDTO with City value included... {}", cityDTO);
-
-                log.info("[PROGRESS] Creating a null arraylist for the CityEntity adresses...");
-                List<AddressDTO> addresses = new ArrayList<>();
-
-                log.info("[PROGRESS] Adding the address {} to addresses ArrayList...", address);
-                addresses.add(address);
-
-                log.info("[PROGRESS] Setting the CityDTO addresses list with the new ArrayList now instantiated...");
-                cityDTO.setAddresses(addresses);
-
-                log.info("[PROGRESS] CityEntity and AddressEntity are being created at database...");
-                cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
+                log.info("[FAILURE] The address already exists in the database");
+                throw new InvalidRequestException("The address already exists in the database");
 
             }
-
-            log.info("[SUCCESS] Request successfull");
-            return address;
 
         }
 
