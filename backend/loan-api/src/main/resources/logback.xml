@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<property name="LOG_DIR" value="logs/app"/>
+    <property name="LOG_DIR_SPLUNK" value="logs/splunk"/>-->
+
+    <!--    Log console-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{dd-MM-yyyy HH:mm:ss}] [ %-5level] CRUD - %logger{35} | %msg %n</pattern>
+        </encoder>
+    </appender>
+
+<!--
+
+    <appender name="splunk" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR_SPLUNK:-env/}/splunk.txt</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} | %-4relative | [%thread] | %-5level | %logger{35} - %msg%n</pattern>
+
+        </encoder>
+    </appender>
+
+
+    <appender name="app" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR:-env/}/app.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR:-env/}/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} | %-4relative | [%thread] | %-5level | %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender> -->
+
+    <logger name="br.com.loanapi" level="info" >
+        <!--<appender-ref ref="app"/>-->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <!--<root level="debug">
+        <appender-ref ref="splunk"/>
+    </root>-->
+</configuration>
