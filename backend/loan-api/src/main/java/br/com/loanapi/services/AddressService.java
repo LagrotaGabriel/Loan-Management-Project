@@ -44,14 +44,14 @@ public class AddressService {
     public AddressDTO create(AddressDTO address){
 
         log.info(LOG_BAR);
-        log.info("[STARTING] Starting service create method");
+        log.info("[STARTING] Starting create method");
 
         if(validation.validateRequest(address)) {
 
             log.info("[PROGRESS] Verifying if the address already exists in the database");
             if(repository.findByStreetNumberAndPostalCode(address.getStreet(), address.getNumber(), address.getPostalCode()).isEmpty()) {
 
-                log.info("[PROGRESS] The address doesn't exist in the database");
+                log.info("[PROGRESS] The address doesn't exist in the database. Starting creation process");
 
                 log.info("[PROGRESS] Searching for a CityEntity with the city name: {} and state: {}", address.getCity().getCity(), address.getCity().getState().getPrefix());
                 Optional<CityEntity> city = cityRepository.findByCityAndState(address.getCity().getCity(), address.getCity().getState());
@@ -65,15 +65,13 @@ public class AddressService {
                     log.info("[PROGRESS] Checking if the current city have addresses saved...");
                     if (cityDTO.getAddresses() == null) {
 
-                        log.warn("[INFO] The CityEntity addresses list is null");
+                        log.warn("[INFO] The City addresses list is null");
 
-                        log.info("[PROGRESS] Creating a null arraylist for the CityEntity adresses...");
                         List<AddressDTO> addresses = new ArrayList<>();
 
-                        log.info("[PROGRESS] Adding the address to ArrayList...");
+                        log.info("[PROGRESS] Adding the address to City adresses list...");
                         addresses.add(address);
 
-                        log.info("[PROGRESS] Setting the CityDTO addresses list with the new ArrayList now instantiated...");
                         cityDTO.setAddresses(addresses);
 
                     }
@@ -97,15 +95,12 @@ public class AddressService {
                     log.warn("[PROGRESS] City not found. Creating a new city...");
 
                     CityDTO cityDTO = address.getCity();
-                    log.info("[PROGRESS] Instantiated a variable cityDTO with City value included... {}", cityDTO);
 
-                    log.info("[PROGRESS] Creating a null arraylist for the CityEntity adresses...");
                     List<AddressDTO> addresses = new ArrayList<>();
 
-                    log.info("[PROGRESS] Adding the address {} to addresses ArrayList...", address);
+                    log.info("[PROGRESS] Adding the address {} to city addresses list...", address);
                     addresses.add(address);
 
-                    log.info("[PROGRESS] Setting the CityDTO addresses list with the new ArrayList now instantiated...");
                     cityDTO.setAddresses(addresses);
 
                     log.info("[PROGRESS] CityEntity and AddressEntity are being created at database...");
@@ -119,26 +114,42 @@ public class AddressService {
 
             else{
 
-                log.info("[FAILURE] The address already exists in the database");
+                log.info("[FAILURE]  The address already exists in the database");
                 throw new InvalidRequestException("The address already exists in the database");
 
             }
 
         }
 
-        log.error("[FAILURE] " + VALIDATION_FAILED);
+        log.error("[FAILURE]  " + VALIDATION_FAILED);
         throw new InvalidRequestException(VALIDATION_FAILED);
 
     }
 
     public List<AddressDTO> findAll(){
-        if(!repository.findAll().isEmpty()) return repository.findAll().stream()
-                .map(x -> modelMapper.mapper().map(x, AddressDTO.class)).collect(Collectors.toList());
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findAll method...");
+        log.info("[PROGRESS] Verifying if there is addresses saved in the database...");
+        if(!repository.findAll().isEmpty()) {
+            log.info("[SUCCESS]  Returning all addresses saved in the database");
+            return repository.findAll().stream().map(
+                    x -> modelMapper.mapper().map(x, AddressDTO.class)).collect(Collectors.toList());
+        }
+        log.error("[FAILURE]  There is no addresses saved in the database");
         throw new ObjectNotFoundException("There is no addresses saved in the database");
     }
 
     public AddressDTO findById(Long id){
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findById method...");
+
+        log.info("[PROGRESS] Searching for a address by id {}...", id);
         Optional<AddressEntity> address = repository.findById(id);
+
+        address.ifPresent(addressEntity -> log.info("[SUCCESS]  Address finded"));
+        if(address.isEmpty()) log.error("[FAILURE]  Address with id {} not found", id);
         return modelMapper.mapper().map(
                 address.orElseThrow(() -> new ObjectNotFoundException(ADDRESS_NOT_FOUND)), AddressDTO.class);
     }
@@ -166,11 +177,36 @@ public class AddressService {
     }
 
     public Boolean deleteById(Long id) {
-        if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
-            return true;
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting deleteById method...");
+
+        Optional<AddressEntity> addressEntityOptional = repository.findById(id);
+
+        log.info("[PROGRESS] Searching a Address by id {}...", id);
+        if (addressEntityOptional.isPresent()) {
+
+            log.warn("[  INFO  ] Address finded in database");
+
+            log.info("[PROGRESS] Making the instantiation of the Address and his current City...");
+            AddressEntity addressEntity = addressEntityOptional.get();
+            Optional<CityEntity> cityEntityOptional = cityRepository.findById(addressEntity.getCity().getId());
+            if(cityEntityOptional.isPresent()) {
+                CityEntity cityEntity = cityEntityOptional.get();
+                log.info("[PROGRESS] Removing the address of the city addresses list...");
+                cityEntity.getAddresses().remove(addressEntity);
+
+                log.info("[SUCCESS]  City {} - {} updated in database", cityEntity.getState(), cityEntity.getCity());
+                cityRepository.save(cityEntity);
+
+                log.info("[SUCCESS]  Address removed from database");
+                repository.deleteById(id);
+                return true;
+            }
+            log.error("[FAILURE]  City not found");
+            throw new ObjectNotFoundException("City not found");
         }
         else{
+            log.error("[FAILURE]  Address not found");
             throw new ObjectNotFoundException("Address not found");
         }
     }
