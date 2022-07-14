@@ -51,8 +51,8 @@ class CustomerServiceTest {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=Fri Nov 11 00:00:00 BRST 2011, signUpDate=Thu Nov 11 00:00:00 BRT 2021, " +
-                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, " +
-                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
+                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
                         "city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), customers=null), " +
                         "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null)",
                 service.create(CustomerDTODataBuilder.builder().build()).toString());
@@ -87,8 +87,8 @@ class CustomerServiceTest {
 
         Assertions.assertEquals("[CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=Fri Nov 11 00:00:00 BRST 2011, signUpDate=Thu Nov 11 00:00:00 BRT 2021, " +
-                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, " +
-                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
+                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
                         "city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), customers=null), " +
                         "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null)]",
                 service.findAll().toString());
@@ -122,8 +122,8 @@ class CustomerServiceTest {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=Fri Nov 11 00:00:00 BRST 2011, signUpDate=Thu Nov 11 00:00:00 BRT 2021, " +
-                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, " +
-                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
+                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
                         "city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), customers=null), " +
                         "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null)",
                 service.findById(1L).toString());
@@ -157,8 +157,8 @@ class CustomerServiceTest {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=Fri Nov 11 00:00:00 BRST 2011, signUpDate=Thu Nov 11 00:00:00 BRT 2021, " +
-                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, " +
-                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
+                        "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
                         "city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), customers=null), " +
                         "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null)",
                 service.update(1L, CustomerDTODataBuilder.builder().build()).toString());

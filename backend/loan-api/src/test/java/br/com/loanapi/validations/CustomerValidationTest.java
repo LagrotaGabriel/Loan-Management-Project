@@ -85,12 +85,6 @@ class CustomerValidationTest {
     }
 
     @Test
-    @DisplayName("Should validate rg validation with null rg")
-    void shouldValidateRgValidationWithNullRg() {
-        Assertions.assertTrue(validation.verifyRg(null));
-    }
-
-    @Test
     @DisplayName("Should validate rg validation with success")
     void shouldValidateRgValidationWithSuccess() throws ParseException {
         Assertions.assertTrue(validation.verifyRg(CustomerDTODataBuilder.builder().build().getRg()));
@@ -109,12 +103,6 @@ class CustomerValidationTest {
                     exception.getMessage());
         }
 
-    }
-
-    @Test
-    @DisplayName("Should validate Cpf validation with null cpf")
-    void shouldValidateCpfValidationWithNullCpf() {
-        Assertions.assertTrue(validation.verifyCpf(null));
     }
 
     @Test
@@ -157,15 +145,6 @@ class CustomerValidationTest {
                     exception.getMessage());
         }
 
-    }
-
-    @Test
-    @DisplayName("Should validate address validation with null address")
-    void shouldValidateAddressWithNulLAddress() throws ParseException {
-        CustomerDTO customer = CustomerDTODataBuilder.builder().build();
-        customer.setAddress(null);
-
-        Assertions.assertTrue(validation.verifyAddress(null));
     }
 
     @Test

@@ -32,6 +32,7 @@ class CustomerDTOTest {
     void shouldTestAllArgsConstructor() throws ParseException {
 
         ScoreDTO score = new ScoreDTO(1L, 50.0, null);
+
         CustomerDTO customer = new CustomerDTO(
                 1L,
                 "João",

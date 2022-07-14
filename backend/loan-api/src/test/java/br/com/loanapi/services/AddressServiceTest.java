@@ -5,8 +5,10 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CityEntityDataBuilder;
 import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.repositories.AddressRepository;
+import br.com.loanapi.repositories.CityRepository;
 import br.com.loanapi.validations.AddressValidation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +37,9 @@ class AddressServiceTest {
     AddressValidation addressValidation;
 
     @Mock
+    CityRepository cityRepository;
+
+    @Mock
     AddressRepository repository;
 
     @Mock
@@ -46,11 +51,11 @@ class AddressServiceTest {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(addressValidation.validateRequest(Mockito.any())).thenReturn(true);
-        Mockito.when(repository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
+        Mockito.when(cityRepository.findByCityAndState(Mockito.any(), Mockito.any())).thenReturn(Optional.of(CityEntityDataBuilder.builder().build()));
 
-        Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), " +
-                "customers=null)", service.create(AddressDTODataBuilder.builder().build()).toString());
+        service.create(AddressDTODataBuilder.builder().build());
+
+        Assertions.assertEquals("Rua 9", service.create(AddressDTODataBuilder.builder().build()).getStreet());
 
     }
 
