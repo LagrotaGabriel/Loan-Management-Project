@@ -41,13 +41,13 @@ public class CustomerEntity {
     @Column(name = "customer_signUpDate")
     private Date signUpDate;
 
-    @Column(name = "customer_rg", length = 12)
+    @Column(name = "customer_rg", length = 12, unique = true)
     private String rg;
 
-    @Column(name = "customer_cpf", length = 14)
+    @Column(name = "customer_cpf", length = 14, unique = true)
     private String cpf;
 
-    @Column(name = "customer_email", length = 65)
+    @Column(name = "customer_email", length = 65, unique = true)
     private String email;
 
     @ManyToOne

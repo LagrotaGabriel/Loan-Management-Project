@@ -26,7 +26,10 @@ public class CustomerDTO {
     private String name;
     private String lastName;
     private Date birthDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date signUpDate;
+
     private String rg;
     private String cpf;
     private String email;
@@ -37,7 +40,7 @@ public class CustomerDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ScoreDTO score;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private List<PhoneDTO> phones;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
