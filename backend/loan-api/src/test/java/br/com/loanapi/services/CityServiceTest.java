@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.loanapi.utils.StringConstants.CITY_NOT_FOUND;
+
 @SpringBootTest
 @DisplayName("Service: City")
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +47,7 @@ class CityServiceTest {
     void shouldTestCreateMethodWithSuccess(){
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(cityValidation.validateRequest(Mockito.any())).thenReturn(true);
+        Mockito.when(cityValidation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(repository.save(Mockito.any())).thenReturn(CityEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null)",
@@ -57,7 +59,7 @@ class CityServiceTest {
     @DisplayName("Should test create method with exception")
     void shouldTestCreateMethodWithException(){
 
-        Mockito.when(cityValidation.validateRequest(Mockito.any())).thenReturn(false);
+        Mockito.when(cityValidation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
 
         try {
             service.create(CityDTODataBuilder.builder().build());
@@ -135,8 +137,8 @@ class CityServiceTest {
     void shouldTestUpdateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(cityValidation.validateRequest(Mockito.any())).thenReturn(true);
-        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CityEntityDataBuilder.builder().build()));
+        Mockito.when(cityValidation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CityEntityDataBuilder.builder().withAddress().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(CityEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null)",
@@ -148,7 +150,8 @@ class CityServiceTest {
     @DisplayName("Should test update method with exception")
     void shouldTestUpdateMethodWithException() {
 
-        Mockito.when(cityValidation.validateRequest(Mockito.any())).thenReturn(false);
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CityEntityDataBuilder.builder().build()));
+        Mockito.when(cityValidation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
 
         try{
             service.update(1L, CityDTODataBuilder.builder().build());
@@ -156,6 +159,21 @@ class CityServiceTest {
         }
         catch(InvalidRequestException exception){
             Assertions.assertEquals("City validation failed", exception.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Should test update method with city not found")
+    void shouldTestUpdateMethodWithCityNotFound() {
+
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+        try{
+            service.update(1L, CityDTODataBuilder.builder().build());
+            Assertions.fail();
+        }
+        catch(ObjectNotFoundException exception){
+            Assertions.assertEquals(CITY_NOT_FOUND, exception.getMessage());
         }
     }
 
