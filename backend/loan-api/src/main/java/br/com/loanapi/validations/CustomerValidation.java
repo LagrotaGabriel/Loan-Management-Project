@@ -3,15 +3,19 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.repositories.CustomerRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static br.com.loanapi.utils.RegexPatterns.*;
 
 public class CustomerValidation {
 
-    public boolean validateRequest(CustomerDTO customer){
+    public boolean validateRequest(CustomerDTO customer, CustomerRepository repository){
         notNull(customer);
+        exists(customer, repository);
         verifyName(customer.getName());
         verifyLastName(customer.getLastName());
         verifyRg(customer.getRg());
@@ -28,6 +32,32 @@ public class CustomerValidation {
                 customer.getEmail() != null &&
                 customer.getSignUpDate() != null) return true;
         throw new InvalidRequestException("Customer validation failed. Some of the attributes is null or empty.");
+    }
+
+    public boolean exists(CustomerDTO customerDTO, CustomerRepository repository){
+
+        List<String> errors = new ArrayList<>();
+
+        if (repository.findByRg(customerDTO.getRg()).isPresent()) {
+            errors.add("The typed rg already exists in the database");
+        }
+        if(repository.findByCpf(customerDTO.getCpf()).isPresent()) {
+            errors.add("The typed cpf already exists in the database");
+        }
+        if(repository.findByEmail(customerDTO.getEmail()).isPresent()) {
+            errors.add("The typed email already exists in the database");
+        }
+
+        if(errors.isEmpty()) {
+            return true;
+        }
+        else if(errors.size() == 1) {
+            throw new InvalidRequestException("Customer validation failed. Error: " + errors);
+        }
+        else{
+            throw new InvalidRequestException("Customer validation failed. Errors: " + errors);
+        }
+
     }
 
     public boolean verifyName(String name){

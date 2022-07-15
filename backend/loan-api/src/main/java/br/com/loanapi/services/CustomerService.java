@@ -28,7 +28,7 @@ public class CustomerService {
     CustomerValidation validation = new CustomerValidation();
 
     public CustomerDTO create(CustomerDTO customer){
-        if (validation.validateRequest(customer))
+        if (validation.validateRequest(customer, repository))
             return modelMapper.mapper().map(
                     repository.save(modelMapper.mapper().map(customer, CustomerEntity.class)), CustomerDTO.class);
         throw new InvalidRequestException("Customer validation failed");
@@ -48,7 +48,7 @@ public class CustomerService {
 
     public CustomerDTO update(Long id, CustomerDTO customer){
 
-        if (validation.validateRequest(customer)) {
+        if (validation.validateRequest(customer, repository)) {
             CustomerDTO customerDTO = findById(id);
 
             customerDTO.setName(customer.getName());

@@ -3,15 +3,20 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.repositories.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
+import java.util.Optional;
 
 @SpringBootTest(classes = CustomerValidation.class)
 @DisplayName("Validation: Customer")
@@ -19,6 +24,9 @@ class CustomerValidationTest {
 
     @InjectMocks
     CustomerValidation validation;
+
+    @Mock
+    CustomerRepository repository;
 
     @Test
     @DisplayName("Should validate name validation with success")
@@ -197,9 +205,60 @@ class CustomerValidationTest {
     }
 
     @Test
+    @DisplayName("Should test exists with success")
+    void shouldTestExistsWithSuccess() throws ParseException {
+
+        Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(repository.findByEmail(Mockito.any())).thenReturn(Optional.empty());
+
+        Assertions.assertTrue(validation.exists(CustomerDTODataBuilder.builder().build(), repository));
+
+    }
+
+    @Test
+    @DisplayName("Should test exists with all failures")
+    void shouldTestExistsWithAllFailures() throws ParseException {
+
+        Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
+        Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
+        Mockito.when(repository.findByEmail(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
+
+        try {
+            validation.exists(CustomerDTODataBuilder.builder().build(), repository);
+            Assertions.fail();
+        }
+        catch (InvalidRequestException exception){
+            Assertions.assertEquals("Customer validation failed. Errors: [The typed rg already exists in the " +
+                    "database, The typed cpf already exists in the database, The typed email already exists in the " +
+                    "database]", exception.getMessage());
+        }
+
+    }
+
+    @Test
+    @DisplayName("Should test exists with just one failure")
+    void shouldTestExistsWithJustOneFailure() throws ParseException {
+
+        Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(repository.findByEmail(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
+
+        try {
+            validation.exists(CustomerDTODataBuilder.builder().build(), repository);
+            Assertions.fail();
+        }
+        catch (InvalidRequestException exception){
+            Assertions.assertEquals("Customer validation failed. Error: [The typed email already exists in the " +
+                    "database]", exception.getMessage());
+        }
+
+    }
+
+    @Test
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() throws ParseException {
-        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().build()));
+        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().build(), repository));
     }
 
 }
