@@ -1,7 +1,11 @@
 package br.com.loanapi.mocks.entity;
 
+import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.models.entities.CityEntity;
 import br.com.loanapi.models.enums.StateEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CityEntityDataBuilder {
 
@@ -20,6 +24,13 @@ public class CityEntityDataBuilder {
 
         return builder;
 
+    }
+
+    public CityEntityDataBuilder withAddress(){
+        List<AddressEntity> addresses = new ArrayList<>();
+        addresses.add(AddressEntityDataBuilder.builder().build());
+        cityEntity.setAddresses(addresses);
+        return this;
     }
 
     public CityEntity build(){

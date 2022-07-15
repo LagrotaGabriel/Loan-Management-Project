@@ -1,5 +1,7 @@
 package br.com.loanapi.mocks.dto;
 
+import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CityEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
 
 public class AddressDTODataBuilder {
@@ -23,6 +25,12 @@ public class AddressDTODataBuilder {
         return builder;
 
     }
+
+    public AddressDTODataBuilder withCityWithAddressInList(){
+        address.setCity(CityDTODataBuilder.builder().withAddress().build());
+        return this;
+    }
+
 
     public AddressDTODataBuilder withTooLongStreet(){
         address.setStreet("This is a street too long. Too long that the characters numbers is + 65");

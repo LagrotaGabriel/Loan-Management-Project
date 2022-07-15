@@ -184,7 +184,8 @@ public class AddressService {
                     addressDTO.getCity().setAddresses(cityDTO.getAddresses());
 
                     log.info("[PROGRESS] Updating the address list of the current city with the new address attributes...");
-                    cityDTO.getAddresses().set(cityDTO.getAddresses().indexOf(addressDTO), addressDTO);
+                    cityDTO.getAddresses()
+                            .set(cityDTO.getAddresses().indexOf(addressDTO), addressDTO);
 
                     log.info("[PROGRESS] Removing the older address of the database...");
                     repository.deleteById(id);

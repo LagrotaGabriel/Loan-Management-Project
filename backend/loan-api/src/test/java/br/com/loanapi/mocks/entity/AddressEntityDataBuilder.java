@@ -24,6 +24,11 @@ public class AddressEntityDataBuilder {
 
     }
 
+    public AddressEntityDataBuilder withCityWithAddressInList(){
+        address.setCity(CityEntityDataBuilder.builder().withAddress().build());
+        return this;
+    }
+
     public AddressEntity build(){
         return address;
     }

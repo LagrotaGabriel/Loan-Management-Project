@@ -1,7 +1,14 @@
 package br.com.loanapi.mocks.dto;
 
+import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CityEntityDataBuilder;
+import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CityDTO;
+import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.models.enums.StateEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CityDTODataBuilder {
 
@@ -20,6 +27,13 @@ public class CityDTODataBuilder {
 
         return builder;
 
+    }
+
+    public CityDTODataBuilder withAddress(){
+        List<AddressDTO> addresses = new ArrayList<>();
+        addresses.add(AddressDTODataBuilder.builder().build());
+        cityDTO.setAddresses(addresses);
+        return this;
     }
 
     public CityDTODataBuilder withTooLongCity(){
