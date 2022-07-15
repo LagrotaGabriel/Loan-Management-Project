@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static br.com.loanapi.utils.StringConstants.*;
+
 @Service
 @Slf4j
 public class AddressService {
@@ -28,13 +30,6 @@ public class AddressService {
 
     @Autowired
     CityRepository cityRepository;
-
-    String ADDRESS_NOT_FOUND = "Address not found";
-
-    String VALIDATION_FAILED = "Address validation failed";
-
-    String LOG_BAR = "=======================================================================================" +
-            "==========================================";
 
     @Autowired
     ModelMapperConfig modelMapper;
@@ -108,7 +103,7 @@ public class AddressService {
 
                 }
 
-                log.info("[SUCCESS]  Request successfull");
+                log.info(REQUEST_SUCCESSFULL);
                 return address;
             }
 
@@ -121,8 +116,8 @@ public class AddressService {
 
         }
 
-        log.error("[FAILURE]  " + VALIDATION_FAILED);
-        throw new InvalidRequestException(VALIDATION_FAILED);
+        log.error("[FAILURE]  " + ADDRESS_VALIDATION_FAILED);
+        throw new InvalidRequestException(ADDRESS_VALIDATION_FAILED);
 
     }
 
@@ -132,7 +127,7 @@ public class AddressService {
         log.info("[STARTING] Starting findAll method...");
         log.info("[PROGRESS] Verifying if there is addresses saved in the database...");
         if(!repository.findAll().isEmpty()) {
-            log.info("[SUCCESS]  Returning all addresses saved in the database");
+            log.info(REQUEST_SUCCESSFULL);
             return repository.findAll().stream().map(
                     x -> modelMapper.mapper().map(x, AddressDTO.class)).collect(Collectors.toList());
         }
@@ -148,7 +143,7 @@ public class AddressService {
         log.info("[PROGRESS] Searching for a address by id {}...", id);
         Optional<AddressEntity> address = repository.findById(id);
 
-        address.ifPresent(addressEntity -> log.info("[SUCCESS]  Address finded"));
+        address.ifPresent(addressEntity -> log.info(REQUEST_SUCCESSFULL));
         if(address.isEmpty()) log.error("[FAILURE]  Address with id {} not found", id);
         return modelMapper.mapper().map(
                 address.orElseThrow(() -> new ObjectNotFoundException(ADDRESS_NOT_FOUND)), AddressDTO.class);
@@ -192,7 +187,7 @@ public class AddressService {
 
                     log.info("[PROGRESS] Saving the new address at database with updating attributes...");
                     cityRepository.save(modelMapper.mapper().map(cityDTO, CityEntity.class));
-                    log.info("[SUCCESS]  Request successfull");
+                    log.info(REQUEST_SUCCESSFULL);
                 }
 
                 else{
@@ -238,11 +233,13 @@ public class AddressService {
                 log.info("[PROGRESS] Removing the address of the city addresses list...");
                 cityEntity.getAddresses().remove(addressEntity);
 
-                log.info("[SUCCESS]  City {} - {} updated in database", cityEntity.getState(), cityEntity.getCity());
+                log.info("[INFO]  City {} - {} updated in database", cityEntity.getState(), cityEntity.getCity());
                 cityRepository.save(cityEntity);
 
-                log.info("[SUCCESS]  Address removed from database");
+                log.info("[INFO]  Address removed from database");
                 repository.deleteById(id);
+
+                log.info(REQUEST_SUCCESSFULL);
                 return true;
             }
             log.error("[FAILURE]  City not found");
