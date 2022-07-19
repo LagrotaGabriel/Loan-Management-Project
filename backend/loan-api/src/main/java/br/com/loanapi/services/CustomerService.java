@@ -3,22 +3,35 @@ package br.com.loanapi.services;
 import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
+import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.entities.*;
+import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.validations.CustomerValidation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static br.com.loanapi.utils.StringConstants.LOG_BAR;
+
+@Slf4j
 @Service
 public class CustomerService {
 
     @Autowired
     CustomerRepository repository;
+
+    @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
+    AddressService addressService;
 
     String CUSTOMER_NOT_FOUND = "Customer not found";
 
@@ -27,11 +40,19 @@ public class CustomerService {
 
     CustomerValidation validation = new CustomerValidation();
 
-    public CustomerDTO create(CustomerDTO customer){
-        if (validation.validateRequest(customer, repository))
-            return modelMapper.mapper().map(
-                    repository.save(modelMapper.mapper().map(customer, CustomerEntity.class)), CustomerDTO.class);
+    public CustomerDTO create(CustomerDTO customer) {
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting create method");
+
+        if (validation.validateRequest(customer, repository)){
+
+            return null;
+
+        }
+
         throw new InvalidRequestException("Customer validation failed");
+
     }
 
     public List<CustomerDTO> findAll(){

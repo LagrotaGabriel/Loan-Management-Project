@@ -3,7 +3,9 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.repositories.CustomerRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +13,13 @@ import java.util.List;
 
 import static br.com.loanapi.utils.RegexPatterns.*;
 
+@Slf4j
 public class CustomerValidation {
 
     public boolean validateRequest(CustomerDTO customer, CustomerRepository repository){
+
+        log.info("[STARTING] Starting customer validation");
+
         notNull(customer);
         exists(customer, repository);
         verifyName(customer.getName());
@@ -23,6 +29,9 @@ public class CustomerValidation {
         verifyEmail(customer.getEmail());
         verifyBirthDate(customer.getBirthDate());
         verifyAddress(customer.getAddress());
+        verifyPhone(customer.getPhones());
+
+        log.info("[SUCCESS]  Validation successfull");
         return true;
     }
 
@@ -30,11 +39,14 @@ public class CustomerValidation {
         if(customer.getName() != null &&
                 customer.getLastName() != null &&
                 customer.getEmail() != null &&
-                customer.getSignUpDate() != null) return true;
+                customer.getRg() != null &&
+                customer.getCpf() != null) return true;
         throw new InvalidRequestException("Customer validation failed. Some of the attributes is null or empty.");
     }
 
     public boolean exists(CustomerDTO customerDTO, CustomerRepository repository){
+
+        log.info("[PROGRESS] Validating if the object already exists in database...");
 
         List<String> errors = new ArrayList<>();
 
@@ -52,53 +64,91 @@ public class CustomerValidation {
             return true;
         }
         else if(errors.size() == 1) {
+            log.info("[FAILURE] The passed item already exists in database: {}", errors);
             throw new InvalidRequestException("Customer validation failed. Error: " + errors);
         }
         else{
+            log.info("[FAILURE] The passed itens already exists in database: {}", errors);
             throw new InvalidRequestException("Customer validation failed. Errors: " + errors);
         }
 
     }
 
     public boolean verifyName(String name){
-        if(name.length() <= 65) return true;
+        log.info("[PROGRESS] Validating customer name...");
+        if(name.length() <= 65)return true;
+
+        log.error("[FAILURE] Customer name validation failed. The name is too long (+65 characters)");
         throw new InvalidRequestException("Name validation failed. The name is too long (+65 characters)");
     }
 
     public boolean verifyLastName(String lastName){
+        log.info("[PROGRESS] Validating customer last name...");
         if(lastName.length() <= 65) return true;
+
+        log.error("[FAILURE] Customer last name validation failed. The name is too long (+65 characters)");
         throw new InvalidRequestException("Last name validation failed. The last name is too long (+65 characters)");
     }
 
-    public boolean verifyBirthDate(Date birthDate){
+    public boolean verifyBirthDate(String birthDate){
+        log.info("[PROGRESS] Validating customer birth date...");
+        if (birthDate.matches(DATE_REGEX)) return true;
 
-        int year = Integer.parseInt((birthDate.toString().split(" "))[5]);
-
-        if(year > 1900 && year < 2008) return true;
-        throw new InvalidRequestException("Birth date validation failed. The year must be between 1900 and 2008");
+        log.error("[FAILURE] Birth date validation failed. The date pattern is incorrect: {}", birthDate);
+        throw new InvalidRequestException("Birth date validation failed. The date pattern is incorrect");
 
     }
 
     public boolean verifyRg(String rg){
+        log.info("[PROGRESS] Validating customer RG...");
         if (rg.matches(RG_REGEX_PATTERN)) return true;
+
+        log.error("[FAILURE] Rg validation failed. The rg pattern is invalid: {}", rg);
         throw new InvalidRequestException("Rg validation failed. The rg pattern is invalid");
 
     }
 
     public boolean verifyCpf(String cpf){
+        log.info("[PROGRESS] Validating customer CPF...");
         if (cpf.matches(CPF_REGEX_PATTERN)) return true;
+
+        log.error("[FAILURE] CPF validation failed. The CPF pattern is invalid: {}", cpf);
         throw new InvalidRequestException("Cpf validation failed. The cpf pattern is invalid");
     }
 
     public boolean verifyEmail(String email){
+        log.info("[PROGRESS] Validating customer email...");
         if(email.matches(EMAIL_REGEX_PATTERN)) return true;
+
+        log.error("[FAILURE] Email validation failed. The email pattern is invalid: {}", email);
         throw new InvalidRequestException("Email validation failed. The email pattern is invalid");
     }
 
     public boolean verifyAddress(AddressDTO address){
+        log.info("[PROGRESS] Validating customer address...");
         AddressValidation validation = new AddressValidation();
         if (validation.validateRequest(address)) return true;
+
+        log.error("[FAILURE] Customer address validation failed. Something in customer address is wrong");
         throw new InvalidRequestException("Address validation failed");
+    }
+
+    public boolean verifyPhone(List<PhoneDTO> phones){
+        log.info("[PROGRESS] Validating customer phones...");
+        PhoneValidation validation = new PhoneValidation();
+        if (!phones.isEmpty()) {
+            for (PhoneDTO phone : phones) {
+                if (validation.validateRequest(phone)) {
+                    log.info("[PROGRESS] Phone {} validated", phone);
+                } else {
+                    log.error("[FAILURE] There is a failure with the customer Phone: {}", phone);
+                    throw new InvalidRequestException("Phone validation failed");
+                }
+            }
+            return true;
+        }
+        log.error("[FAILURE] There is no phones sended betwen JSON");
+        throw new InvalidRequestException("There is no phones sended betwen JSON");
     }
 
 }

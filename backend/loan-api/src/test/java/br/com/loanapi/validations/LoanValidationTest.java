@@ -20,7 +20,7 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate original value validation with success")
-    void shouldValidateOriginalValueValidationWithSuccess() throws ParseException {
+    void shouldValidateOriginalValueValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyOriginalValue(LoanDTODataBuilder.builder().build().getOriginalValue()));
     }
 
@@ -32,7 +32,7 @@ class LoanValidationTest {
             validation.verifyOriginalValue(LoanDTODataBuilder.builder().withTooLongOriginalValue().build().getOriginalValue());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Original value validation failed",
                     exception.getMessage());
         }
@@ -41,7 +41,7 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate debit balance validation with success")
-    void shouldValidateDebitBalanceValidationWithSuccess() throws ParseException {
+    void shouldValidateDebitBalanceValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyDebitBalance(LoanDTODataBuilder.builder().build().getDebitBalance()));
     }
 
@@ -53,7 +53,7 @@ class LoanValidationTest {
             validation.verifyDebitBalance(LoanDTODataBuilder.builder().withTooLongDebitBalance().build().getDebitBalance());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Debit balance validation failed",
                     exception.getMessage());
         }
@@ -62,7 +62,7 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate interest rate validation with success")
-    void shouldValidateInterestRateValidationWithSuccess() throws ParseException {
+    void shouldValidateInterestRateValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyInterestRate(LoanDTODataBuilder.builder().build().getInterestRate()));
     }
 
@@ -74,7 +74,7 @@ class LoanValidationTest {
             validation.verifyInterestRate(LoanDTODataBuilder.builder().withTooLongInterestRate().build().getInterestRate());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Interest rate validation failed",
                     exception.getMessage());
         }
@@ -83,7 +83,7 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate number of installments validation with success")
-    void shouldValidateNumberOfInstallmentsValidationWithSuccess() throws ParseException {
+    void shouldValidateNumberOfInstallmentsValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyNumberOfInstallments(
                 LoanDTODataBuilder.builder().build().getNumberOfInstallments()));
     }
@@ -97,7 +97,7 @@ class LoanValidationTest {
                     LoanDTODataBuilder.builder().withTooLongNumberOfInstallments().build().getNumberOfInstallments());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Number of installments validation failed",
                     exception.getMessage());
         }
@@ -106,13 +106,13 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate not null validation with success")
-    void shouldValidateNotNullValidationWithSuccess() throws ParseException {
+    void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(LoanDTODataBuilder.builder().build()));
     }
 
     @Test
     @DisplayName("Should validate not null validation with exception")
-    void shouldValidateNotNullValidationWithException() throws ParseException {
+    void shouldValidateNotNullValidationWithException() {
         LoanDTO loan = LoanDTODataBuilder.builder().build();
         loan.setNumberOfInstallments(null);
 
@@ -129,7 +129,7 @@ class LoanValidationTest {
 
     @Test
     @DisplayName("Should validate validate request with success")
-    void shouldValidateValidateRequestWithSuccess() throws ParseException {
+    void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(LoanDTODataBuilder.builder().build()));
     }
 

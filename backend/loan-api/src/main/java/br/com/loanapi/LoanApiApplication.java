@@ -12,10 +12,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("br.com.loanapi.resources")
 @ComponentScan("br.com.loanapi.config")
 @ComponentScan("br.com.loanapi.exceptions")
+@ComponentScan("br.com.loanapi.validations")
 @SpringBootApplication
 public class LoanApiApplication {
-
-	//TODO ADICIONAR MORA NO ATRASO DO PAGAMENTO
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoanApiApplication.class, args);

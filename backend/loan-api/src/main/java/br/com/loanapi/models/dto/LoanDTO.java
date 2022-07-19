@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type LoanDTO
@@ -27,7 +27,7 @@ public class LoanDTO {
     private Long id;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date startDate;
+    private String startDate;
 
     private Double originalValue;
     private Double debitBalance;
@@ -40,5 +40,5 @@ public class LoanDTO {
     private CustomerDTO customer;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<InstallmentDTO> installments;
+    private List<InstallmentDTO> installments = new ArrayList<>();
 }

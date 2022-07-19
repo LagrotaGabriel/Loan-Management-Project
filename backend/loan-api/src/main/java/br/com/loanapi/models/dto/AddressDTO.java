@@ -1,9 +1,11 @@
 package br.com.loanapi.models.dto;
 
+import br.com.loanapi.models.enums.StateEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type AddressDTO
@@ -26,10 +28,9 @@ public class AddressDTO {
     private String neighborhood;
     private Integer number;
     private String postalCode;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private CityDTO city;
+    private String city;
+    private StateEnum state;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<CustomerDTO> customers;
+    private List<CustomerDTO> customers = new ArrayList<>();
 }

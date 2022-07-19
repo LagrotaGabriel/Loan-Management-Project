@@ -10,16 +10,19 @@ import br.com.loanapi.repositories.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
 import java.util.Optional;
 
-@SpringBootTest(classes = CustomerValidation.class)
+@SpringBootTest
 @DisplayName("Validation: Customer")
+@ExtendWith(MockitoExtension.class)
 class CustomerValidationTest {
 
     @InjectMocks
@@ -30,7 +33,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate name validation with success")
-    void shouldValidateNameValidationWithSuccess() throws ParseException {
+    void shouldValidateNameValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyName(CustomerDTODataBuilder.builder().build().getName()));
     }
 
@@ -42,7 +45,7 @@ class CustomerValidationTest {
             validation.verifyName(CustomerDTODataBuilder.builder().withTooLongName().build().getName());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Name validation failed. The name is too long (+65 characters)",
                     exception.getMessage());
         }
@@ -51,7 +54,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate last name validation with success")
-    void shouldValidateLastNameValidationWithSuccess() throws ParseException {
+    void shouldValidateLastNameValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyLastName(CustomerDTODataBuilder.builder().build().getLastName()));
     }
 
@@ -63,7 +66,7 @@ class CustomerValidationTest {
             validation.verifyLastName(CustomerDTODataBuilder.builder().withTooLongLastName().build().getLastName());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Last name validation failed. The last name is too long (+65 characters)",
                     exception.getMessage());
         }
@@ -72,7 +75,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate birth date validation with success")
-    void shouldValidateBirthDateValidationWithSuccess() throws ParseException {
+    void shouldValidateBirthDateValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyBirthDate
                 (CustomerDTODataBuilder.builder().withRealisticBirthDate().build().getBirthDate()));
     }
@@ -85,8 +88,8 @@ class CustomerValidationTest {
             validation.verifyBirthDate(CustomerDTODataBuilder.builder().build().getBirthDate());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
-            Assertions.assertEquals("Birth date validation failed. The year must be between 1900 and 2008",
+        catch(InvalidRequestException exception){
+            Assertions.assertEquals("Birth date validation failed. The date pattern is incorrect",
                     exception.getMessage());
         }
 
@@ -94,7 +97,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate rg validation with success")
-    void shouldValidateRgValidationWithSuccess() throws ParseException {
+    void shouldValidateRgValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyRg(CustomerDTODataBuilder.builder().build().getRg()));
     }
 
@@ -106,7 +109,7 @@ class CustomerValidationTest {
             validation.verifyRg(CustomerDTODataBuilder.builder().withInvalidRg().build().getRg());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Rg validation failed. The rg pattern is invalid",
                     exception.getMessage());
         }
@@ -115,7 +118,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate Cpf validation with success")
-    void shouldValidateCpfValidationWithSuccess() throws ParseException {
+    void shouldValidateCpfValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyCpf(CustomerDTODataBuilder.builder().build().getCpf()));
     }
 
@@ -127,7 +130,7 @@ class CustomerValidationTest {
             validation.verifyCpf(CustomerDTODataBuilder.builder().withInvalidCpf().build().getCpf());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Cpf validation failed. The cpf pattern is invalid",
                     exception.getMessage());
         }
@@ -136,7 +139,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate Email validation with success")
-    void shouldValidateEmailValidationWithSuccess() throws ParseException {
+    void shouldValidateEmailValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyEmail(CustomerDTODataBuilder.builder().build().getEmail()));
     }
 
@@ -148,7 +151,7 @@ class CustomerValidationTest {
             validation.verifyEmail(CustomerDTODataBuilder.builder().withInvalidEmail().build().getEmail());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Email validation failed. The email pattern is invalid",
                     exception.getMessage());
         }
@@ -157,13 +160,13 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate address validation with success")
-    void shouldValidateAddressWithSuccess() throws ParseException {
+    void shouldValidateAddressWithSuccess() {
         Assertions.assertTrue(validation.verifyAddress(CustomerDTODataBuilder.builder().build().getAddress()));
     }
 
     @Test
     @DisplayName("Should validate Address validation with exception")
-    void shouldValidateAddressValidationWithException() throws ParseException {
+    void shouldValidateAddressValidationWithException() {
 
         AddressDTO address = AddressDTODataBuilder.builder().withTooLongNumber().build();
         CustomerDTO customer = CustomerDTODataBuilder.builder().build();
@@ -183,13 +186,13 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate not null validation with success")
-    void shouldValidateNotNullValidationWithSuccess() throws ParseException {
+    void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(CustomerDTODataBuilder.builder().build()));
     }
 
     @Test
     @DisplayName("Should validate not null validation with exception")
-    void shouldValidateNotNullValidationWithException() throws ParseException {
+    void shouldValidateNotNullValidationWithException() {
         CustomerDTO customer = CustomerDTODataBuilder.builder().build();
         customer.setName(null);
 
@@ -206,7 +209,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should test exists with success")
-    void shouldTestExistsWithSuccess() throws ParseException {
+    void shouldTestExistsWithSuccess() {
 
         Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.empty());
         Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
@@ -218,7 +221,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should test exists with all failures")
-    void shouldTestExistsWithAllFailures() throws ParseException {
+    void shouldTestExistsWithAllFailures() {
 
         Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
         Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
@@ -238,7 +241,7 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should test exists with just one failure")
-    void shouldTestExistsWithJustOneFailure() throws ParseException {
+    void shouldTestExistsWithJustOneFailure() {
 
         Mockito.when(repository.findByRg(Mockito.any())).thenReturn(Optional.empty());
         Mockito.when(repository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
@@ -257,8 +260,8 @@ class CustomerValidationTest {
 
     @Test
     @DisplayName("Should validate validate request with success")
-    void shouldValidateValidateRequestWithSuccess() throws ParseException {
-        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().build(), repository));
+    void shouldValidateValidateRequestWithSuccess() {
+        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository));
     }
 
 }

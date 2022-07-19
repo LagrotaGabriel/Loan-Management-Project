@@ -1,17 +1,18 @@
 package br.com.loanapi.mocks.dto;
 
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.dto.ScoreDTO;
-import br.com.loanapi.utils.DateFormatter;
 
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDTODataBuilder {
 
     CustomerDTO customer;
     CustomerDTODataBuilder(){}
 
-    public static CustomerDTODataBuilder builder() throws ParseException {
+    public static CustomerDTODataBuilder builder() {
 
         CustomerDTODataBuilder builder = new CustomerDTODataBuilder();
         builder.customer = new CustomerDTO();
@@ -21,8 +22,8 @@ public class CustomerDTODataBuilder {
         builder.customer.setId(1L);
         builder.customer.setName("João");
         builder.customer.setLastName("da Silva");
-        builder.customer.setBirthDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2011"));
-        builder.customer.setSignUpDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2021"));
+        builder.customer.setBirthDate("11-11-2011");
+        builder.customer.setSignUpDate("11-11-2021");
         builder.customer.setRg("55.626.926-4");
         builder.customer.setCpf("391.534.277-44");
         builder.customer.setEmail("joao@email.com");
@@ -44,8 +45,8 @@ public class CustomerDTODataBuilder {
         return this;
     }
 
-    public CustomerDTODataBuilder withRealisticBirthDate() throws ParseException {
-        customer.setBirthDate(DateFormatter.convertStringToDateWithBrPattern("11-11-1998"));
+    public CustomerDTODataBuilder withRealisticBirthDate() {
+        customer.setBirthDate("1998-07-21");
         return this;
     }
 
@@ -61,6 +62,13 @@ public class CustomerDTODataBuilder {
 
     public CustomerDTODataBuilder withInvalidEmail(){
         customer.setEmail("gabriel.com");
+        return this;
+    }
+
+    public CustomerDTODataBuilder withPhone(){
+        List<PhoneDTO> phones = new ArrayList<>();
+        phones.add(PhoneDTODataBuilder.builder().build());
+        customer.setPhones(phones);
         return this;
     }
 

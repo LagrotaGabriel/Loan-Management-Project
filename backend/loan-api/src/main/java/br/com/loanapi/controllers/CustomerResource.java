@@ -39,7 +39,7 @@ public class CustomerResource {
             @ApiResponse(code = 401, message = "Unauthorized access"),
     })
     @PostMapping
-    public ResponseEntity<CustomerDTO> create(@RequestBody CustomerDTO customer){
+    public ResponseEntity<CustomerDTO> create(@RequestBody CustomerDTO customer) {
         return ResponseEntity.ok().body(service.create(customer));
     }
 

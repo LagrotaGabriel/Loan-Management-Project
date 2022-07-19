@@ -30,8 +30,8 @@ class AddressResourceTest {
     void shouldTestCreateEndPoint() {
         Mockito.when(service.create(Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                "addresses=null), customers=null),[]>", resource.create(AddressDTODataBuilder.builder().build()).toString());
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                resource.create(AddressDTODataBuilder.builder().build()).toString());
     }
 
     @Test
@@ -46,8 +46,8 @@ class AddressResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                "addresses=null), customers=null),[]>", resource.findById(1L).toString());
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                resource.findById(1L).toString());
     }
 
     @Test
@@ -55,8 +55,8 @@ class AddressResourceTest {
     void shouldTestUpdate() {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO," +
-                " addresses=null), customers=null),[]>", resource.update(AddressDTODataBuilder.builder().build(), 1L).toString());
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                resource.update(AddressDTODataBuilder.builder().build(), 1L).toString());
     }
 
     @Test

@@ -10,7 +10,7 @@ public class PhoneDTODataBuilder {
     PhoneDTODataBuilder(){}
     PhoneDTO phoneDTO;
 
-    public static PhoneDTODataBuilder builder() throws ParseException {
+    public static PhoneDTODataBuilder builder() {
 
         PhoneDTODataBuilder builder = new PhoneDTODataBuilder();
         builder.phoneDTO = new PhoneDTO();

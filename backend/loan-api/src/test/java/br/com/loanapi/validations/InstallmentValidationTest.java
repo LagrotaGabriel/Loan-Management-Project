@@ -20,7 +20,7 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate month validation with success")
-    void shouldValidateMonthValidationWithSuccess() throws ParseException {
+    void shouldValidateMonthValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyMonth(InstallmentDTODataBuilder.builder().build().getMonth()));
     }
 
@@ -32,7 +32,7 @@ class InstallmentValidationTest {
             validation.verifyMonth(InstallmentDTODataBuilder.builder().withTooLongMonth().build().getMonth());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Installment validation failed. The month number may be between 1-999",
                     exception.getMessage());
         }
@@ -41,7 +41,7 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate amortization validation with success")
-    void shouldValidateAmortizationValidationWithSuccess() throws ParseException {
+    void shouldValidateAmortizationValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyAmortization(InstallmentDTODataBuilder.builder().build().getAmortization()));
     }
 
@@ -53,7 +53,7 @@ class InstallmentValidationTest {
             validation.verifyAmortization(InstallmentDTODataBuilder.builder().withTooLongAmortization().build().getAmortization());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Amortization validation failed", exception.getMessage());
         }
 
@@ -61,7 +61,7 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate interest validation with success")
-    void shouldValidateInterestValidationWithSuccess() throws ParseException {
+    void shouldValidateInterestValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyInterest(InstallmentDTODataBuilder.builder().build().getInterest()));
     }
 
@@ -73,7 +73,7 @@ class InstallmentValidationTest {
             validation.verifyInterest(InstallmentDTODataBuilder.builder().withTooLongInterest().build().getInterest());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Interest validation failed", exception.getMessage());
         }
 
@@ -81,7 +81,7 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate value validation with success")
-    void shouldValidateValueValidationWithSuccess() throws ParseException {
+    void shouldValidateValueValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyValue(InstallmentDTODataBuilder.builder().build().getValue()));
     }
 
@@ -93,7 +93,7 @@ class InstallmentValidationTest {
             validation.verifyValue(InstallmentDTODataBuilder.builder().withTooLongValue().build().getValue());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Value validation failed", exception.getMessage());
         }
 
@@ -101,13 +101,13 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate not null validation with success")
-    void shouldValidateNotNullValidationWithSuccess() throws ParseException {
+    void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(InstallmentDTODataBuilder.builder().build()));
     }
 
     @Test
     @DisplayName("Should validate not null validation with exception")
-    void shouldValidateNotNullValidationWithException() throws ParseException {
+    void shouldValidateNotNullValidationWithException() {
         InstallmentDTO installment = InstallmentDTODataBuilder.builder().build();
         installment.setLoan(null);
 
@@ -124,7 +124,7 @@ class InstallmentValidationTest {
 
     @Test
     @DisplayName("Should validate validate request with success")
-    void shouldValidateValidateRequestWithSuccess() throws ParseException {
+    void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(InstallmentDTODataBuilder.builder().build()));
     }
 

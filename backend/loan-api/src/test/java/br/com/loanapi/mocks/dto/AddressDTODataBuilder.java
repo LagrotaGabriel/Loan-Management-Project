@@ -1,8 +1,7 @@
 package br.com.loanapi.mocks.dto;
 
-import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
-import br.com.loanapi.mocks.entity.CityEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.models.enums.StateEnum;
 
 public class AddressDTODataBuilder {
 
@@ -19,18 +18,13 @@ public class AddressDTODataBuilder {
         builder.address.setNeighborhood("Lauzane Paulista");
         builder.address.setNumber(583);
         builder.address.setPostalCode("02442-090");
-        builder.address.setCity(CityDTODataBuilder.builder().build());
+        builder.address.setCity("São Paulo");
+        builder.address.setState(StateEnum.SAO_PAULO);
         builder.address.setCustomers(null);
 
         return builder;
 
     }
-
-    public AddressDTODataBuilder withCityWithAddressInList(){
-        address.setCity(CityDTODataBuilder.builder().withAddress().build());
-        return this;
-    }
-
 
     public AddressDTODataBuilder withTooLongStreet(){
         address.setStreet("This is a street too long. Too long that the characters numbers is + 65");

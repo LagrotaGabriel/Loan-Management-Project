@@ -1,8 +1,10 @@
 package br.com.loanapi.models.entities;
 
+import br.com.loanapi.models.enums.StateEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type AddressEntity
@@ -38,11 +40,14 @@ public class AddressEntity {
     @Column(name = "address_postalCode", length = 9)
     private String postalCode;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private CityEntity city;
+    @Column(name = "address_city", length = 65)
+    private String city;
 
-    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
-    private List<CustomerEntity> customers;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "address_state")
+    private StateEnum state;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CustomerEntity> customers = new ArrayList<>();
 
 }

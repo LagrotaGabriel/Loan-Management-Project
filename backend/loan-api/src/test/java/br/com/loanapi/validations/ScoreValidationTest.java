@@ -22,7 +22,7 @@ class ScoreValidationTest {
 
     @Test
     @DisplayName("Should validate score validation with success")
-    void shouldValidateScoreValidationWithSuccess() throws ParseException {
+    void shouldValidateScoreValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyPontuation(ScoreDTODataBuilder.builder().build().getPontuation()));
     }
 
@@ -34,7 +34,7 @@ class ScoreValidationTest {
             validation.verifyPontuation(ScoreDTODataBuilder.builder().withWrongPontuation().build().getPontuation());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Pontuation validation failed. The pontuation must be between 0-100",
                     exception.getMessage());
         }
@@ -43,13 +43,13 @@ class ScoreValidationTest {
 
     @Test
     @DisplayName("Should validate not null validation with success")
-    void shouldValidateNotNullValidationWithSuccess() throws ParseException {
+    void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(ScoreDTODataBuilder.builder().build()));
     }
 
     @Test
     @DisplayName("Should validate not null validation with exception")
-    void shouldValidateNotNullValidationWithException() throws ParseException {
+    void shouldValidateNotNullValidationWithException() {
         ScoreDTO score = ScoreDTODataBuilder.builder().build();
         score.setPontuation(null);
 
@@ -66,7 +66,7 @@ class ScoreValidationTest {
 
     @Test
     @DisplayName("Should validate validate request with success")
-    void shouldValidateValidateRequestWithSuccess() throws ParseException {
+    void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(ScoreDTODataBuilder.builder().build()));
     }
 

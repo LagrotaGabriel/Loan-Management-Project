@@ -9,7 +9,7 @@ public class ScoreEntityDataBuilder {
     ScoreEntity scoreEntity;
     ScoreEntityDataBuilder(){}
 
-    public static ScoreEntityDataBuilder builder() throws ParseException {
+    public static ScoreEntityDataBuilder builder() {
 
         ScoreEntityDataBuilder builder = new ScoreEntityDataBuilder();
         builder.scoreEntity = new ScoreEntity();

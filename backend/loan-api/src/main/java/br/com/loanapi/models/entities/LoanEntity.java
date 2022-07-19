@@ -5,7 +5,7 @@ import br.com.loanapi.models.enums.PaymentDateEnum;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type LoanEntity
@@ -30,9 +30,8 @@ public class LoanEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "loan")
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "loan_startDate", nullable = false)
-    private Date startDate;
+    private String startDate;
 
     @Column(name = "loan_originalValue", nullable = false)
     private Double originalValue;
@@ -59,6 +58,6 @@ public class LoanEntity {
     private CustomerEntity customer;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<InstallmentEntity> installments;
+    private List<InstallmentEntity> installments = new ArrayList<>();
 
 }

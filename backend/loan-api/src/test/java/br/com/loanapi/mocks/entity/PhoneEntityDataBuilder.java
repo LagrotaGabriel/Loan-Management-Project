@@ -10,7 +10,7 @@ public class PhoneEntityDataBuilder {
     PhoneEntityDataBuilder(){}
     PhoneEntity phoneEntity;
 
-    public static PhoneEntityDataBuilder builder() throws ParseException {
+    public static PhoneEntityDataBuilder builder() {
 
         PhoneEntityDataBuilder builder = new PhoneEntityDataBuilder();
         builder.phoneEntity = new PhoneEntity();

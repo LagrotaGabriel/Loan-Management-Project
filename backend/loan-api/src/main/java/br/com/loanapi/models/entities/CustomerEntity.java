@@ -3,7 +3,7 @@ package br.com.loanapi.models.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type CustomerEntity
@@ -33,13 +33,11 @@ public class CustomerEntity {
     @Column(name = "customer_lastNname", length = 65)
     private String lastName;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "customer_birthDate")
-    private Date birthDate;
+    private String birthDate;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "customer_signUpDate")
-    private Date signUpDate;
+    private String signUpDate;
 
     @Column(name = "customer_rg", length = 12, unique = true)
     private String rg;
@@ -59,9 +57,9 @@ public class CustomerEntity {
     private ScoreEntity score;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PhoneEntity> phones;
+    private List<PhoneEntity> phones = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<LoanEntity> loans;
+    private List<LoanEntity> loans = new ArrayList<>();
 
 }

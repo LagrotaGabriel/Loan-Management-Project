@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.Date;
-
 /** Class that contains all attributes of the object of type InstallmentDTO
  ** @author Gabriel Lagrota
  ** @version 1.0.0
@@ -23,8 +21,8 @@ public class InstallmentDTO {
     @JsonIgnore
     private Long id;
 
-    private Date maturityDate;
-    private Date paymentDate;
+    private String maturityDate;
+    private String paymentDate;
     private Boolean expired;
     private Integer month;
     private Double amortization;

@@ -2,16 +2,13 @@ package br.com.loanapi.mocks.entity;
 
 import br.com.loanapi.models.entities.CustomerEntity;
 import br.com.loanapi.models.entities.ScoreEntity;
-import br.com.loanapi.utils.DateFormatter;
-
-import java.text.ParseException;
 
 public class CustomerEntityDataBuilder {
 
     CustomerEntity customer;
     CustomerEntityDataBuilder(){}
 
-    public static CustomerEntityDataBuilder builder() throws ParseException {
+    public static CustomerEntityDataBuilder builder(){
 
         CustomerEntityDataBuilder builder = new CustomerEntityDataBuilder();
         builder.customer = new CustomerEntity();
@@ -21,8 +18,8 @@ public class CustomerEntityDataBuilder {
         builder.customer.setId(1L);
         builder.customer.setName("João");
         builder.customer.setLastName("da Silva");
-        builder.customer.setBirthDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2011"));
-        builder.customer.setSignUpDate(DateFormatter.convertStringToDateWithBrPattern("11-11-2021"));
+        builder.customer.setBirthDate("11-11-2011");
+        builder.customer.setSignUpDate("11-11-2021");
         builder.customer.setRg("55.626.926-4");
         builder.customer.setCpf("391.534.277-44");
         builder.customer.setEmail("joao@email.com");

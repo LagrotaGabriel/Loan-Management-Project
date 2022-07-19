@@ -9,7 +9,7 @@ public class ScoreDTODataBuilder {
     ScoreDTO scoreDTO;
     ScoreDTODataBuilder(){}
 
-    public static ScoreDTODataBuilder builder() throws ParseException {
+    public static ScoreDTODataBuilder builder() {
 
         ScoreDTODataBuilder builder = new ScoreDTODataBuilder();
         builder.scoreDTO = new ScoreDTO();

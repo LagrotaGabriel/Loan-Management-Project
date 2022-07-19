@@ -16,21 +16,21 @@ class PhoneDTOTest {
 
     @Test
     @DisplayName("Should test getters and setters")
-    void shouldTestGettersAndSetters() throws ParseException {
+    void shouldTestGettersAndSetters() {
 
         Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), " +
-                "customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null))",
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, " +
+                        "pontuation=50.0, customer=null), phones=null, loans=null))",
                 PhoneDTODataBuilder.builder().build().toString());
 
     }
 
     @Test
     @DisplayName("Should test all args constructor")
-    void shouldTestAllArgsConstructor() throws ParseException {
+    void shouldTestAllArgsConstructor() {
 
         PhoneDTO phone = new PhoneDTO(
                 1L,
@@ -40,11 +40,11 @@ class PhoneDTOTest {
                 CustomerDTODataBuilder.builder().build());
 
         Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                        "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, addresses=null), " +
-                        "customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null))",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=null, loans=null))",
                 phone.toString());
 
     }

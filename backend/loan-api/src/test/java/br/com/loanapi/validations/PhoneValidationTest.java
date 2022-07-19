@@ -22,7 +22,7 @@ class PhoneValidationTest {
 
     @Test
     @DisplayName("Should validate prefix validation with success")
-    void shouldValidatePrefixValidationWithSuccess() throws ParseException {
+    void shouldValidatePrefixValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyPrefix(PhoneDTODataBuilder.builder().build().getPrefix()));
     }
 
@@ -34,7 +34,7 @@ class PhoneValidationTest {
             validation.verifyPrefix(PhoneDTODataBuilder.builder().withWrongPrefix().build().getPrefix());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Prefix validation failed. The pattern must be two numbers. Example: 99",
                     exception.getMessage());
         }
@@ -43,7 +43,7 @@ class PhoneValidationTest {
 
     @Test
     @DisplayName("Should validate phone number validation with success")
-    void shouldValidatePhoneNumberValidationWithSuccess() throws ParseException {
+    void shouldValidatePhoneNumberValidationWithSuccess() {
         Assertions.assertTrue(validation.verifyNumber(PhoneDTODataBuilder.builder().build().getNumber()));
     }
 
@@ -55,7 +55,7 @@ class PhoneValidationTest {
             validation.verifyNumber(PhoneDTODataBuilder.builder().withWrongNumber().build().getNumber());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Phone number validation failed. Pattern example: xxxxx-xxxx (for mobile) or xxxx-xxxx (for landline)",
                     exception.getMessage());
         }
@@ -64,13 +64,13 @@ class PhoneValidationTest {
 
     @Test
     @DisplayName("Should validate not null validation with success")
-    void shouldValidateNotNullValidationWithSuccess() throws ParseException {
+    void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(PhoneDTODataBuilder.builder().build()));
     }
 
     @Test
     @DisplayName("Should validate not null validation with exception")
-    void shouldValidateNotNullValidationWithException() throws ParseException {
+    void shouldValidateNotNullValidationWithException() {
         PhoneDTO phone = PhoneDTODataBuilder.builder().build();
         phone.setNumber(null);
 
@@ -87,7 +87,7 @@ class PhoneValidationTest {
 
     @Test
     @DisplayName("Should validate validate request with success")
-    void shouldValidateValidateRequestWithSuccess() throws ParseException {
+    void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(PhoneDTODataBuilder.builder().build()));
     }
 

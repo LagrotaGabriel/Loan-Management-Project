@@ -1,10 +1,11 @@
 package br.com.loanapi.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Class that contains all attributes of the object of type CustomerDTO
@@ -25,25 +26,31 @@ public class CustomerDTO {
 
     private String name;
     private String lastName;
-    private Date birthDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String birthDate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date signUpDate;
+    private String signUpDate;
 
     private String rg;
     private String cpf;
     private String email;
 
+    // CASCATA ADDRESS -> CUSTOMER [DETACH]
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AddressDTO address;
 
+    // CASCATA CUSTOMER -> SCORE
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ScoreDTO score;
 
+    // CASCATA CUSTOMER -> PHONE
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
-    private List<PhoneDTO> phones;
+    private List<PhoneDTO> phones = new ArrayList<>();
 
+    // CASCATA CUSTOMER -> LOAN
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<LoanDTO> loans;
+    private List<LoanDTO> loans = new ArrayList<>();
 
 }

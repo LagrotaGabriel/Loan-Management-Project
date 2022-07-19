@@ -1,6 +1,7 @@
 package br.com.loanapi.mocks.entity;
 
 import br.com.loanapi.models.entities.AddressEntity;
+import br.com.loanapi.models.enums.StateEnum;
 
 public class AddressEntityDataBuilder {
 
@@ -17,16 +18,12 @@ public class AddressEntityDataBuilder {
         builder.address.setNeighborhood("Lauzane Paulista");
         builder.address.setNumber(583);
         builder.address.setPostalCode("02442-090");
-        builder.address.setCity(CityEntityDataBuilder.builder().build());
+        builder.address.setCity("São Paulo");
+        builder.address.setState(StateEnum.SAO_PAULO);
         builder.address.setCustomers(null);
 
         return builder;
 
-    }
-
-    public AddressEntityDataBuilder withCityWithAddressInList(){
-        address.setCity(CityEntityDataBuilder.builder().withAddress().build());
-        return this;
     }
 
     public AddressEntity build(){

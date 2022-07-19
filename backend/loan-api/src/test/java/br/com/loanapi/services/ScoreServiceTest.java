@@ -43,18 +43,17 @@ class ScoreServiceTest {
 
     @Test
     @DisplayName("Should test create method with success")
-    void shouldTestCreateMethodWithSuccess() throws ParseException {
+    void shouldTestCreateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
         Mockito.when(repository.save(Mockito.any())).thenReturn(ScoreEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("ScoreDTO(id=1, pontuation=50.0, customer=CustomerDTO(id=1, name=João, " +
-                        "lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                        "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                        "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                        "addresses=null), customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
                         "phones=null, loans=null))",
                 service.create(ScoreDTODataBuilder.builder().build()).toString());
 
@@ -70,7 +69,7 @@ class ScoreServiceTest {
             service.create(ScoreDTODataBuilder.builder().build());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception) {
+        catch(InvalidRequestException exception) {
             Assertions.assertEquals("Score validation failed", exception.getMessage());
         }
 
@@ -78,7 +77,7 @@ class ScoreServiceTest {
 
     @Test
     @DisplayName("Should test findAll method with success")
-    void shouldTestFindAllMethodWithSuccess() throws ParseException {
+    void shouldTestFindAllMethodWithSuccess() {
 
         List<ScoreEntity> scores = new ArrayList<>();
         scores.add(ScoreEntityDataBuilder.builder().build());
@@ -87,11 +86,10 @@ class ScoreServiceTest {
         Mockito.when(repository.findAll()).thenReturn(scores);
 
         Assertions.assertEquals("[ScoreDTO(id=1, pontuation=50.0, customer=CustomerDTO(id=1, name=João, " +
-                        "lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                        "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                        "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                        "addresses=null), customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
                         "phones=null, loans=null))]",
                 service.findAll().toString());
 
@@ -117,17 +115,16 @@ class ScoreServiceTest {
 
     @Test
     @DisplayName("Should test findById method with success")
-    void shouldTestFindByIdMethodWithSuccess() throws ParseException {
+    void shouldTestFindByIdMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(ScoreEntityDataBuilder.builder().build()));
 
         Assertions.assertEquals("ScoreDTO(id=1, pontuation=50.0, customer=CustomerDTO(id=1, name=João, " +
-                        "lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                        "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                        "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                        "addresses=null), customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
                         "phones=null, loans=null))",
                 service.findById(1L).toString());
 
@@ -151,7 +148,7 @@ class ScoreServiceTest {
 
     @Test
     @DisplayName("Should test update method with success")
-    void shouldTestUpdateMethodWithSuccess() throws ParseException {
+    void shouldTestUpdateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
@@ -159,11 +156,10 @@ class ScoreServiceTest {
         Mockito.when(repository.save(Mockito.any())).thenReturn(ScoreEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("ScoreDTO(id=1, pontuation=50.0, customer=CustomerDTO(id=1, name=João, " +
-                        "lastName=da Silva, birthDate=Fri Nov 11 00:00:00 BRST 2011, " +
-                        "signUpDate=Thu Nov 11 00:00:00 BRT 2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                        "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=CityDTO(id=1, city=São Paulo, state=SAO_PAULO, " +
-                        "addresses=null), customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
                         "phones=null, loans=null))",
                 service.update(1L, ScoreDTODataBuilder.builder().build()).toString());
 
@@ -179,14 +175,14 @@ class ScoreServiceTest {
             service.update(1L, ScoreDTODataBuilder.builder().build());
             Assertions.fail();
         }
-        catch(InvalidRequestException | ParseException exception){
+        catch(InvalidRequestException exception){
             Assertions.assertEquals("Score validation failed", exception.getMessage());
         }
     }
 
     @Test
     @DisplayName("Should test delete method with success")
-    void shouldTestDeleteMethodWithSuccess() throws ParseException {
+    void shouldTestDeleteMethodWithSuccess() {
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(ScoreEntityDataBuilder.builder().build()));
         Assertions.assertTrue(service.delete(1L));
