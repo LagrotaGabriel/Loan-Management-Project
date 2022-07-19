@@ -5,13 +5,13 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.entities.AddressEntity;
+import br.com.loanapi.models.entities.CustomerEntity;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.validations.AddressValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,13 +35,14 @@ public class AddressService {
         log.info(LOG_BAR);
         log.info("[STARTING] Starting create method");
 
-        if(validation.validateRequest(address)) {
-
-            return null;
-
+        if(validation.validateRequest(address, repository)) {
+            log.warn("[INFO] Address created at database: {}", address.getStreet() + ", " + address.getNumber());
+            log.warn(REQUEST_SUCCESSFULL);
+            return modelMapper.mapper().map(repository
+                    .save(modelMapper.mapper().map(address, AddressEntity.class)), AddressDTO.class);
         }
 
-        log.error("[FAILURE]  " + ADDRESS_VALIDATION_FAILED);
+        log.error(ADDRESS_VALIDATION_FAILED_LOG);
         throw new InvalidRequestException(ADDRESS_VALIDATION_FAILED);
 
     }
@@ -76,13 +77,60 @@ public class AddressService {
 
     public AddressDTO update(Long id, AddressDTO address){
 
-        return null;
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting update method");
 
+        Optional<AddressEntity> addressOptional = repository.findById(id);
+
+        log.info("[PROGRESS] Verifying if the passed id brings a database address...");
+        if (addressOptional.isPresent()) {
+
+            log.warn("[INFO] Address finded: {}, {}", address.getStreet(), address.getNumber());
+
+            AddressEntity addressEntity = addressOptional.get();
+
+            if (validation.validateRequest(address, repository)) {
+
+                log.info("[PROGRESS] Setting the new attributes values to persisted address...");
+                addressEntity.setStreet(address.getStreet());
+                addressEntity.setNumber(address.getNumber());
+                addressEntity.setNeighborhood(address.getNeighborhood());
+                addressEntity.setCity(address.getCity());
+                addressEntity.setState(address.getState());
+                addressEntity.setPostalCode(address.getPostalCode());
+                addressEntity.setCustomers(address.getCustomers().stream().map(x -> modelMapper.mapper().map(x, CustomerEntity.class)).collect(Collectors.toList()));
+
+                log.warn("[INFO] Address successfully updated at database");
+                log.warn(REQUEST_SUCCESSFULL);
+                return modelMapper.mapper().map(repository.save(addressEntity), AddressDTO.class);
+
+            }
+
+            log.error(ADDRESS_VALIDATION_FAILED_LOG);
+            throw new InvalidRequestException(ADDRESS_VALIDATION_FAILED);
+
+        }
+
+        log.error(ADDRESS_NOT_FOUND_LOG);
+        throw new InvalidRequestException(ADDRESS_NOT_FOUND);
     }
 
     public Boolean deleteById(Long id) {
 
-        return null;
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting deleteById method...");
+
+        log.info("[PROGRESS] Searching for a address by id {}...", id);
+        Optional<AddressEntity> address = repository.findById(id);
+
+        if (address.isPresent()) {
+            log.warn("[PROGRESS] Address finded. Removing...");
+            repository.deleteById(id);
+            log.warn(REQUEST_SUCCESSFULL);
+            return true;
+        }
+        log.error("[FAILURE]  Address with id {} not found", id);
+        throw new InvalidRequestException(ADDRESS_NOT_FOUND);
 
     }
 

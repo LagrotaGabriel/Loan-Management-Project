@@ -159,32 +159,6 @@ class CustomerValidationTest {
     }
 
     @Test
-    @DisplayName("Should validate address validation with success")
-    void shouldValidateAddressWithSuccess() {
-        Assertions.assertTrue(validation.verifyAddress(CustomerDTODataBuilder.builder().build().getAddress()));
-    }
-
-    @Test
-    @DisplayName("Should validate Address validation with exception")
-    void shouldValidateAddressValidationWithException() {
-
-        AddressDTO address = AddressDTODataBuilder.builder().withTooLongNumber().build();
-        CustomerDTO customer = CustomerDTODataBuilder.builder().build();
-
-        customer.setAddress(address);
-
-        try{
-            validation.verifyAddress(customer.getAddress());
-            Assertions.fail();
-        }
-        catch(InvalidRequestException exception){
-            Assertions.assertEquals("Address validation failed. The number must have only numbers with the " +
-                            "max size of 5 characters.", exception.getMessage());
-        }
-
-    }
-
-    @Test
     @DisplayName("Should validate not null validation with success")
     void shouldValidateNotNullValidationWithSuccess() {
         Assertions.assertTrue(validation.notNull(CustomerDTODataBuilder.builder().build()));

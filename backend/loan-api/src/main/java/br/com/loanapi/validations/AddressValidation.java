@@ -2,6 +2,7 @@ package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.repositories.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import static br.com.loanapi.utils.RegexPatterns.POSTAL_CODE_REGEX_PATTERN;
@@ -10,11 +11,12 @@ import static br.com.loanapi.utils.RegexPatterns.STREET_NUMBER_REGEX_PATTERN;
 @Slf4j
 public class AddressValidation {
 
-    public boolean validateRequest(AddressDTO address){
+    public boolean validateRequest(AddressDTO address, AddressRepository repository){
 
         log.info("[STARTING] Starting address validation");
 
         notNull(address);
+        exists(address, repository);
         verifyStreet(address.getStreet());
         verifyNeighborhood(address.getNeighborhood());
         verifyNumber(address.getNumber());
@@ -25,7 +27,17 @@ public class AddressValidation {
         return true;
     }
 
-    public boolean notNull(AddressDTO address){
+    public boolean exists(AddressDTO address, AddressRepository repository) {
+
+        log.info("[PROGRESS] Validating if the object already exists in database...");
+        if (repository.findByStreetNumberAndPostalCode(address.getStreet(), address.getNumber(), address.getPostalCode()).isEmpty()) return true;
+
+        log.error("[FAILURE] Address validation failed. The address already exists in database");
+        throw new InvalidRequestException("Address validation failed. The address already exists in database");
+
+    }
+
+    public boolean notNull(AddressDTO address) {
 
         log.info("[PROGRESS] Validating if the object have null attributes...");
         if(address.getStreet() != null &&

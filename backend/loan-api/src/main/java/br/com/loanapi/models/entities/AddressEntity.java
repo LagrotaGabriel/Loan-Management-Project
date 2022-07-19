@@ -36,7 +36,7 @@ public class AddressEntity {
     @Enumerated(EnumType.STRING)
     private StateEnum state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address", orphanRemoval = false)
     private List<CustomerEntity> customers = new ArrayList<>();
 
 }

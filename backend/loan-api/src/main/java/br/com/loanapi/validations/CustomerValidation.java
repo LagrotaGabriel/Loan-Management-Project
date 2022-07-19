@@ -28,7 +28,6 @@ public class CustomerValidation {
         verifyCpf(customer.getCpf());
         verifyEmail(customer.getEmail());
         verifyBirthDate(customer.getBirthDate());
-        verifyAddress(customer.getAddress());
         verifyPhone(customer.getPhones());
 
         log.info("[SUCCESS]  Validation successfull");
@@ -124,14 +123,15 @@ public class CustomerValidation {
         throw new InvalidRequestException("Email validation failed. The email pattern is invalid");
     }
 
-    public boolean verifyAddress(AddressDTO address){
-        log.info("[PROGRESS] Validating customer address...");
-        AddressValidation validation = new AddressValidation();
-        if (validation.validateRequest(address)) return true;
-
-        log.error("[FAILURE] Customer address validation failed. Something in customer address is wrong");
-        throw new InvalidRequestException("Address validation failed");
-    }
+    //TODO Built address validation at customer validation
+//    public boolean verifyAddress(AddressDTO address){
+//        log.info("[PROGRESS] Validating customer address...");
+//        AddressValidation validation = new AddressValidation();
+//        if (validation.validateRequest(address)) return true;
+//
+//        log.error("[FAILURE] Customer address validation failed. Something in customer address is wrong");
+//        throw new InvalidRequestException("Address validation failed");
+//    }
 
     public boolean verifyPhone(List<PhoneDTO> phones){
         log.info("[PROGRESS] Validating customer phones...");

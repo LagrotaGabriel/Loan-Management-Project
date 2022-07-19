@@ -3,18 +3,27 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes=AddressValidation.class)
+@SpringBootTest()
 @DisplayName("Validation: Address")
+@ExtendWith(MockitoExtension.class)
 class AddressValidationTest {
 
     @InjectMocks
     AddressValidation addressValidation;
+
+    @Mock
+    AddressRepository repository;
 
     @Test
     @DisplayName("Should test postal code validation with success")
@@ -123,7 +132,7 @@ class AddressValidationTest {
     @Test
     @DisplayName("Should test validate request with success")
     void shouldTestValidateRequestWithSuccess(){
-        Assertions.assertTrue(addressValidation.validateRequest(AddressDTODataBuilder.builder().build()));
+        Assertions.assertTrue(addressValidation.validateRequest(AddressDTODataBuilder.builder().build(), repository));
     }
 
     @Test
@@ -131,7 +140,7 @@ class AddressValidationTest {
     void shouldTestValidateRequestWithException(){
         AddressDTO address = AddressDTODataBuilder.builder().withAlphanumPostalCode().build();
         try{
-            addressValidation.validateRequest(address);
+            addressValidation.validateRequest(address, repository);
             Assertions.fail();
         }
         catch(InvalidRequestException exception){

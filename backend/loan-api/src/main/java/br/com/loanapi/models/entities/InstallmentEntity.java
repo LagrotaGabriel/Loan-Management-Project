@@ -18,12 +18,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@SequenceGenerator(allocationSize = 1, sequenceName = "sq_installment", name = "installment")
 public class InstallmentEntity {
 
     @Id
     @Column(name = "installment_id", nullable = false, updatable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "installment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "installment_maturityDate", nullable = false)
