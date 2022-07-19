@@ -19,6 +19,7 @@ public class AddressValidation {
         verifyNeighborhood(address.getNeighborhood());
         verifyNumber(address.getNumber());
         verifyPostalCode(address.getPostalCode());
+        verifyCity(address.getCity());
 
         log.info("[SUCCESS]  Validation successfull");
         return true;
@@ -31,7 +32,8 @@ public class AddressValidation {
                 address.getNeighborhood() != null &&
                 address.getNumber() != null &&
                 address.getPostalCode() != null &&
-                address.getCity() != null) return true;
+                address.getCity() != null &&
+                address.getState() != null) return true;
 
         log.error("[FAILURE] Address validation failed. Some of the attributes are null or empty");
         throw new InvalidRequestException("Address validation failed. Some of the attributes is null or empty.");
@@ -55,7 +57,7 @@ public class AddressValidation {
         throw new InvalidRequestException("Address validation failed. The neighborhood name is too long (+65 characters).");
     }
 
-    public boolean verifyNumber(Integer number){
+    public boolean verifyNumber(Integer number) {
 
         log.info("[PROGRESS] Validating street number...");
         if(number.toString().matches(STREET_NUMBER_REGEX_PATTERN)) return true;
@@ -65,7 +67,7 @@ public class AddressValidation {
                 "The number must have only numbers with the max size of 5 characters.");
     }
 
-    public boolean verifyPostalCode(String postalCode){
+    public boolean verifyPostalCode(String postalCode) {
 
         log.info("[PROGRESS] Validating postal code...");
         if(postalCode.matches(POSTAL_CODE_REGEX_PATTERN)) return true;
@@ -73,6 +75,16 @@ public class AddressValidation {
         log.error("[FAILURE] Address validation failed. The postal code should follow the pattern xxxxx-xxx with only numbers");
         throw new InvalidRequestException("Address validation failed. The postal code should follow the pattern " +
                 "xxxxx-xxx, with only numbers");
+    }
+
+    public boolean verifyCity(String city) {
+
+        log.info("[PROGRESS] Validating city...");
+        if (city.length() <= 65) return true;
+
+        log.error("[FAILURE] Address validation failed. The city name is too long (+65 characters)");
+        throw new InvalidRequestException("Address validation failed. The city name is too long (+65 characters)");
+
     }
 
 }

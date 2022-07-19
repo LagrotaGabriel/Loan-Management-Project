@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +25,22 @@ public class AddressDTO {
     @JsonIgnore
     private Long id;
 
+    @NotNull(message = "The street can't be null")
     private String street;
+
+    @NotNull(message = "The neighborhood can't be null")
     private String neighborhood;
+
+    @NotNull(message = "The street number can't be null")
     private Integer number;
+
+    @NotNull(message = "The postal code can't be null")
     private String postalCode;
+
+    @NotNull(message = "The city can't be null")
     private String city;
+
+    @NotNull(message = "The state can't be null")
     private StateEnum state;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
