@@ -4,6 +4,7 @@ import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.models.entities.CustomerEntity;
 import br.com.loanapi.repositories.AddressRepository;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,6 +84,11 @@ public class AddressService {
 
         Optional<AddressEntity> addressOptional = repository.findById(id);
 
+        if (address.getCustomers() == null) {
+            List<CustomerDTO> customers = new ArrayList<>();
+            address.setCustomers(customers);
+        }
+
         log.info("[PROGRESS] Verifying if the passed id brings a database address...");
         if (addressOptional.isPresent()) {
 
@@ -112,7 +119,7 @@ public class AddressService {
         }
 
         log.error(ADDRESS_NOT_FOUND_LOG);
-        throw new InvalidRequestException(ADDRESS_NOT_FOUND);
+        throw new ObjectNotFoundException(ADDRESS_NOT_FOUND);
     }
 
     public Boolean deleteById(Long id) {
@@ -130,7 +137,7 @@ public class AddressService {
             return true;
         }
         log.error("[FAILURE]  Address with id {} not found", id);
-        throw new InvalidRequestException(ADDRESS_NOT_FOUND);
+        throw new ObjectNotFoundException(ADDRESS_NOT_FOUND);
 
     }
 
