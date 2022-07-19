@@ -19,12 +19,11 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@SequenceGenerator(allocationSize = 1, sequenceName = "sq_customer", name = "customer")
 public class CustomerEntity {
 
     @Id
     @Column(name = "customer_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "customer")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "customer_name", length = 65)
@@ -49,7 +48,7 @@ public class CustomerEntity {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+//    @JoinColumn(name = "address_id")
     private AddressEntity address;
 
     @OneToOne(cascade = CascadeType.ALL)

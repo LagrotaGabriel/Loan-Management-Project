@@ -18,12 +18,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@SequenceGenerator(allocationSize = 1, sequenceName = "sq_score", name = "score")
 public class ScoreEntity {
 
     @Id
     @Column(name = "score_id", nullable = false, updatable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "score")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "customer_name", nullable = false)

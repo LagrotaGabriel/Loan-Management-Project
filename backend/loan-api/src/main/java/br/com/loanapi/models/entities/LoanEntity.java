@@ -22,12 +22,11 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@SequenceGenerator(allocationSize = 1, sequenceName = "sq_loan", name = "loan")
 public class LoanEntity {
 
     @Id
     @Column(name = "loan_id", nullable = false, updatable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "loan")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "loan_startDate", nullable = false)
