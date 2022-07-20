@@ -1,18 +1,28 @@
 package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
+import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.repositories.PhoneRepository;
 
 import static br.com.loanapi.utils.RegexPatterns.PHONE_PREFIX_REGEX_PATTERN;
 import static br.com.loanapi.utils.RegexPatterns.PHONE_REGEX_PATTERN;
 
 public class PhoneValidation {
 
-    public boolean validateRequest(PhoneDTO phone) {
+    public boolean validateRequest(PhoneDTO phone, PhoneRepository repository) {
         notNull(phone);
+        exists(phone, repository);
         verifyPrefix(phone.getPrefix());
         verifyNumber(phone.getNumber());
         return true;
+    }
+
+    public boolean exists(PhoneDTO phoneDTO, PhoneRepository repository) {
+        if(repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isPresent()) {
+            return true;
+        }
+        throw new InvalidRequestException("The JSON Phone already exist at database");
     }
 
     public boolean notNull(PhoneDTO phone) {
