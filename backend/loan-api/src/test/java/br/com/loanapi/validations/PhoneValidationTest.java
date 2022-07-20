@@ -5,20 +5,28 @@ import br.com.loanapi.mocks.dto.LoanDTODataBuilder;
 import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import br.com.loanapi.models.dto.LoanDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
 
-@SpringBootTest(classes = PhoneValidation.class)
+@SpringBootTest
 @DisplayName("Validation: Phone")
+@ExtendWith(MockitoExtension.class)
 class PhoneValidationTest {
 
     @InjectMocks
     PhoneValidation validation;
+
+    @Mock
+    PhoneRepository repository;
 
     @Test
     @DisplayName("Should validate prefix validation with success")
@@ -88,7 +96,7 @@ class PhoneValidationTest {
     @Test
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
-        Assertions.assertTrue(validation.validateRequest(PhoneDTODataBuilder.builder().build()));
+        Assertions.assertTrue(validation.validateRequest(PhoneDTODataBuilder.builder().build(), repository));
     }
 
 }

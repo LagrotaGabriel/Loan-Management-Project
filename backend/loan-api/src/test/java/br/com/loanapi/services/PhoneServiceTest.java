@@ -46,7 +46,7 @@ class PhoneServiceTest {
     void shouldTestCreateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(repository.save(Mockito.any())).thenReturn(PhoneEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
@@ -63,7 +63,7 @@ class PhoneServiceTest {
     @DisplayName("Should test create method with exception")
     void shouldTestCreateMethodWithException(){
 
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
 
         try {
             service.create(PhoneDTODataBuilder.builder().build());
@@ -151,7 +151,7 @@ class PhoneServiceTest {
     void shouldTestUpdateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(PhoneEntityDataBuilder.builder().build());
 
@@ -169,7 +169,7 @@ class PhoneServiceTest {
     @DisplayName("Should test update method with exception")
     void shouldTestUpdateMethodWithException() {
 
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
 
         try{
             service.update(1L, PhoneDTODataBuilder.builder().build());

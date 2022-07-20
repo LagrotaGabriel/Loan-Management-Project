@@ -7,6 +7,7 @@ import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.repositories.CustomerRepository;
+import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,9 @@ class CustomerValidationTest {
 
     @Mock
     CustomerRepository repository;
+
+    @Mock
+    PhoneRepository phoneRepository;
 
     @Test
     @DisplayName("Should validate name validation with success")
@@ -235,7 +239,7 @@ class CustomerValidationTest {
     @Test
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
-        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository));
+        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository, phoneRepository));
     }
 
 }

@@ -44,4 +44,9 @@ public class AddressEntity {
     @OneToMany(targetEntity = CustomerEntity.class, cascade={CascadeType.ALL}, mappedBy = "address", orphanRemoval = true)
     private List<CustomerEntity> customers = new ArrayList<>();
 
+    public void addCustomer(CustomerEntity customer) {
+        customer.setAddress(this);
+        this.customers.add(customer);
+    }
+
 }

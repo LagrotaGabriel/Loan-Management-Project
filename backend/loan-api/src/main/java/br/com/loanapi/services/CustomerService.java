@@ -5,10 +5,14 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.entities.*;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.repositories.CustomerRepository;
+import br.com.loanapi.repositories.PhoneRepository;
+import br.com.loanapi.validations.AddressValidation;
 import br.com.loanapi.validations.CustomerValidation;
+import br.com.loanapi.validations.PhoneValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +28,16 @@ import static br.com.loanapi.utils.StringConstants.LOG_BAR;
 @Service
 public class CustomerService {
 
+    //TODO VERIFY THE LOGS AND USE CONSTANTS AT STRINGS
+
     @Autowired
     CustomerRepository repository;
 
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    PhoneRepository phoneRepository;
 
     @Autowired
     AddressService addressService;
@@ -39,18 +48,48 @@ public class CustomerService {
     ModelMapperConfig modelMapper;
 
     CustomerValidation validation = new CustomerValidation();
+    AddressValidation addressValidation = new AddressValidation();
+    PhoneValidation phoneValidation = new PhoneValidation();
 
     public CustomerDTO create(CustomerDTO customer) {
 
         log.info(LOG_BAR);
         log.info("[STARTING] Starting create method");
 
-        if (validation.validateRequest(customer, repository)){
+        log.info("[PROGRESS] Starting customer, customer phone and customer address validations...");
 
-            return null;
+        if (validation.validateRequest(customer, repository, phoneRepository)) {
+
+            log.info("[PROGRESS] Verifying if the address already exists at database: {}", customer.getAddress());
+
+            Optional<AddressEntity> addressEntity = addressRepository.findByStreetNumberAndPostalCode(
+                            customer.getAddress().getStreet(),
+                            customer.getAddress().getNumber(),
+                            customer.getAddress().getPostalCode());
+
+            AddressDTO addressDTO = new AddressDTO();
+
+            if (addressEntity.isPresent()) {
+
+                log.warn("[INFO] The passed address already exist");
+                addressDTO = modelMapper.mapper().map(addressEntity.get(), AddressDTO.class);
+                addressDTO.addCustomer(customer);
+            }
+            else {
+
+                log.warn("[INFO] The passed address dont exist");
+                addressDTO = customer.getAddress();
+                addressDTO.addCustomer(customer);
+            }
+
+            log.info("[PROGRESS] Saving the customer at database...");
+            addressRepository.save(modelMapper.mapper().map(addressDTO, AddressEntity.class));
+            log.info("[SUCCESS] Request successfull");
+            return customer;
 
         }
 
+        log.info("[FAILURE] Customer validation failed");
         throw new InvalidRequestException("Customer validation failed");
 
     }
@@ -69,7 +108,7 @@ public class CustomerService {
 
     public CustomerDTO update(Long id, CustomerDTO customer){
 
-        if (validation.validateRequest(customer, repository)) {
+        if (validation.validateRequest(customer, repository, phoneRepository)) {
             CustomerDTO customerDTO = findById(id);
 
             customerDTO.setName(customer.getName());

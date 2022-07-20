@@ -5,6 +5,7 @@ import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.repositories.CustomerRepository;
+import br.com.loanapi.repositories.PhoneRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import static br.com.loanapi.utils.RegexPatterns.*;
 @Slf4j
 public class CustomerValidation {
 
-    public boolean validateRequest(CustomerDTO customer, CustomerRepository repository){
+    public boolean validateRequest(CustomerDTO customer, CustomerRepository repository, PhoneRepository phoneRepository){
 
         log.info("[STARTING] Starting customer validation");
 
@@ -28,7 +29,7 @@ public class CustomerValidation {
         verifyCpf(customer.getCpf());
         verifyEmail(customer.getEmail());
         verifyBirthDate(customer.getBirthDate());
-        verifyPhone(customer.getPhones());
+        verifyPhone(customer.getPhones(), phoneRepository);
 
         log.info("[SUCCESS]  Validation successfull");
         return true;
@@ -123,22 +124,12 @@ public class CustomerValidation {
         throw new InvalidRequestException("Email validation failed. The email pattern is invalid");
     }
 
-    //TODO Built address validation at customer validation
-//    public boolean verifyAddress(AddressDTO address){
-//        log.info("[PROGRESS] Validating customer address...");
-//        AddressValidation validation = new AddressValidation();
-//        if (validation.validateRequest(address)) return true;
-//
-//        log.error("[FAILURE] Customer address validation failed. Something in customer address is wrong");
-//        throw new InvalidRequestException("Address validation failed");
-//    }
-
-    public boolean verifyPhone(List<PhoneDTO> phones){
+    public boolean verifyPhone(List<PhoneDTO> phones, PhoneRepository phoneRepository){
         log.info("[PROGRESS] Validating customer phones...");
         PhoneValidation validation = new PhoneValidation();
         if (!phones.isEmpty()) {
             for (PhoneDTO phone : phones) {
-                if (validation.validateRequest(phone)) {
+                if (validation.validateRequest(phone, phoneRepository)) {
                     log.info("[PROGRESS] Phone {} validated", phone);
                 } else {
                     log.error("[FAILURE] There is a failure with the customer Phone: {}", phone);

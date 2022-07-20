@@ -28,7 +28,7 @@ public class PhoneService {
     PhoneValidation validation = new PhoneValidation();
 
     public PhoneDTO create(PhoneDTO phone){
-        if (validation.validateRequest(phone))
+        if (validation.validateRequest(phone, repository))
             return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(phone, PhoneEntity.class)), PhoneDTO.class);
         throw new InvalidRequestException("Phone validation failed");
     }
@@ -48,7 +48,7 @@ public class PhoneService {
 
     public PhoneDTO update(Long id, PhoneDTO phone) {
 
-        if (validation.validateRequest(phone)) {
+        if (validation.validateRequest(phone, repository)) {
 
             PhoneDTO dto = modelMapper.mapper().map(findById(id), PhoneDTO.class);
             dto.setNumber(phone.getNumber());

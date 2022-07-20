@@ -75,7 +75,7 @@ class CustomerServiceTest {
     @DisplayName("Should test create method with exception")
     void shouldTestCreateMethodWithException(){
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
 
         try {
             service.create(CustomerDTODataBuilder.builder().build());
@@ -161,7 +161,7 @@ class CustomerServiceTest {
     void shouldTestUpdateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(CustomerEntityDataBuilder.builder().build());
 
@@ -178,7 +178,7 @@ class CustomerServiceTest {
     @DisplayName("Should test update method with exception")
     void shouldTestUpdateMethodWithException() {
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
 
         try{
             service.update(1L, CustomerDTODataBuilder.builder().build());

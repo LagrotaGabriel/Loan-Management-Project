@@ -10,6 +10,8 @@ import static br.com.loanapi.utils.RegexPatterns.PHONE_REGEX_PATTERN;
 
 public class PhoneValidation {
 
+    //TODO LOG THE CLASS
+
     public boolean validateRequest(PhoneDTO phone, PhoneRepository repository) {
         notNull(phone);
         exists(phone, repository);
@@ -19,7 +21,7 @@ public class PhoneValidation {
     }
 
     public boolean exists(PhoneDTO phoneDTO, PhoneRepository repository) {
-        if(repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isPresent()) {
+        if(repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isEmpty()) {
             return true;
         }
         throw new InvalidRequestException("The JSON Phone already exist at database");
