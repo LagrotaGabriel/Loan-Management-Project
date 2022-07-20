@@ -39,6 +39,7 @@ public class AddressService {
 
         if(validation.validateRequest(address, repository)) {
             log.warn("[INFO] Address created at database: {}", address.getStreet() + ", " + address.getNumber());
+
             log.warn(REQUEST_SUCCESSFULL);
             return modelMapper.mapper().map(repository
                     .save(modelMapper.mapper().map(address, AddressEntity.class)), AddressDTO.class);

@@ -20,23 +20,28 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-//@SequenceGenerator(allocationSize = 1, sequenceName = "sq_address", name = "address")
 public class AddressEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "street", length = 65)
     private String street;
+    @Column(name = "neighborhood", length = 65)
     private String neighborhood;
+    @Column(name = "number", length = 5)
     private Integer number;
+    @Column(name = "postal_code", length = 9)
     private String postalCode;
+    @Column(name = "city", length = 65)
     private String city;
 
+    @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private StateEnum state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address", orphanRemoval = false)
+    @OneToMany(targetEntity = CustomerEntity.class, cascade={CascadeType.ALL}, mappedBy = "address", orphanRemoval = true)
     private List<CustomerEntity> customers = new ArrayList<>();
 
 }

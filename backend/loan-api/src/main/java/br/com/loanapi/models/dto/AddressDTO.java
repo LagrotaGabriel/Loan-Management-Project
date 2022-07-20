@@ -45,4 +45,9 @@ public class AddressDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CustomerDTO> customers = new ArrayList<>();
+
+    public void addCustomer(CustomerDTO customer) {
+        customer.setAddress(this);
+        this.customers.add(customer);
+    }
 }
