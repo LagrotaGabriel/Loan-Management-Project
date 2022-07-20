@@ -37,20 +37,26 @@ public class CustomerDTO {
     private String cpf;
     private String email;
 
-    // CASCATA ADDRESS -> CUSTOMER [DETACH]
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AddressDTO address;
 
-    // CASCATA CUSTOMER -> SCORE
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ScoreDTO score;
 
-    // CASCATA CUSTOMER -> PHONE
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private List<PhoneDTO> phones = new ArrayList<>();
 
-    // CASCATA CUSTOMER -> LOAN
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<LoanDTO> loans = new ArrayList<>();
+
+    public void addPhone(PhoneDTO phoneDTO) {
+        phoneDTO.setCustomer(this);
+        this.phones.add(phoneDTO);
+    }
+
+    public void addLoan(LoanDTO loanDTO) {
+        loanDTO.setCustomer(this);
+        this.loans.add(loanDTO);
+    }
 
 }

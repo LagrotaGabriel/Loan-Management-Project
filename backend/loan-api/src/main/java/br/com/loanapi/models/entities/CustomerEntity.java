@@ -26,39 +26,33 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "customer_name", length = 65)
+    @Column(name = "name", length = 65)
     private String name;
-
-    @Column(name = "customer_lastNname", length = 65)
+    @Column(name = "last_name", length = 65)
     private String lastName;
-
-    @Column(name = "customer_birthDate")
+    @Column(name = "birth_date")
     private String birthDate;
-
-    @Column(name = "customer_signUpDate")
+    @Column(name = "signup_date")
     private String signUpDate;
-
-    @Column(name = "customer_rg", length = 12, unique = true)
+    @Column(name = "rg", length = 12, unique = true)
     private String rg;
-
-    @Column(name = "customer_cpf", length = 14, unique = true)
+    @Column(name = "cpf", length = 14, unique = true)
     private String cpf;
-
-    @Column(name = "customer_email", length = 65, unique = true)
+    @Column(name = "email", length = 65, unique = true)
     private String email;
 
-    @ManyToOne
-//    @JoinColumn(name = "address_id")
+    @ManyToOne(targetEntity = AddressEntity.class)
+    @JoinColumn(name="address_id")
     private AddressEntity address;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "score_id", referencedColumnName = "score_id")
+    @OneToOne(targetEntity = ScoreEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "score_id")
     private ScoreEntity score;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = PhoneEntity.class, mappedBy = "customer", cascade ={CascadeType.ALL}, orphanRemoval = true)
     private List<PhoneEntity> phones = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = LoanEntity.class, mappedBy = "customer", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<LoanEntity> loans = new ArrayList<>();
 
 }
