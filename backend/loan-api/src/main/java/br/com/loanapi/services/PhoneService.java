@@ -5,6 +5,7 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.entities.PhoneEntity;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.PhoneRepository;
 import br.com.loanapi.validations.PhoneValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class PhoneService {
     PhoneValidation validation = new PhoneValidation();
 
     public PhoneDTO create(PhoneDTO phone){
-        if (validation.validateRequest(phone, repository))
+        if (validation.validateRequest(ValidationTypeEnum.CREATE, phone, repository))
             return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(phone, PhoneEntity.class)), PhoneDTO.class);
         throw new InvalidRequestException("Phone validation failed");
     }
@@ -48,7 +49,7 @@ public class PhoneService {
 
     public PhoneDTO update(Long id, PhoneDTO phone) {
 
-        if (validation.validateRequest(phone, repository)) {
+        if (validation.validateRequest(ValidationTypeEnum.UPDATE, phone, repository)) {
 
             PhoneDTO dto = modelMapper.mapper().map(findById(id), PhoneDTO.class);
             dto.setNumber(phone.getNumber());

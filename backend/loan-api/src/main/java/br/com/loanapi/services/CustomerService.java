@@ -5,19 +5,16 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
-import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.entities.*;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
-import br.com.loanapi.validations.AddressValidation;
 import br.com.loanapi.validations.CustomerValidation;
-import br.com.loanapi.validations.PhoneValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,17 +36,12 @@ public class CustomerService {
     @Autowired
     PhoneRepository phoneRepository;
 
-    @Autowired
-    AddressService addressService;
-
     String CUSTOMER_NOT_FOUND = "Customer not found";
 
     @Autowired
     ModelMapperConfig modelMapper;
 
     CustomerValidation validation = new CustomerValidation();
-    AddressValidation addressValidation = new AddressValidation();
-    PhoneValidation phoneValidation = new PhoneValidation();
 
     public CustomerDTO create(CustomerDTO customer) {
 
@@ -58,7 +50,7 @@ public class CustomerService {
 
         log.info("[PROGRESS] Starting customer, customer phone and customer address validations...");
 
-        if (validation.validateRequest(customer, repository, phoneRepository)) {
+        if (validation.validateRequest(ValidationTypeEnum.CREATE, customer, repository, phoneRepository)) {
 
             log.info("[PROGRESS] Verifying if the address already exists at database: {}", customer.getAddress());
 
@@ -107,29 +99,98 @@ public class CustomerService {
 
     public CustomerDTO update(Long id, CustomerDTO customer){
 
-        if (validation.validateRequest(customer, repository, phoneRepository)) {
-            CustomerDTO customerDTO = findById(id);
+        // Procurando customer pelo id passado
+        Optional<CustomerEntity> customerOptional = repository.findById(id);
 
-            customerDTO.setName(customer.getName());
-            customerDTO.setLastName(customer.getName());
-            customerDTO.setBirthDate(customer.getBirthDate());
-            customerDTO.setSignUpDate(customer.getSignUpDate());
-            customerDTO.setRg(customer.getRg());
-            customerDTO.setCpf(customer.getCpf());
-            customerDTO.setEmail(customer.getEmail());
+        // Se um customer for encontrado pelo id passado
+        if (customerOptional.isPresent()) {
 
-            customerDTO.setAddress(customer.getAddress());
-            customerDTO.setScore(customer.getScore());
+            // Atribuindo o optional a um objeto do tipo Entity real
+            CustomerEntity customerEntity = customerOptional.get();
 
-            customerDTO.setPhones(customer.getPhones());
-            customerDTO.setLoans(customer.getLoans());
+            // Verificando se o request body está tudo ok através da classe de validation
+            if (validation.validateRequest(ValidationTypeEnum.UPDATE, customer, null, phoneRepository)) {
 
-            return modelMapper.mapper().map(
-                    repository.save(modelMapper.mapper().map(customerDTO, CustomerEntity.class)), CustomerDTO.class);
-        }
-        else{
+                // Verificando se o endereço passado já existe no banco de dados
+                Optional<AddressEntity> addressEntity = addressRepository.findByStreetNumberAndPostalCode(
+                        customer.getAddress().getStreet(),
+                        customer.getAddress().getNumber(),
+                        customer.getAddress().getPostalCode());
+
+                AddressDTO addressDTO = customer.getAddress();
+
+                // Se o endereço passado existir
+                if (addressEntity.isPresent()) {
+
+                    // Atribuindo o optional ao dto
+                    AddressEntity addressUpdated = modelMapper.mapper().map(addressEntity.get(), AddressEntity.class);
+
+                    CustomerEntity customerEntityUpdated = new CustomerEntity();
+
+                    customerEntityUpdated.setId(customerEntity.getId());
+                    customerEntityUpdated.setName(customer.getName());
+                    customerEntityUpdated.setLastName(customer.getLastName());
+                    customerEntityUpdated.setCpf(customer.getCpf());
+                    customerEntityUpdated.setRg(customer.getRg());
+                    customerEntityUpdated.setEmail(customer.getEmail());
+                    customerEntityUpdated.setBirthDate(customer.getBirthDate());
+                    customerEntityUpdated.setAddress(addressUpdated);
+                    customerEntityUpdated.setPhones(customer.getPhones()
+                            .stream().map(x -> modelMapper.mapper().map(x, PhoneEntity.class)).collect(Collectors.toList()));
+
+                    addressUpdated.getCustomers().set(addressUpdated.getCustomers().indexOf(customerEntity), customerEntityUpdated);
+
+                    addressRepository.save(addressUpdated);
+                }
+
+                else {
+
+                    // Pegando o endereço antigo do cliente
+                    Optional<AddressEntity> addressEntityOptional = addressRepository.findByStreetNumberAndPostalCode(
+                                            customerEntity.getAddress().getStreet(),
+                                            customerEntity.getAddress().getNumber(),
+                                            customerEntity.getAddress().getPostalCode());
+
+                    // Se o antigo endereço do cliente for encontrado
+                    if (addressEntityOptional.isPresent()) {
+                        // Passando endereço antigo do cliente para variável do tipo Entity
+                        AddressEntity oldAddressEntity = addressEntityOptional.get();
+                        // Removendo customer do endereço antigo do cliente
+                        oldAddressEntity.getCustomers().remove(customerEntity);
+                        // Removendo o customer do banco de dados
+                        repository.delete(customerEntity);
+                        // Persistindo endereço antigo do cliente atualizado sem o customer
+                        addressRepository.save(oldAddressEntity);
+                    }
+
+                    // Atualizando objeto já persistido com os atributos do JSON
+                    customerEntity.setId(null);
+                    customerEntity.setName(customer.getName());
+                    customerEntity.setLastName(customer.getLastName());
+                    customerEntity.setCpf(customer.getCpf());
+                    customerEntity.setRg(customer.getRg());
+                    customerEntity.setEmail(customer.getEmail());
+                    customerEntity.setBirthDate(customer.getBirthDate());
+                    customerEntity.setAddress(modelMapper.mapper().map(customer.getAddress(), AddressEntity.class));
+                    customerEntity.setPhones(customer.getPhones()
+                            .stream().map(x -> modelMapper.mapper().map(x, PhoneEntity.class)).collect(Collectors.toList()));
+
+                    // Criando o customer no address
+                    addressDTO.addCustomer(modelMapper.mapper().map(customerEntity, CustomerDTO.class));
+
+                    addressRepository.save(modelMapper.mapper().map(addressDTO, AddressEntity.class));
+                }
+
+                // Salvando o endereço no banco de dados em cascata
+                return customer;
+
+            }
+
+            // Se a validation tiver algo de errado
             throw new InvalidRequestException("Customer validation failed");
         }
+        // Se nenhum customer for encontrado pelo id passado
+        throw new ObjectNotFoundException("Customer not found");
     }
 
     public Boolean deleteById(Long id) {
