@@ -1,6 +1,7 @@
 package br.com.loanapi.models.dto;
 
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
+import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
 import br.com.loanapi.models.enums.StateEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +36,15 @@ class AddressDTOTest {
     void shouldTestEqualsAndHashcode(){
         AddressDTO addressDTO = new AddressDTO();
         Assertions.assertEquals(-506892473, addressDTO.hashCode());
+    }
+
+    @Test
+    @DisplayName("Should test addCustomer method")
+    void shouldTestAddCustomerMethod() {
+        AddressDTO address = AddressDTODataBuilder.builder().withCustomersList().build();
+        address.addCustomer(CustomerDTODataBuilder.builder().build());
+        Assertions.assertNotNull(address.getCustomers());
+
     }
 
 }

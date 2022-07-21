@@ -2,7 +2,9 @@ package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
+import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 @SpringBootTest()
 @DisplayName("Validation: Address")
@@ -106,6 +110,48 @@ class AddressValidationTest {
         catch(InvalidRequestException exception){
             Assertions.assertEquals("Address validation failed. The street name is too long " +
                     "(+65 characters).", exception.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Should test city validation with success")
+    void shouldTestCityValidationWithSuccess(){
+        Assertions.assertTrue
+                (addressValidation.verifyStreet(AddressDTODataBuilder.builder().build().getCity()));
+    }
+
+    @Test
+    @DisplayName("Should test city validation with exception")
+    void shouldTestSCityValidationWithException(){
+        AddressDTO address = AddressDTODataBuilder.builder().withTooLongCity().build();
+        try{
+            addressValidation.verifyCity(address.getCity());
+            Assertions.fail();
+        }
+        catch(InvalidRequestException exception){
+            Assertions.assertEquals("Address validation failed. The city name is too long " +
+                    "(+65 characters)", exception.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Should test exists validation with success")
+    void shouldTestExistsValidationWithSuccess() {
+        Mockito.when(repository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
+        Assertions.assertTrue(addressValidation.exists(AddressDTODataBuilder.builder().build(), repository));
+    }
+
+    @Test
+    @DisplayName("Should test exists validation with exception")
+    void shouldTestExistsValidationWithException() {
+        Mockito.when(repository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().build()));
+        try {
+            addressValidation.exists(AddressDTODataBuilder.builder().build(), repository);
+            Assertions.fail();
+        }
+        catch (InvalidRequestException exception) {
+            Assertions.assertEquals("Address validation failed. The address already exists in database",
+                    exception.getMessage());
         }
     }
 

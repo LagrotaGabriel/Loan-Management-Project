@@ -1,7 +1,11 @@
 package br.com.loanapi.mocks.dto;
 
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.enums.StateEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddressDTODataBuilder {
 
@@ -26,8 +30,20 @@ public class AddressDTODataBuilder {
 
     }
 
+    public AddressDTODataBuilder withCustomersList() {
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        customerDTOList.add(CustomerDTODataBuilder.builder().build());
+        address.setCustomers(customerDTOList);
+        return this;
+    }
+
     public AddressDTODataBuilder withTooLongStreet(){
         address.setStreet("This is a street too long. Too long that the characters numbers is + 65");
+        return this;
+    }
+
+    public AddressDTODataBuilder withTooLongCity() {
+        address.setCity("This is a city too long. Too long that the characters numbers is  +65");
         return this;
     }
 

@@ -1,9 +1,8 @@
 package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
-import br.com.loanapi.mocks.dto.LoanDTODataBuilder;
 import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
-import br.com.loanapi.models.dto.LoanDTO;
+import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
@@ -12,10 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
+import java.util.Optional;
 
 @SpringBootTest
 @DisplayName("Validation: Phone")
@@ -97,6 +97,27 @@ class PhoneValidationTest {
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(PhoneDTODataBuilder.builder().build(), repository));
+    }
+
+    @Test
+    @DisplayName("Should test exists validation with success")
+    void shouldTestExistsValidationWithSuccess() {
+        Mockito.when(repository.findByPrefixAndNumber(Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
+        Assertions.assertTrue(validation.exists(PhoneDTODataBuilder.builder().build(), repository));
+    }
+
+    @Test
+    @DisplayName("Should test exists validation with exception")
+    void shouldTestExistsValidationWithException() {
+        Mockito.when(repository.findByPrefixAndNumber(Mockito.any(), Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
+        try {
+            validation.exists(PhoneDTODataBuilder.builder().build(), repository);
+            Assertions.fail();
+        }
+        catch (InvalidRequestException exception) {
+            Assertions.assertEquals("The JSON Phone already exist at database",
+                    exception.getMessage());
+        }
     }
 
 }

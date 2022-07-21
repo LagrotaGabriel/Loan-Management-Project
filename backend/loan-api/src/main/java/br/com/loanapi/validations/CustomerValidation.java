@@ -1,7 +1,6 @@
 package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
-import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.repositories.CustomerRepository;
@@ -9,7 +8,6 @@ import br.com.loanapi.repositories.PhoneRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static br.com.loanapi.utils.RegexPatterns.*;
@@ -131,9 +129,6 @@ public class CustomerValidation {
             for (PhoneDTO phone : phones) {
                 if (validation.validateRequest(phone, phoneRepository)) {
                     log.info("[PROGRESS] Phone {} validated", phone);
-                } else {
-                    log.error("[FAILURE] There is a failure with the customer Phone: {}", phone);
-                    throw new InvalidRequestException("Phone validation failed");
                 }
             }
             return true;

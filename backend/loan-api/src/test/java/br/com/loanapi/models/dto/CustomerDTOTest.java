@@ -2,6 +2,8 @@ package br.com.loanapi.models.dto;
 
 import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
+import br.com.loanapi.mocks.dto.LoanDTODataBuilder;
+import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,7 +58,23 @@ class CustomerDTOTest {
     @DisplayName("Should test hashcode")
     void shouldTestHashcodeMethod(){
         CustomerDTO customer = new CustomerDTO();
-        Assertions.assertEquals(-195342319, customer.hashCode());
+        Assertions.assertNotEquals(-1794027312, customer.hashCode());
+    }
+
+    @Test
+    @DisplayName("Should test addPhone method")
+    void shouldTestAddPhoneMethod() {
+        CustomerDTO customer = CustomerDTODataBuilder.builder().withPhoneList().build();
+        customer.addPhone(PhoneDTODataBuilder.builder().build());
+        Assertions.assertNotNull(customer.getPhones());
+    }
+
+    @Test
+    @DisplayName("Should test addLoan method")
+    void shouldTestAddLoanMethod() {
+        CustomerDTO customer = CustomerDTODataBuilder.builder().withLoanList().build();
+        customer.addLoan(LoanDTODataBuilder.builder().build());
+        Assertions.assertNotNull(customer.getLoans());
     }
 
 }

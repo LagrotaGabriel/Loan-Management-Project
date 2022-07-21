@@ -1,6 +1,7 @@
 package br.com.loanapi.models.entities;
 
 import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.models.enums.StateEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +36,14 @@ class AddressEntityTest {
     void shouldTestEqualsAndHashcode(){
         AddressEntity addressEntity = new AddressEntity();
         Assertions.assertEquals(-506892473, addressEntity.hashCode());
+    }
+
+    @Test
+    @DisplayName("Should test addCustomer method")
+    void shouldTestAddCustomerMethod() {
+        AddressEntity address = AddressEntityDataBuilder.builder().withCustomersList().build();
+        address.addCustomer(CustomerEntityDataBuilder.builder().build());
+        Assertions.assertNotNull(address.getCustomers());
     }
 
 }

@@ -67,10 +67,9 @@ public class CustomerService {
                             customer.getAddress().getNumber(),
                             customer.getAddress().getPostalCode());
 
-            AddressDTO addressDTO = new AddressDTO();
+            AddressDTO addressDTO;
 
             if (addressEntity.isPresent()) {
-
                 log.warn("[INFO] The passed address already exist");
                 addressDTO = modelMapper.mapper().map(addressEntity.get(), AddressDTO.class);
                 addressDTO.addCustomer(customer);

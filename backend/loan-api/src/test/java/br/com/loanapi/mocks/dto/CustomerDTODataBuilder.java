@@ -1,6 +1,7 @@
 package br.com.loanapi.mocks.dto;
 
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.models.dto.LoanDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.dto.ScoreDTO;
 
@@ -33,6 +34,25 @@ public class CustomerDTODataBuilder {
         builder.customer.setLoans(null);
 
         return builder;
+    }
+
+    public CustomerDTODataBuilder withAddresssWithCustomers() {
+        customer.setAddress(AddressDTODataBuilder.builder().withCustomersList().build());
+        return this;
+    }
+
+    public CustomerDTODataBuilder withPhoneList() {
+        List<PhoneDTO> phones = new ArrayList<>();
+        phones.add(PhoneDTODataBuilder.builder().build());
+        customer.setPhones(phones);
+        return this;
+    }
+
+    public CustomerDTODataBuilder withLoanList() {
+        List<LoanDTO> loans = new ArrayList<>();
+        loans.add(LoanDTODataBuilder.builder().build());
+        customer.setLoans(loans);
+        return this;
     }
 
     public CustomerDTODataBuilder withTooLongName(){

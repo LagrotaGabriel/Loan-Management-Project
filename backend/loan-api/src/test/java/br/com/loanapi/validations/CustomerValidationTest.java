@@ -1,11 +1,11 @@
 package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
-import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
+import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
-import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
+import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +18,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -240,6 +241,28 @@ class CustomerValidationTest {
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
         Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository, phoneRepository));
+    }
+
+    @Test
+    @DisplayName("Should validate verifyPhone method with success")
+    void shouldValidateVerifyPhoneMethodWithSuccess() {
+        List<PhoneDTO> phones = new ArrayList<>();
+        phones.add(PhoneDTODataBuilder.builder().build());
+        Assertions.assertTrue(validation.verifyPhone(phones, phoneRepository));
+    }
+
+    @Test
+    @DisplayName("Should validate verifyPhone method with empty list")
+    void shouldValidateVerifyPhoneMethodWithEmptyList() {
+        List<PhoneDTO> phones = new ArrayList<>();
+        try{
+            validation.verifyPhone(phones, phoneRepository);
+            Assertions.fail();
+        }
+        catch (InvalidRequestException exception) {
+            Assertions.assertEquals("There is no phones sended betwen JSON", exception.getMessage());
+        }
+
     }
 
 }
