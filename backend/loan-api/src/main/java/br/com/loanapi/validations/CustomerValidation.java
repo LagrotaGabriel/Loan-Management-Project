@@ -3,6 +3,7 @@ package br.com.loanapi.validations;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,19 +16,24 @@ import static br.com.loanapi.utils.RegexPatterns.*;
 @Slf4j
 public class CustomerValidation {
 
-    public boolean validateRequest(CustomerDTO customer, CustomerRepository repository, PhoneRepository phoneRepository){
+    public boolean validateRequest(ValidationTypeEnum validationType,
+                                   CustomerDTO customer,
+                                   CustomerRepository repository,
+                                   PhoneRepository phoneRepository){
 
         log.info("[STARTING] Starting customer validation");
 
         notNull(customer);
-        exists(customer, repository);
+        if (validationType == ValidationTypeEnum.CREATE) {
+            exists(customer, repository);
+        }
         verifyName(customer.getName());
         verifyLastName(customer.getLastName());
         verifyRg(customer.getRg());
         verifyCpf(customer.getCpf());
         verifyEmail(customer.getEmail());
         verifyBirthDate(customer.getBirthDate());
-        verifyPhone(customer.getPhones(), phoneRepository);
+        verifyPhone(validationType, customer.getPhones(), phoneRepository);
 
         log.info("[SUCCESS]  Validation successfull");
         return true;
@@ -122,13 +128,13 @@ public class CustomerValidation {
         throw new InvalidRequestException("Email validation failed. The email pattern is invalid");
     }
 
-    public boolean verifyPhone(List<PhoneDTO> phones, PhoneRepository phoneRepository){
+    public boolean verifyPhone(ValidationTypeEnum validationType, List<PhoneDTO> phones, PhoneRepository phoneRepository){
         log.info("[PROGRESS] Validating customer phones...");
         PhoneValidation validation = new PhoneValidation();
         if (!phones.isEmpty()) {
             for (PhoneDTO phone : phones) {
-                if (validation.validateRequest(phone, phoneRepository)) {
-                    log.info("[PROGRESS] Phone {} validated", phone);
+                if (validation.validateRequest(validationType, phone, phoneRepository)) {
+                    log.info("[PROGRESS] Phone {} validated", phone.getNumber());
                 }
             }
             return true;

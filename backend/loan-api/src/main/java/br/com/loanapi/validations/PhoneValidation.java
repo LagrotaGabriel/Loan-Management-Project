@@ -1,8 +1,8 @@
 package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
-import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.PhoneRepository;
 
 import static br.com.loanapi.utils.RegexPatterns.PHONE_PREFIX_REGEX_PATTERN;
@@ -12,9 +12,14 @@ public class PhoneValidation {
 
     //TODO LOG THE CLASS
 
-    public boolean validateRequest(PhoneDTO phone, PhoneRepository repository) {
+    public boolean validateRequest(ValidationTypeEnum validationType,
+                                   PhoneDTO phone,
+                                   PhoneRepository repository) {
+
         notNull(phone);
-        exists(phone, repository);
+        if (validationType == ValidationTypeEnum.CREATE) {
+            exists(phone, repository);
+        }
         verifyPrefix(phone.getPrefix());
         verifyNumber(phone.getNumber());
         return true;
