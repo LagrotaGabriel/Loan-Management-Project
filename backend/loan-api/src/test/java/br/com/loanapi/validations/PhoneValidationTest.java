@@ -4,6 +4,7 @@ import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -96,7 +97,7 @@ class PhoneValidationTest {
     @Test
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
-        Assertions.assertTrue(validation.validateRequest(PhoneDTODataBuilder.builder().build(), repository));
+        Assertions.assertTrue(validation.validateRequest(ValidationTypeEnum.CREATE, PhoneDTODataBuilder.builder().build(), repository));
     }
 
     @Test

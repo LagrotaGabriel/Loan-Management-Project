@@ -6,6 +6,7 @@ import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
 import org.junit.jupiter.api.Assertions;
@@ -240,7 +241,7 @@ class CustomerValidationTest {
     @Test
     @DisplayName("Should validate validate request with success")
     void shouldValidateValidateRequestWithSuccess() {
-        Assertions.assertTrue(validation.validateRequest(CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository, phoneRepository));
+        Assertions.assertTrue(validation.validateRequest(ValidationTypeEnum.CREATE, CustomerDTODataBuilder.builder().withRealisticBirthDate().withPhone().build(), repository, phoneRepository));
     }
 
     @Test
@@ -248,7 +249,7 @@ class CustomerValidationTest {
     void shouldValidateVerifyPhoneMethodWithSuccess() {
         List<PhoneDTO> phones = new ArrayList<>();
         phones.add(PhoneDTODataBuilder.builder().build());
-        Assertions.assertTrue(validation.verifyPhone(phones, phoneRepository));
+        Assertions.assertTrue(validation.verifyPhone(ValidationTypeEnum.CREATE, phones, phoneRepository));
     }
 
     @Test
@@ -256,7 +257,7 @@ class CustomerValidationTest {
     void shouldValidateVerifyPhoneMethodWithEmptyList() {
         List<PhoneDTO> phones = new ArrayList<>();
         try{
-            validation.verifyPhone(phones, phoneRepository);
+            validation.verifyPhone(ValidationTypeEnum.CREATE, phones, phoneRepository);
             Assertions.fail();
         }
         catch (InvalidRequestException exception) {
