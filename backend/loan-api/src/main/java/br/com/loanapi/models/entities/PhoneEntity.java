@@ -36,7 +36,7 @@ public class PhoneEntity {
     @Column(name = "phone_type", nullable = false)
     private PhoneTypeEnum phoneType;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = CustomerEntity.class)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 

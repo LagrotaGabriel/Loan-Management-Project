@@ -9,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 @DisplayName("DTO: Customer")
 class CustomerDTOTest {
@@ -63,9 +66,13 @@ class CustomerDTOTest {
 
     @Test
     @DisplayName("Should test addPhone method")
-    void shouldTestAddPhoneMethod() {
+    void shouldTestSetPhoneListMethod() {
         CustomerDTO customer = CustomerDTODataBuilder.builder().withPhoneList().build();
-        customer.addPhone(PhoneDTODataBuilder.builder().build());
+
+        List<PhoneDTO> phones = new ArrayList<>();
+        phones.add(PhoneDTODataBuilder.builder().build());
+
+        customer.setPhoneList(phones);
         Assertions.assertNotNull(customer.getPhones());
     }
 

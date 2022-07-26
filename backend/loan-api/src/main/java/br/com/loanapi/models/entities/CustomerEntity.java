@@ -1,5 +1,7 @@
 package br.com.loanapi.models.entities;
 
+import br.com.loanapi.models.dto.LoanDTO;
+import br.com.loanapi.models.dto.PhoneDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,5 +56,22 @@ public class CustomerEntity {
 
     @OneToMany(targetEntity = LoanEntity.class, mappedBy = "customer", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<LoanEntity> loans = new ArrayList<>();
+
+    public void addPhone(PhoneEntity phone) {
+        phone.setCustomer(this);
+        this.getPhones().add(phone);
+    }
+
+    public void setPhoneList(List<PhoneEntity> phoneEntities) {
+        for (PhoneEntity phone: phoneEntities) {
+            phone.setCustomer(this);
+        }
+        this.setPhones(phoneEntities);
+    }
+
+    public void addLoan(LoanEntity loanDTO) {
+        loanDTO.setCustomer(this);
+        this.loans.add(loanDTO);
+    }
 
 }

@@ -131,7 +131,7 @@ public class CustomerValidation {
     public boolean verifyPhone(ValidationTypeEnum validationType, List<PhoneDTO> phones, PhoneRepository phoneRepository){
         log.info("[PROGRESS] Validating customer phones...");
         PhoneValidation validation = new PhoneValidation();
-        if (!phones.isEmpty()) {
+        if (!phones.isEmpty() && validationType == ValidationTypeEnum.CREATE) {
             for (PhoneDTO phone : phones) {
                 if (validation.validateRequest(validationType, phone, phoneRepository)) {
                     log.info("[PROGRESS] Phone {} validated", phone.getNumber());
@@ -139,8 +139,18 @@ public class CustomerValidation {
             }
             return true;
         }
-        log.error("[FAILURE] There is no phones sended betwen JSON");
-        throw new InvalidRequestException("There is no phones sended betwen JSON");
+        else if(validationType == ValidationTypeEnum.UPDATE) {
+            for (PhoneDTO phone: phones) {
+                if (validation.validateRequest(validationType, phone, phoneRepository)) {
+                    log.info("[PROGRESS] Phone {} validated at update method", phone.getNumber());
+                }
+            }
+            return true;
+        }
+        else {
+            log.error("[FAILURE] There is no phones sended betwen JSON");
+            throw new InvalidRequestException("There is no phones sended betwen JSON");
+        }
     }
 
 }

@@ -134,6 +134,7 @@ public class AddressService {
         if (address.isPresent()) {
             log.warn("[PROGRESS] Address finded. Removing...");
             repository.deleteById(id);
+
             log.warn(REQUEST_SUCCESSFULL);
             return true;
         }

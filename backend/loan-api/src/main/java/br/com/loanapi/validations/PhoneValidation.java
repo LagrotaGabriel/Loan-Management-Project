@@ -18,18 +18,28 @@ public class PhoneValidation {
 
         notNull(phone);
         if (validationType == ValidationTypeEnum.CREATE) {
-            exists(phone, repository);
+            exists(validationType, phone, repository);
         }
         verifyPrefix(phone.getPrefix());
         verifyNumber(phone.getNumber());
         return true;
     }
 
-    public boolean exists(PhoneDTO phoneDTO, PhoneRepository repository) {
-        if(repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isEmpty()) {
-            return true;
+    public boolean exists(ValidationTypeEnum validationType, PhoneDTO phoneDTO, PhoneRepository repository) {
+        if (validationType == ValidationTypeEnum.CREATE) {
+            if (repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isEmpty()) {
+                return true;
+            }
+            throw new InvalidRequestException("The JSON Phone already exist at database");
         }
-        throw new InvalidRequestException("The JSON Phone already exist at database");
+        else{
+            if (repository.findByPrefixAndNumber(phoneDTO.getPrefix(), phoneDTO.getNumber()).isEmpty()) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     public boolean notNull(PhoneDTO phone) {
