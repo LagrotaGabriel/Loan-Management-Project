@@ -131,18 +131,10 @@ public class CustomerValidation {
     public boolean verifyPhone(ValidationTypeEnum validationType, List<PhoneDTO> phones, PhoneRepository phoneRepository){
         log.info("[PROGRESS] Validating customer phones...");
         PhoneValidation validation = new PhoneValidation();
-        if (!phones.isEmpty() && validationType == ValidationTypeEnum.CREATE) {
+        if (!phones.isEmpty() && validationType == ValidationTypeEnum.CREATE || validationType == ValidationTypeEnum.UPDATE) {
             for (PhoneDTO phone : phones) {
                 if (validation.validateRequest(validationType, phone, phoneRepository)) {
                     log.info("[PROGRESS] Phone {} validated", phone.getNumber());
-                }
-            }
-            return true;
-        }
-        else if(validationType == ValidationTypeEnum.UPDATE) {
-            for (PhoneDTO phone: phones) {
-                if (validation.validateRequest(validationType, phone, phoneRepository)) {
-                    log.info("[PROGRESS] Phone {} validated at update method", phone.getNumber());
                 }
             }
             return true;
