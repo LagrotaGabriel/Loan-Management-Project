@@ -11,6 +11,7 @@ import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
+import br.com.loanapi.validations.AddressValidation;
 import br.com.loanapi.validations.CustomerValidation;
 import br.com.loanapi.validations.PhoneValidation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,6 @@ import static br.com.loanapi.utils.StringConstants.*;
 @Service
 public class CustomerService {
 
-    //TODO VERIFY THE LOGS AND USE CONSTANTS AT STRINGS
-
     @Autowired
     CustomerRepository repository;
 
@@ -43,6 +42,7 @@ public class CustomerService {
     ModelMapperConfig modelMapper;
 
     CustomerValidation validation = new CustomerValidation();
+    AddressValidation addressValidation = new AddressValidation();
     PhoneValidation phoneValidation = new PhoneValidation();
 
     public CustomerDTO create(CustomerDTO customer) {
@@ -57,25 +57,23 @@ public class CustomerService {
             log.info("[PROGRESS] Verifying if the address already exists at database: {}", customer.getAddress());
 
             Optional<AddressEntity> addressEntity = addressRepository.findByStreetNumberAndPostalCode(
-                            customer.getAddress().getStreet(),
-                            customer.getAddress().getNumber(),
-                            customer.getAddress().getPostalCode());
+                    customer.getAddress().getStreet(),
+                    customer.getAddress().getNumber(),
+                    customer.getAddress().getPostalCode());
 
             AddressDTO addressDTO;
 
             if (addressEntity.isPresent()) {
                 log.warn("[INFO] The passed address already exist");
                 addressDTO = modelMapper.mapper().map(addressEntity.get(), AddressDTO.class);
-                customer.setPhoneList(customer.getPhones());
-                addressDTO.addCustomer(customer);
-            }
-            else {
+            } else {
 
                 log.warn("[INFO] The passed address dont exist");
                 addressDTO = customer.getAddress();
-                customer.setPhoneList(customer.getPhones());
-                addressDTO.addCustomer(customer);
             }
+
+            customer.setPhoneList(customer.getPhones());
+            addressDTO.addCustomer(customer);
 
             log.info("[PROGRESS] Saving the customer at database...");
             addressRepository.save(modelMapper.mapper().map(addressDTO, AddressEntity.class));
@@ -84,144 +82,119 @@ public class CustomerService {
 
         }
 
-        log.info("[FAILURE] Customer validation failed");
-        throw new InvalidRequestException("Customer validation failed");
+        log.info(CUSTOMER_VALIDATION_FAILED_LOG);
+        throw new InvalidRequestException(CUSTOMER_VALIDATION_FAILED);
 
     }
 
-    public List<CustomerDTO> findAll(){
+    public List<CustomerDTO> findAll() {
         if (!repository.findAll().isEmpty()) return repository.findAll()
                 .stream().map(x -> modelMapper.mapper().map(x, CustomerDTO.class)).collect(Collectors.toList());
         throw new ObjectNotFoundException("There is no consumers saved in the database");
     }
 
-    public CustomerDTO findById(Long id){
+    public CustomerDTO findById(Long id) {
         Optional<CustomerEntity> customer = repository.findById(id);
         return modelMapper.mapper().map(
                 customer.orElseThrow(() -> new ObjectNotFoundException(CUSTOMER_NOT_FOUND)), CustomerDTO.class);
     }
 
+    public CustomerDTO update(Long id, CustomerDTO customer) {
 
-    //TODO Diminuir complexidade do código
-    public CustomerDTO update(Long id, CustomerDTO customer){
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting update method");
 
-        // Procurando customer pelo id passado
-        Optional<CustomerEntity> customerOptional = repository.findById(id);
-        CustomerEntity customerEntityUpdated = new CustomerEntity();
-        AddressEntity addressUpdated;
+        log.info("[PROGRESS] Creating the customer method variables...");
+        Optional<CustomerEntity> optionalCustomer = repository.findById(id);
+        CustomerEntity findedCustomer;
 
-        customerEntityUpdated.setName(customer.getName());
-        customerEntityUpdated.setLastName(customer.getLastName());
-        customerEntityUpdated.setCpf(customer.getCpf());
-        customerEntityUpdated.setRg(customer.getRg());
-        customerEntityUpdated.setEmail(customer.getEmail());
-        customerEntityUpdated.setBirthDate(customer.getBirthDate());
+        log.info("[PROGRESS] Creating the address method variables...");
+        Optional<AddressEntity> optionalAddress = addressRepository.findByStreetNumberAndPostalCode(
+                customer.getAddress().getStreet(),
+                customer.getAddress().getNumber(),
+                customer.getAddress().getPostalCode());
+        AddressEntity findedAddress;
 
-        // Se um customer for encontrado pelo id passado
-        if (customerOptional.isPresent()) {
+        log.info("[PROGRESS] Creating the updated objects variables...");
+        AddressEntity updatedAddress;
+        CustomerEntity updatedCustomer;
 
-            // Atribuindo o optional a um objeto do tipo Entity real
-            CustomerEntity customerEntity = customerOptional.get();
+        log.info("[PROGRESS] Verifying if a customer with the id {} exists...", id);
+        if (validation.validateRequest(ValidationTypeEnum.UPDATE, customer, repository, phoneRepository)
+                && optionalCustomer.isPresent()
+                && addressValidation.validateRequest(ValidationTypeEnum.UPDATE, customer.getAddress(), addressRepository)) {
 
-            // Verificando se o request body está tudo ok através da classe de validation
-            if (validation.validateRequest(ValidationTypeEnum.UPDATE, customer, null, phoneRepository)) {
+            findedCustomer = optionalCustomer.get();
+            log.warn("[INFO] Customer found: {} {}", findedCustomer.getName(), findedCustomer.getLastName());
 
-                // Verificando se o endereço passado já existe no banco de dados
-                Optional<AddressEntity> addressEntity = addressRepository.findByStreetNumberAndPostalCode(
-                        customer.getAddress().getStreet(),
-                        customer.getAddress().getNumber(),
-                        customer.getAddress().getPostalCode());
+            log.info("[PROGRESS] Updating the updatedCustomer with the JSON values...");
+            updatedCustomer = findedCustomer;
+            updatedCustomer.setName(customer.getName());
+            updatedCustomer.setLastName(customer.getLastName());
+            updatedCustomer.setEmail(customer.getEmail());
+            updatedCustomer.setBirthDate(customer.getBirthDate());
+            updatedCustomer.setRg(customer.getRg());
+            updatedCustomer.setCpf(customer.getCpf());
+            for (PhoneDTO phone : customer.getPhones()) {
+                if (phoneValidation.validateRequest(ValidationTypeEnum.CREATE, phone, phoneRepository)) {
+                    updatedCustomer.addPhone(modelMapper.mapper().map(phone, PhoneEntity.class));
+                }
+            }
 
-                // Se o endereço passado existir
-                if (addressEntity.isPresent()) {
+            log.info("[PROGRESS] Verifying if the passed JSON Address already exist at database...");
+            if (optionalAddress.isPresent()) {
 
-                    // Atribuindo o optional ao dto
-                    addressUpdated = modelMapper.mapper().map(addressEntity.get(), AddressEntity.class);
+                findedAddress = optionalAddress.get();
+                log.info("[INFO] Address found: {}, {}", findedAddress.getStreet(), findedAddress.getNumber());
 
-                    customerEntityUpdated.setId(customerEntity.getId());
-                    customerEntityUpdated.setAddress(addressUpdated);
-                    customerEntityUpdated.setPhones(customerEntity.getPhones());
+                log.info("[PROGRESS] Verifying if the JSON address is different of the older customer address...");
+                if (findedCustomer.getAddress() != findedAddress) {
 
-                    // SE O TELEFONE PASSADO NO UPDATE FOR DIFERENTE DO QUE JÁ EXISTE
-                    if (!customer.getPhones().equals(customerEntity.getPhones().stream().map(x -> modelMapper.mapper().map(x, PhoneDTO.class)).toList())) {
+                    log.warn("[INFO] The JSON address is different.");
+                    log.info("[PROGRESS] Removing the customer of the old address...");
+                    AddressEntity oldAddress = findedCustomer.getAddress();
+                    oldAddress.removeCustomer(findedCustomer);
 
-                        // FOR RODANDO LISTA DE PHONES PASSADAS NO JSON
-                        for (PhoneDTO phone : customer.getPhones()) {
-                            // SE O PHONE PASSADO NO JSON NÃO EXISTIR
-                            if (phoneValidation.exists(ValidationTypeEnum.UPDATE, phone, phoneRepository)) {
-                                // ADICIONA TELEFONE A LISTA DE TELEFONES DO CUSTOMER
-                                customerEntityUpdated.addPhone(modelMapper.mapper().map(phone, PhoneEntity.class));
-                            }
-                        }
-                    }
+                    log.info("[PROGRESS] Saving the old address without the customer...");
+                    addressRepository.save(oldAddress);
 
-                    customerEntityUpdated.setAddress(addressUpdated);
-                    addressUpdated.getCustomers().set(addressUpdated.getCustomers().indexOf(customerEntity), customerEntityUpdated);
+                    log.info("[PROGRESS] Setting the updatedAddress value with the finded address value...");
+                    updatedAddress = modelMapper.mapper().map(findedAddress, AddressEntity.class);
 
+                } else {
+                    log.warn("[INFO] The JSON address is equals than the older customer address.");
+                    log.info("[PROGRESS] Setting the updatedAddress value to the JSON address value...");
+                    updatedAddress = findedAddress;
                 }
 
-                // SE O ENDEREÇO PASSADO NÃO EXISTIR
-                else {
+            } else {
 
-                    // Pegando o endereço antigo do cliente
-                    Optional<AddressEntity> addressEntityOptional = addressRepository.findByStreetNumberAndPostalCode(
-                                            customerEntity.getAddress().getStreet(),
-                                            customerEntity.getAddress().getNumber(),
-                                            customerEntity.getAddress().getPostalCode());
+                log.warn(ADDRESS_NOT_FOUND_LOG);
 
-                    // Se o antigo endereço do cliente for encontrado
-                    if (addressEntityOptional.isPresent()) {
+                log.info("[PROGRESS] Removing the customer of the old address...");
+                AddressEntity oldAddress = findedCustomer.getAddress();
+                oldAddress.removeCustomer(findedCustomer);
 
-                        // Passando endereço antigo do cliente para variável do tipo Entity
-                        AddressEntity oldAddressEntity = addressEntityOptional.get();
-                        // Removendo customer do endereço antigo do cliente
-                        oldAddressEntity.getCustomers().remove(customerEntity);
-                        // Removendo o customer do banco de dados
-                        repository.delete(customerEntity);
-                        // Persistindo endereço antigo do cliente atualizado sem o customer
-                        addressRepository.save(oldAddressEntity);
-                    }
+                log.info("[PROGRESS] Saving the old address without the customer...");
+                addressRepository.save(oldAddress);
 
-                    addressUpdated = modelMapper.mapper().map(customer.getAddress(), AddressEntity.class);
-
-                    customerEntityUpdated.setId(null);
-                    customerEntityUpdated.setAddress(addressUpdated);
-                    customerEntityUpdated.setPhones(customerEntity.getPhones());
-
-                    // SE O TELEFONE PASSADO NO UPDATE FOR DIFERENTE DO QUE JÁ EXISTE
-                    if (!customer.getPhones().equals(customerEntity.getPhones().stream().map(x -> modelMapper.mapper().map(x, PhoneDTO.class)).toList())) {
-
-                        // FOR RODANDO LISTA DE PHONES PASSADAS NO JSON
-                        for (PhoneDTO phone : customer.getPhones()) {
-                            // SE O PHONE PASSADO NO JSON NÃO EXISTIR
-                            if (phoneValidation.exists(ValidationTypeEnum.UPDATE, phone, phoneRepository)) {
-                                // ADICIONA TELEFONE A LISTA DE TELEFONES DO CUSTOMER
-                                customerEntityUpdated.addPhone(modelMapper.mapper().map(phone, PhoneEntity.class));
-                            }
-                        }
-                    }
-
-                    // RETIRANDO O ID DOS TELEFONES E SETANDO O CLIENTE NELES
-                    for (PhoneEntity phone: customerEntityUpdated.getPhones()) {
-                        phone.setId(null);
-                        phone.setCustomer(customerEntityUpdated);
-                    }
-
-                    customerEntityUpdated.setAddress(addressUpdated);
-                    addressUpdated.getCustomers().add(customerEntityUpdated);
-
-                }
-
-                addressRepository.save(addressUpdated);
-                return modelMapper.mapper().map(customerEntityUpdated, CustomerDTO.class);
+                log.info("[PROGRESS] Setting the updatedAddress value to the JSON address value...");
+                updatedAddress = modelMapper.mapper().map(customer.getAddress(), AddressEntity.class);
 
             }
 
-            // Se a validation tiver algo de errado
-            throw new InvalidRequestException("Customer validation failed");
+            log.info("[PROGRESS] Adding the address to customer and the customer to address...");
+            updatedAddress.addCustomer(updatedCustomer);
+
+            log.info("[PROGRESS] Saving the new address with the updated customer inside...");
+            addressRepository.save(updatedAddress);
+
+            log.warn(REQUEST_SUCCESSFULL);
+            return modelMapper.mapper().map(updatedCustomer, CustomerDTO.class);
         }
-        // Se nenhum customer for encontrado pelo id passado
-        throw new ObjectNotFoundException(CUSTOMER_NOT_FOUND);
+
+        log.info(CUSTOMER_NOT_FOUND_LOG);
+        throw new InvalidRequestException(CUSTOMER_NOT_FOUND);
     }
 
     public Boolean deleteById(Long id) {
@@ -246,8 +219,10 @@ public class CustomerService {
             repository.deleteById(id);
             log.info("[PROGRESS] Removing the customer of the adress customers list...");
             optionalAddress.ifPresent(addressEntity -> addressEntity.getCustomers().remove(optionalCustomer.get()));
-            log.info("[PROGRESS] Saving the address updated without the deleted customer at the list...");
-            addressRepository.save(optionalAddress.get());
+            if (optionalAddress.isPresent()) {
+                log.info("[PROGRESS] Saving the address updated without the deleted customer at the list...");
+                addressRepository.save(optionalAddress.get());
+            }
 
             log.warn(REQUEST_SUCCESSFULL);
             return true;
