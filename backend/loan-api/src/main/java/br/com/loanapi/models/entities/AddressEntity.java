@@ -41,12 +41,17 @@ public class AddressEntity {
     @Enumerated(EnumType.STRING)
     private StateEnum state;
 
-    @OneToMany(targetEntity = CustomerEntity.class, cascade={CascadeType.ALL}, mappedBy = "address", orphanRemoval = true)
+    @OneToMany(targetEntity = CustomerEntity.class, cascade={CascadeType.ALL}, mappedBy = "address")
     private List<CustomerEntity> customers = new ArrayList<>();
 
     public void addCustomer(CustomerEntity customer) {
         customer.setAddress(this);
         this.customers.add(customer);
+    }
+
+    public void removeCustomer(CustomerEntity customer) {
+        customer.setAddress(null);
+        this.customers.remove(customer);
     }
 
 }

@@ -60,11 +60,6 @@ public class CustomerDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<LoanDTO> loans = new ArrayList<>();
 
-    public void addPhone(PhoneDTO phone) {
-        phone.setCustomer(this);
-        this.getPhones().add(phone);
-    }
-
     public void setPhoneList(List<PhoneDTO> phoneDTO) {
         for (PhoneDTO phone: phones) {
             phone.setCustomer(this);

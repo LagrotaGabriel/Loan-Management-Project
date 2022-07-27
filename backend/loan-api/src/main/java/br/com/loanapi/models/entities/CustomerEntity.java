@@ -51,10 +51,10 @@ public class CustomerEntity {
     @JoinColumn(name = "score_id")
     private ScoreEntity score;
 
-    @OneToMany(targetEntity = PhoneEntity.class, mappedBy = "customer", cascade ={CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(targetEntity = PhoneEntity.class, mappedBy = "customer", cascade ={CascadeType.ALL})
     private List<PhoneEntity> phones = new ArrayList<>();
 
-    @OneToMany(targetEntity = LoanEntity.class, mappedBy = "customer", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(targetEntity = LoanEntity.class, mappedBy = "customer", cascade = {CascadeType.ALL})
     private List<LoanEntity> loans = new ArrayList<>();
 
     public void addPhone(PhoneEntity phone) {

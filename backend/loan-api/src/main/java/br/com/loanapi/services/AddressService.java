@@ -7,6 +7,7 @@ import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.models.entities.CustomerEntity;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.validations.AddressValidation;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class AddressService {
         log.info(LOG_BAR);
         log.info("[STARTING] Starting create method");
 
-        if(validation.validateRequest(address, repository)) {
+        if(validation.validateRequest(ValidationTypeEnum.CREATE, address, repository)) {
             log.warn("[INFO] Address created at database: {}", address.getStreet() + ", " + address.getNumber());
 
             log.warn(REQUEST_SUCCESSFULL);
@@ -97,7 +98,7 @@ public class AddressService {
 
             AddressEntity addressEntity = addressOptional.get();
 
-            if (validation.validateRequest(address, repository)) {
+            if (validation.validateRequest(ValidationTypeEnum.UPDATE, address, repository)) {
 
                 log.info("[PROGRESS] Setting the new attributes values to persisted address...");
                 addressEntity.setStreet(address.getStreet());
