@@ -2,10 +2,15 @@ package br.com.loanapi.models.entities;
 
 import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
 import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
+import br.com.loanapi.mocks.entity.LoanEntityDataBuilder;
+import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @DisplayName("Entity: Customer")
@@ -49,6 +54,39 @@ class CustomerEntityTest {
                 "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreEntity(id=1, " +
                 "pontuation=50.0, customer=null), phones=null, loans=null)", customer.toString());
 
+    }
+
+    @Test
+    @DisplayName("Should test setPhoneList method")
+    void shouldTestSetPhoneListMethod() {
+        List<PhoneEntity> phoneList = new ArrayList<>();
+        phoneList.add(PhoneEntityDataBuilder.builder().build());
+
+        CustomerEntity customer = CustomerEntityDataBuilder.builder().build();
+        customer.setPhoneList(phoneList);
+
+        Assertions.assertEquals(phoneList, customer.getPhones());
+    }
+
+    @Test
+    @DisplayName("Should test addPhone method")
+    void shouldTestAddPhoneMethod() {
+        CustomerEntity customer = CustomerEntityDataBuilder.builder().build();
+        customer.setPhones(new ArrayList<>());
+
+        customer.addPhone(PhoneEntityDataBuilder.builder().build());
+        Assertions.assertNotEquals(0, customer.getPhones().size());
+    }
+
+    @Test
+    @DisplayName("Should test addLoan method")
+    void shouldTestAddLoanMethod() {
+
+        CustomerEntity customer = CustomerEntityDataBuilder.builder().build();
+        customer.setLoans(new ArrayList<>());
+
+        customer.addLoan(LoanEntityDataBuilder.builder().build());
+        Assertions.assertNotEquals(0, customer.getLoans().size());
     }
 
     @Test
