@@ -2,6 +2,7 @@ package br.com.loanapi.validations;
 
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.models.dto.AddressDTO;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,12 +12,14 @@ import static br.com.loanapi.utils.RegexPatterns.STREET_NUMBER_REGEX_PATTERN;
 @Slf4j
 public class AddressValidation {
 
-    public boolean validateRequest(AddressDTO address, AddressRepository repository){
+    public boolean validateRequest(ValidationTypeEnum validationType, AddressDTO address, AddressRepository repository){
 
         log.info("[STARTING] Starting address validation");
 
         notNull(address);
-        exists(address, repository);
+        if (validationType == ValidationTypeEnum.CREATE) {
+            exists(address, repository);
+        }
         verifyStreet(address.getStreet());
         verifyNeighborhood(address.getNeighborhood());
         verifyNumber(address.getNumber());
