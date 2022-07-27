@@ -30,8 +30,8 @@ public class CustomerDTODataBuilder {
         builder.customer.setEmail("joao@email.com");
         builder.customer.setAddress(AddressDTODataBuilder.builder().build());
         builder.customer.setScore(score);
-        builder.customer.setPhones(null);
-        builder.customer.setLoans(null);
+        builder.customer.setPhones(new ArrayList<>());
+        builder.customer.setLoans(new ArrayList<>());
 
         return builder;
     }

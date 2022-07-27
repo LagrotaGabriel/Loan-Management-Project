@@ -45,7 +45,7 @@ class AddressServiceTest {
         log.info(LOG_BAR);
         log.info("[PROGRESS] Running create method test with success...");
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
 
@@ -62,7 +62,7 @@ class AddressServiceTest {
         log.info(LOG_BAR);
         log.info("[PROGRESS] Running create method test with exception...");
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
 
         try{
             service.create(AddressDTODataBuilder.builder().build());
@@ -156,7 +156,7 @@ class AddressServiceTest {
         log.info(LOG_BAR);
         log.info("[PROGRESS] Running update method test with success...");
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
@@ -175,7 +175,7 @@ class AddressServiceTest {
         log.info("[PROGRESS] Running update method test with validation exception...");
 
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().build()));
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any())).thenReturn(false);
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
 
         try {
             service.update(1L, AddressDTODataBuilder.builder().build());

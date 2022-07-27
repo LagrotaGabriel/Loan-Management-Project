@@ -24,7 +24,7 @@ public class AddressDTODataBuilder {
         builder.address.setPostalCode("02442-090");
         builder.address.setCity("São Paulo");
         builder.address.setState(StateEnum.SAO_PAULO);
-        builder.address.setCustomers(null);
+        builder.address.setCustomers(new ArrayList<>());
 
         return builder;
 

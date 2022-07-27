@@ -4,12 +4,16 @@ import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
+import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
 import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
 import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
+import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import br.com.loanapi.models.entities.CustomerEntity;
 import br.com.loanapi.repositories.AddressRepository;
 import br.com.loanapi.repositories.CustomerRepository;
+import br.com.loanapi.repositories.PhoneRepository;
 import br.com.loanapi.validations.CustomerValidation;
+import br.com.loanapi.validations.PhoneValidation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +41,9 @@ class CustomerServiceTest {
     CustomerValidation validation;
 
     @Mock
+    PhoneValidation phoneValidation;
+
+    @Mock
     CustomerRepository repository;
 
     @Mock
@@ -45,28 +52,31 @@ class CustomerServiceTest {
     @Mock
     AddressRepository addressRepository;
 
+    @Mock
+    PhoneRepository phoneRepository;
+
     @Test
-    @DisplayName("Should test create method with address present")
+    @DisplayName("create: Should test create method with address present")
     void shouldTestCreateMethodWithAddressPresent() {
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(addressRepository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().withCustomersList().build()));
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(addressRepository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
-        Assertions.assertNotNull(service.create(CustomerDTODataBuilder.builder().build()));
+        Assertions.assertNotNull(service.create(CustomerDTODataBuilder.builder().withPhoneList().build()));
     }
 
     @Test
-    @DisplayName("Should test create method without address present")
+    @DisplayName("create: Should test create method without address present")
     void shouldTestCreateMethodWithoutAddressPresent() {
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         Mockito.when(addressRepository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(addressRepository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().withCustomersList().build());
-        Assertions.assertNotNull(service.create(CustomerDTODataBuilder.builder().withAddresssWithCustomers().build()));
+        Assertions.assertNotNull(service.create(CustomerDTODataBuilder.builder().withAddresssWithCustomers().withPhoneList().build()));
     }
 
     @Test
-    @DisplayName("Should test create method with exception")
+    @DisplayName("create: Should test create method with exception")
     void shouldTestCreateMethodWithException(){
 
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
@@ -82,7 +92,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Should test findAll method with success")
+    @DisplayName("findAll: Should test findAll method with success")
     void shouldTestFindAllMethodWithSuccess() {
 
         List<CustomerEntity> customers = new ArrayList<>();
@@ -102,7 +112,7 @@ class CustomerServiceTest {
 
 
     @Test
-    @DisplayName("Should test findAll method with exception")
+    @DisplayName("findAll: Should test findAll method with exception")
     void shouldTestFindAllMethodWithException(){
 
         List<CustomerEntity> customers = new ArrayList<>();
@@ -119,7 +129,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Should test findById method with success")
+    @DisplayName("findById: Should test findById method with success")
     void shouldTestFindByIdMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
@@ -135,7 +145,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Should test findById method with exception")
+    @DisplayName("findById: Should test findById method with exception")
     void shouldTestFindByIdMethodWithException() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
@@ -151,25 +161,35 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("Should test update method with success")
+    @DisplayName("update: Should test update method with success")
     void shouldTestUpdateMethodWithSuccess() {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
-        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
-        Mockito.when(repository.save(Mockito.any())).thenReturn(CustomerEntityDataBuilder.builder().build());
+        Mockito.when(phoneValidation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(addressRepository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().withCustomersList().build()));
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().withAddresssWithCustomers().withPhoneList().build()));
 
-        Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, " +
-                        "pontuation=50.0, customer=null), phones=null, loans=null)",
-                service.update(1L, CustomerDTODataBuilder.builder().build()).toString());
+        Assertions.assertEquals(1, service.update(1L, CustomerDTODataBuilder.builder().withPhoneList().build()).getId());
 
     }
 
     @Test
-    @DisplayName("Should test update method with exception")
+    @DisplayName("update: Should test update method with not found address")
+    void shouldTestUpdateMethodWithNotFoundAddress() {
+
+        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
+        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(phoneValidation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(addressRepository.findByStreetNumberAndPostalCode(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().withAddresssWithCustomers().withPhoneList().build()));
+
+        Assertions.assertEquals(1, service.update(1L, CustomerDTODataBuilder.builder().withPhoneList().build()).getId());
+
+    }
+
+    @Test
+    @DisplayName("update: Should test update method with exception")
     void shouldTestUpdateMethodWithException() {
 
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
@@ -179,20 +199,19 @@ class CustomerServiceTest {
             Assertions.fail();
         }
         catch(InvalidRequestException exception){
-            Assertions.assertEquals("Customer validation failed", exception.getMessage());
+            Assertions.assertEquals("Customer not found", exception.getMessage());
         }
     }
 
     @Test
-    @DisplayName("Should test delete method with success")
+    @DisplayName("delete: Should test delete method with success")
     void shouldTestDeleteMethodWithSuccess() {
-        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
         Assertions.assertTrue(service.deleteById(1L));
     }
 
     @Test
-    @DisplayName("Should test delete method with exception")
+    @DisplayName("delete: Should test delete method with exception")
     void shouldTestDeleteMethodWithException() {
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.empty());
 

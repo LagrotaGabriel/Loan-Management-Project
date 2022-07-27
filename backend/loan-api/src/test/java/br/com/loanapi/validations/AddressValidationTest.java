@@ -5,6 +5,7 @@ import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
 import br.com.loanapi.mocks.entity.AddressEntityDataBuilder;
 import br.com.loanapi.models.dto.AddressDTO;
 import br.com.loanapi.models.entities.AddressEntity;
+import br.com.loanapi.models.enums.ValidationTypeEnum;
 import br.com.loanapi.repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -178,7 +179,7 @@ class AddressValidationTest {
     @Test
     @DisplayName("Should test validate request with success")
     void shouldTestValidateRequestWithSuccess(){
-        Assertions.assertTrue(addressValidation.validateRequest(AddressDTODataBuilder.builder().build(), repository));
+        Assertions.assertTrue(addressValidation.validateRequest(ValidationTypeEnum.CREATE, AddressDTODataBuilder.builder().build(), repository));
     }
 
     @Test
@@ -186,7 +187,7 @@ class AddressValidationTest {
     void shouldTestValidateRequestWithException(){
         AddressDTO address = AddressDTODataBuilder.builder().withAlphanumPostalCode().build();
         try{
-            addressValidation.validateRequest(address, repository);
+            addressValidation.validateRequest(ValidationTypeEnum.CREATE, address, repository);
             Assertions.fail();
         }
         catch(InvalidRequestException exception){

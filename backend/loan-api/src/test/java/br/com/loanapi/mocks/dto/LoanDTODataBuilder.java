@@ -4,6 +4,8 @@ import br.com.loanapi.models.dto.LoanDTO;
 import br.com.loanapi.models.enums.AmortizationEnum;
 import br.com.loanapi.models.enums.PaymentDateEnum;
 
+import java.util.ArrayList;
+
 public class LoanDTODataBuilder {
 
     LoanDTODataBuilder(){}
@@ -23,7 +25,7 @@ public class LoanDTODataBuilder {
         builder.loan.setPaymentDate(PaymentDateEnum.FIFTH_BUSINESS_DAY);
         builder.loan.setAmortization(AmortizationEnum.SAC);
         builder.loan.setCustomer(CustomerDTODataBuilder.builder().build());
-        builder.loan.setInstallments(null);
+        builder.loan.setInstallments(new ArrayList<>());
 
         return builder;
     }

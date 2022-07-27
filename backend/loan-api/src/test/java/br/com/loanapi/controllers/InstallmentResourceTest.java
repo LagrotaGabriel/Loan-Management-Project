@@ -38,8 +38,8 @@ class InstallmentResourceTest {
                         "name=João, lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, " +
                         "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, " +
                         "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
-                        "city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, " +
-                        "customer=null), phones=null, loans=null), installments=null)),[]>",
+                        "city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, pontuation=50.0, " +
+                        "customer=null), phones=[], loans=[]), installments=[])),[]>",
                 resource.create(InstallmentDTODataBuilder.builder().build()).toString());
     }
 
@@ -61,8 +61,8 @@ class InstallmentResourceTest {
                 "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                 "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                 "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, " +
-                "pontuation=50.0, customer=null), phones=null, loans=null), installments=null)),[]>",
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
+                "pontuation=50.0, customer=null), phones=[], loans=[]), installments=[])),[]>",
                 resource.findById(1L).toString());
     }
 
@@ -78,8 +78,8 @@ class InstallmentResourceTest {
                         "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
                         "cpf=391.534.277-44, email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, " +
                         "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
-                        "state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
-                        "phones=null, loans=null), installments=null)),[]>",
+                        "state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, pontuation=50.0, customer=null), " +
+                        "phones=[], loans=[]), installments=[])),[]>",
                 resource.update(InstallmentDTODataBuilder.builder().build(), 1L).toString());
     }
 

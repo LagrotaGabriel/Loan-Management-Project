@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+
 @SpringBootTest
 @DisplayName("DTO: Address")
 class AddressDTOTest {
@@ -16,7 +18,7 @@ class AddressDTOTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters(){
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)",
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[])",
                 AddressDTODataBuilder.builder().build().toString());
     }
 
@@ -25,10 +27,10 @@ class AddressDTOTest {
     void shouldTestAllArgsConstructor(){
 
         AddressDTO address = new AddressDTO(1L, "Rua 9", "Lauzane Paulista", 583,
-                "02442-090", "São Paulo", StateEnum.SAO_PAULO, null);
+                "02442-090", "São Paulo", StateEnum.SAO_PAULO, new ArrayList<>());
 
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)", address.toString());
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[])", address.toString());
     }
 
     @Test

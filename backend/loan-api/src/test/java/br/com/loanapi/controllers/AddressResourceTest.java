@@ -30,7 +30,7 @@ class AddressResourceTest {
     void shouldTestCreateEndPoint() {
         Mockito.when(service.create(Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]),[]>",
                 resource.create(AddressDTODataBuilder.builder().build()).toString());
     }
 
@@ -46,7 +46,7 @@ class AddressResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]),[]>",
                 resource.findById(1L).toString());
     }
 
@@ -55,7 +55,7 @@ class AddressResourceTest {
     void shouldTestUpdate() {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(AddressDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null),[]>",
+                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]),[]>",
                 resource.update(AddressDTODataBuilder.builder().build(), 1L).toString());
     }
 

@@ -1,7 +1,13 @@
 package br.com.loanapi.mocks.entity;
 
+import br.com.loanapi.mocks.dto.AddressDTODataBuilder;
+import br.com.loanapi.mocks.dto.CustomerDTODataBuilder;
 import br.com.loanapi.models.entities.CustomerEntity;
+import br.com.loanapi.models.entities.PhoneEntity;
 import br.com.loanapi.models.entities.ScoreEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerEntityDataBuilder {
 
@@ -29,6 +35,18 @@ public class CustomerEntityDataBuilder {
         builder.customer.setLoans(null);
 
         return builder;
+    }
+
+    public CustomerEntityDataBuilder withPhoneList() {
+        List<PhoneEntity> phones = new ArrayList<>();
+        phones.add(PhoneEntityDataBuilder.builder().build());
+        customer.setPhones(phones);
+        return this;
+    }
+
+    public CustomerEntityDataBuilder withAddresssWithCustomers() {
+        customer.setAddress(AddressEntityDataBuilder.builder().withCustomersList().build());
+        return this;
     }
 
     public CustomerEntity build(){

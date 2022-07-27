@@ -104,7 +104,7 @@ class PhoneValidationTest {
     @DisplayName("Should test exists validation with success")
     void shouldTestExistsValidationWithSuccess() {
         Mockito.when(repository.findByPrefixAndNumber(Mockito.any(), Mockito.any())).thenReturn(Optional.empty());
-        Assertions.assertTrue(validation.exists(ValidationTypeEnum.CREATE, PhoneDTODataBuilder.builder().build(), repository));
+        Assertions.assertTrue(validation.exists(PhoneDTODataBuilder.builder().build(), repository));
     }
 
     @Test
@@ -112,11 +112,11 @@ class PhoneValidationTest {
     void shouldTestExistsValidationWithException() {
         Mockito.when(repository.findByPrefixAndNumber(Mockito.any(), Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
         try {
-            validation.exists(ValidationTypeEnum.CREATE, PhoneDTODataBuilder.builder().build(), repository);
+            validation.exists(PhoneDTODataBuilder.builder().build(), repository);
             Assertions.fail();
         }
         catch (InvalidRequestException exception) {
-            Assertions.assertEquals("The JSON Phone already exist at database",
+            Assertions.assertEquals("The phone already exist at database",
                     exception.getMessage());
         }
     }

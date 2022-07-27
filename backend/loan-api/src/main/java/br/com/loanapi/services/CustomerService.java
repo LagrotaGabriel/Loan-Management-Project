@@ -169,7 +169,7 @@ public class CustomerService {
 
             } else {
 
-                log.warn(ADDRESS_NOT_FOUND_LOG);
+                log.warn("[INFO] Address not found.");
 
                 log.info("[PROGRESS] Removing the customer of the old address...");
                 AddressEntity oldAddress = findedCustomer.getAddress();
