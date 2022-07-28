@@ -31,10 +31,10 @@ class CustomerResourceTest {
     void shouldTestCreateEndPoint() {
         Mockito.when(service.create(Mockito.any())).thenReturn(CustomerDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,CustomerDTO(id=1, name=João, lastName=da Silva, " +
-                "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), " +
-                "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=[], loans=[]),[]>",
+                        "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
+                        "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]),[]>",
                 resource.create(CustomerDTODataBuilder.builder()
                 .build()).toString());
     }
@@ -51,10 +51,10 @@ class CustomerResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(CustomerDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,CustomerDTO(id=1, name=João, lastName=da Silva, " +
-                "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), " +
-                "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=[], loans=[]),[]>",
+                        "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
+                        "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]),[]>",
                 resource.findById(1L).toString());
     }
 
@@ -63,10 +63,10 @@ class CustomerResourceTest {
     void shouldTestUpdate() {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(CustomerDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,CustomerDTO(id=1, name=João, lastName=da Silva, " +
-                "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
-                "email=joao@email.com, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), " +
-                "score=ScoreDTO(id=1, pontuation=50.0, customer=null), phones=[], loans=[]),[]>",
+                        "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
+                        "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]),[]>",
                 resource.update(CustomerDTODataBuilder.builder().build(), 1L).toString());
     }
 

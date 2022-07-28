@@ -21,9 +21,9 @@ class PhoneEntityTest {
         Assertions.assertEquals("PhoneEntity(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
                         "customer=CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "score=ScoreEntity(id=1, pontuation=50.0, customer=null), phones=null, loans=null))",
+                        "pontuation=null, address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null))",
                 PhoneEntityDataBuilder.builder().build().toString());
 
     }
@@ -42,9 +42,9 @@ class PhoneEntityTest {
         Assertions.assertEquals("PhoneEntity(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
                         "customer=CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "score=ScoreEntity(id=1, pontuation=50.0, customer=null), phones=null, loans=null))",
+                        "pontuation=null, address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null))",
                 phone.toString());
 
     }

@@ -21,10 +21,10 @@ class CustomerEntityTest {
     void shouldTestGettersAndSetters() {
 
         Assertions.assertEquals("CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                "address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreEntity(id=1, " +
-                "pontuation=50.0, customer=null), phones=null, loans=null)",
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=null, address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null)",
                 CustomerEntityDataBuilder.builder().build().toString());
 
     }
@@ -33,7 +33,6 @@ class CustomerEntityTest {
     @DisplayName("Should test all args constructor")
     void shouldTestAllArgsConstructor() {
 
-        ScoreEntity score = new ScoreEntity(1L, 50.0, null);
         CustomerEntity customer = new CustomerEntity(
                 1L,
                 "João",
@@ -43,16 +42,15 @@ class CustomerEntityTest {
                 "55.626.926-4",
                 "391.534.277-44",
                 "joao@email.com",
+                100.0,
                 AddressEntityDataBuilder.builder().build(),
-                score,
                 null,
                 null);
 
         Assertions.assertEquals("CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=100.0, " +
                 "address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreEntity(id=1, " +
-                "pontuation=50.0, customer=null), phones=null, loans=null)", customer.toString());
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), phones=null, loans=null)", customer.toString());
 
     }
 

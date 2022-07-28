@@ -21,10 +21,9 @@ class CustomerDTOTest {
     void shouldTestGettersAndSetters() {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, " +
                 "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
-                "pontuation=50.0, customer=null), phones=[], loans=[])",
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], loans=[])",
                 CustomerDTODataBuilder.builder().build().toString());
 
     }
@@ -32,8 +31,6 @@ class CustomerDTOTest {
     @Test
     @DisplayName("Should test all args constructor")
     void shouldTestAllArgsConstructor() {
-
-        ScoreDTO score = new ScoreDTO(1L, 50.0, null);
 
         CustomerDTO customer = new CustomerDTO(
                 1L,
@@ -44,16 +41,15 @@ class CustomerDTOTest {
                 "55.626.926-4",
                 "391.534.277-44",
                 "joao@email.com",
+                100.0,
                 AddressDTODataBuilder.builder().build(),
-                score,
                 new ArrayList<>(),
                 new ArrayList<>());
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=100.0, " +
                 "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
-                "pontuation=50.0, customer=null), phones=[], loans=[])", customer.toString());
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], loans=[])", customer.toString());
 
     }
 

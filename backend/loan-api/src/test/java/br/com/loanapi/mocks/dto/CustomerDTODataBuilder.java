@@ -3,7 +3,6 @@ package br.com.loanapi.mocks.dto;
 import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.LoanDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
-import br.com.loanapi.models.dto.ScoreDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,6 @@ public class CustomerDTODataBuilder {
         CustomerDTODataBuilder builder = new CustomerDTODataBuilder();
         builder.customer = new CustomerDTO();
 
-        ScoreDTO score = new ScoreDTO(1L, 50.0, null);
-
         builder.customer.setId(1L);
         builder.customer.setName("João");
         builder.customer.setLastName("da Silva");
@@ -29,7 +26,6 @@ public class CustomerDTODataBuilder {
         builder.customer.setCpf("391.534.277-44");
         builder.customer.setEmail("joao@email.com");
         builder.customer.setAddress(AddressDTODataBuilder.builder().build());
-        builder.customer.setScore(score);
         builder.customer.setPhones(new ArrayList<>());
         builder.customer.setLoans(new ArrayList<>());
 
