@@ -35,7 +35,7 @@ public class PhoneDTO {
     private PhoneTypeEnum phoneType;
 
     @NotNull(message = "Phone customerId can't be null")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "customerId", access = JsonProperty.Access.WRITE_ONLY)
     private Long customerJsonId;
 
     @JsonIgnore

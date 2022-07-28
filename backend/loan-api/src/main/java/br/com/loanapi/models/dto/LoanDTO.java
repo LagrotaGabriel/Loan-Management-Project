@@ -35,7 +35,7 @@ public class LoanDTO {
     @NotNull(message = "Original value can't be null")
     private Double originalValue;
 
-    @NotNull(message = "Debit balance can't be null")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Double debitBalance;
 
     @NotNull(message = "Interest rate can't be null")
@@ -50,7 +50,7 @@ public class LoanDTO {
     @NotNull(message = "Amortization can't be null")
     private AmortizationEnum amortization;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "customerId", access = JsonProperty.Access.WRITE_ONLY)
     private Long customerJsonId;
 
     @JsonIgnore
