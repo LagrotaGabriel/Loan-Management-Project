@@ -16,8 +16,6 @@ public class RegexPatterns {
 
     public static final String CPF_REGEX_PATTERN = "[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
 
-    public static final String CUSTOMER_NOT_FOUND = "Customer not found";
-
     public static final String EMAIL_REGEX_PATTERN =
             "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
