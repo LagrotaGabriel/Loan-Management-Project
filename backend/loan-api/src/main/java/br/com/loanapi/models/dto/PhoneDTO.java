@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 
 /** Class that contains all attributes of the object of type PhoneDTO
  ** @author Gabriel Lagrota
@@ -23,10 +25,16 @@ public class PhoneDTO {
     @JsonIgnore
     private Long id;
 
+    @NotNull(message = "Phone prefix can't be null")
     private Integer prefix;
+
+    @NotNull(message = "Phone number can't be null")
     private String number;
+
+    @NotNull(message = "Phone type can't be null")
     private PhoneTypeEnum phoneType;
 
+    @NotNull(message = "Phone customerId can't be null")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long customerId;
 
