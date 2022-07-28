@@ -51,12 +51,12 @@ class LoanServiceTest {
 
         Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customer=CustomerDTO(id=1, name=João, " +
-                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
-                        "cpf=391.534.277-44, email=joao@email.com, pontuation=null, address=AddressDTO(id=1, " +
-                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
-                        "city=São Paulo, state=SAO_PAULO, customers=null), phones=null, loans=null), " +
-                        "installments=null)",
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null), installments=null)",
                 service.create(LoanDTODataBuilder.builder().build()).toString());
 
     }
@@ -88,8 +88,9 @@ class LoanServiceTest {
         Mockito.when(repository.findAll()).thenReturn(loans);
 
         Assertions.assertEquals("[LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
-                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, " +
-                        "amortization=SAC, customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
                         "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
@@ -123,9 +124,9 @@ class LoanServiceTest {
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(LoanEntityDataBuilder.builder().build()));
 
-        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
-                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, " +
-                        "amortization=SAC, customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
+        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, " +
+                        "interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+                        "customerJsonId=null, customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
                         "email=joao@email.com, pontuation=null, address=AddressDTO(id=1, street=Rua 9, " +
                         "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
@@ -159,8 +160,9 @@ class LoanServiceTest {
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(LoanEntityDataBuilder.builder().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(LoanEntityDataBuilder.builder().build());
 
-        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, " +
-                        "interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
