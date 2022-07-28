@@ -73,6 +73,7 @@ public class PhoneService {
 
         }
 
+        log.warn(PHONE_VALIDATION_FAILED_LOG);
         throw new InvalidRequestException("Phone validation failed");
 
     }
@@ -109,8 +110,22 @@ public class PhoneService {
     }
 
     public Boolean delete(Long id){
-        PhoneEntity entity = modelMapper.mapper().map(findById(id), PhoneEntity.class);
-        repository.delete(entity);
-        return true;
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting delete by id method");
+
+        log.info("[PROGRESS] Searching in database for a Phone with id {}...", id);
+        if (repository.findById(id).isPresent()) {
+
+            log.warn("[INFO] Phone found and removed from database.");
+            repository.deleteById(id);
+
+            log.warn(REQUEST_SUCCESSFULL);
+            return true;
+
+        }
+        log.warn(PHONE_NOT_FOUND_LOG);
+        throw new InvalidRequestException(PHONE_NOT_FOUND);
+
     }
 }
