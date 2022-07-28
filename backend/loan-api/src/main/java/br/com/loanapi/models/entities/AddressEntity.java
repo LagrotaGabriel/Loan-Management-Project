@@ -49,6 +49,12 @@ public class AddressEntity {
         this.customers.add(customer);
     }
 
+    public void updateCustomer(CustomerEntity customer) {
+        customer.setAddress(this);
+        int indexOfCustomer = this.customers.indexOf(customer);
+        this.customers.set(indexOfCustomer, customer);
+    }
+
     public void removeCustomer(CustomerEntity customer) {
         customer.setAddress(null);
         this.customers.remove(customer);

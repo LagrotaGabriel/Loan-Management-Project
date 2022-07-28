@@ -37,9 +37,10 @@ class PhoneDTOTest {
                 11,
                 "97981-5415",
                 PhoneTypeEnum.MOBILE,
+                1L,
                 CustomerDTODataBuilder.builder().build());
 
-        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
+        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, customerId=1" +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +

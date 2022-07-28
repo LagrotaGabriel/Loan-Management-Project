@@ -36,7 +36,7 @@ public class PhoneEntity {
     @Column(name = "phone_type", nullable = false)
     private PhoneTypeEnum phoneType;
 
-    @ManyToOne(targetEntity = CustomerEntity.class)
+    @ManyToOne(targetEntity = CustomerEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 

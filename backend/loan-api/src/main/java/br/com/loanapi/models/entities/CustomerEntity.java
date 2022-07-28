@@ -1,7 +1,5 @@
 package br.com.loanapi.models.entities;
 
-import br.com.loanapi.models.dto.LoanDTO;
-import br.com.loanapi.models.dto.PhoneDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,11 +41,11 @@ public class CustomerEntity {
     @Column(name = "email", length = 65, unique = true)
     private String email;
 
-    @ManyToOne(targetEntity = AddressEntity.class)
+    @ManyToOne(targetEntity = AddressEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name="address_id")
     private AddressEntity address;
 
-    @OneToOne(targetEntity = ScoreEntity.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = ScoreEntity.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "score_id")
     private ScoreEntity score;
 
@@ -62,16 +60,25 @@ public class CustomerEntity {
         this.getPhones().add(phone);
     }
 
-    public void setPhoneList(List<PhoneEntity> phoneEntities) {
-        for (PhoneEntity phone: phoneEntities) {
-            phone.setCustomer(this);
-        }
-        this.setPhones(phoneEntities);
+    public void updatePhones(PhoneEntity oldPhone, PhoneEntity newPhone) {
+        newPhone.setCustomer(this);
+        int indexOfPhone = this.phones.indexOf(oldPhone);
+        this.phones.set(indexOfPhone, newPhone);
+    }
+
+    public void removePhone(PhoneEntity phone) {
+        phone.setCustomer(null);
+        this.phones.remove(phone);
     }
 
     public void addLoan(LoanEntity loanDTO) {
         loanDTO.setCustomer(this);
         this.loans.add(loanDTO);
+    }
+
+    public void removeLoan(LoanEntity loan) {
+        loan.setCustomer(null);
+        this.loans.remove(loan);
     }
 
 }

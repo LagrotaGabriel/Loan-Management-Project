@@ -52,11 +52,13 @@ public class LoanEntity {
     @Column(name = "loan_amortization", nullable = false)
     private AmortizationEnum amortization;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<InstallmentEntity> installments = new ArrayList<>();
+
+
 
 }

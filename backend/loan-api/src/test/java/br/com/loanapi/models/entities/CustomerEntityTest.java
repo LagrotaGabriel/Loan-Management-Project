@@ -57,18 +57,6 @@ class CustomerEntityTest {
     }
 
     @Test
-    @DisplayName("Should test setPhoneList method")
-    void shouldTestSetPhoneListMethod() {
-        List<PhoneEntity> phoneList = new ArrayList<>();
-        phoneList.add(PhoneEntityDataBuilder.builder().build());
-
-        CustomerEntity customer = CustomerEntityDataBuilder.builder().build();
-        customer.setPhoneList(phoneList);
-
-        Assertions.assertEquals(phoneList, customer.getPhones());
-    }
-
-    @Test
     @DisplayName("Should test addPhone method")
     void shouldTestAddPhoneMethod() {
         CustomerEntity customer = CustomerEntityDataBuilder.builder().build();

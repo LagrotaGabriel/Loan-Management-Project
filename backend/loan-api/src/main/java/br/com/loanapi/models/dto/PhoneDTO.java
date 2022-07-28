@@ -28,5 +28,8 @@ public class PhoneDTO {
     private PhoneTypeEnum phoneType;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long customerId;
+
+    @JsonIgnore
     private CustomerDTO customer;
 }

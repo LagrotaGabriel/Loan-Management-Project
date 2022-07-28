@@ -28,6 +28,6 @@ public class ScoreEntity {
     @Column(name = "customer_name", nullable = false)
     private Double pontuation;
 
-    @OneToOne(mappedBy = "score")
+    @OneToOne(mappedBy = "score", fetch = FetchType.LAZY)
     private CustomerEntity customer;
 }
