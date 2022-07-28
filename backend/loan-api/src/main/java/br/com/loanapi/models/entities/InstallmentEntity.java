@@ -46,8 +46,8 @@ public class InstallmentEntity {
     @Column(name = "installment_value", nullable = false)
     private Double value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loan_id", nullable = false)
+    @ManyToOne(targetEntity = LoanEntity.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "loan_id")
     private LoanEntity loan;
 
 }
