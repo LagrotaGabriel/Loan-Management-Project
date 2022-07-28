@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static br.com.loanapi.utils.RegexPatterns.CUSTOMER_NOT_FOUND;
 import static br.com.loanapi.utils.StringConstants.*;
 
 @Slf4j
