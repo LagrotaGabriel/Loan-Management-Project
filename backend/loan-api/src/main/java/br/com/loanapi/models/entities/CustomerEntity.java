@@ -60,25 +60,10 @@ public class CustomerEntity {
         this.getPhones().add(phone);
     }
 
-    public void updatePhones(PhoneEntity oldPhone, PhoneEntity newPhone) {
-        newPhone.setCustomer(this);
-        int indexOfPhone = this.phones.indexOf(oldPhone);
-        this.phones.set(indexOfPhone, newPhone);
-    }
-
-    public void removePhone(PhoneEntity phone) {
-        phone.setCustomer(null);
-        this.phones.remove(phone);
-    }
-
     public void addLoan(LoanEntity loanDTO) {
         loanDTO.setCustomer(this);
         this.loans.add(loanDTO);
     }
 
-    public void removeLoan(LoanEntity loan) {
-        loan.setCustomer(null);
-        this.loans.remove(loan);
-    }
 
 }

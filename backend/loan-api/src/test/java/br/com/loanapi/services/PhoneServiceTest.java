@@ -4,8 +4,10 @@ import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.mocks.dto.PhoneDTODataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.mocks.entity.PhoneEntityDataBuilder;
 import br.com.loanapi.models.entities.PhoneEntity;
+import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.PhoneRepository;
 import br.com.loanapi.validations.PhoneValidation;
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +41,9 @@ class PhoneServiceTest {
     PhoneRepository repository;
 
     @Mock
+    CustomerRepository customerRepository;
+
+    @Mock
     ModelMapperConfig modelMapper;
 
     @Test
@@ -47,15 +52,16 @@ class PhoneServiceTest {
 
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().withAddresssWithCustomers().withPhoneList().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(PhoneEntityDataBuilder.builder().build());
 
-        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
+        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, customerJsonId=null, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
                         "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, " +
                         "pontuation=50.0, customer=null), phones=null, loans=null))",
-                service.create(PhoneDTODataBuilder.builder().build()).toString());
+                service.create(PhoneDTODataBuilder.builder().withMockedCustomer().build()).toString());
 
     }
 
@@ -63,14 +69,12 @@ class PhoneServiceTest {
     @DisplayName("Should test create method with exception")
     void shouldTestCreateMethodWithException(){
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
-
         try {
             service.create(PhoneDTODataBuilder.builder().build());
             Assertions.fail();
         }
         catch(InvalidRequestException exception) {
-            Assertions.assertEquals("Phone validation failed", exception.getMessage());
+            Assertions.assertEquals("Customer not found", exception.getMessage());
         }
 
     }
@@ -85,7 +89,7 @@ class PhoneServiceTest {
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findAll()).thenReturn(phones);
 
-        Assertions.assertEquals("[PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
+        Assertions.assertEquals("[PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, customerJsonId=null, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
@@ -120,7 +124,7 @@ class PhoneServiceTest {
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
 
-        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
+        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, customerJsonId=null, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
@@ -150,17 +154,17 @@ class PhoneServiceTest {
     @DisplayName("Should test update method with success")
     void shouldTestUpdateMethodWithSuccess() {
 
-        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
         Mockito.when(repository.save(Mockito.any())).thenReturn(PhoneEntityDataBuilder.builder().build());
 
-        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
+        Assertions.assertEquals("PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, customerJsonId=1, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), score=ScoreDTO(id=1, " +
-                        "pontuation=50.0, customer=null), phones=null, loans=null))",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
+                        "pontuation=50.0, customer=null), phones=[], loans=[]))",
                 service.update(1L, PhoneDTODataBuilder.builder().build()).toString());
 
     }
@@ -169,21 +173,18 @@ class PhoneServiceTest {
     @DisplayName("Should test update method with exception")
     void shouldTestUpdateMethodWithException() {
 
-        Mockito.when(validation.validateRequest(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(false);
-
         try{
             service.update(1L, PhoneDTODataBuilder.builder().build());
             Assertions.fail();
         }
         catch(InvalidRequestException exception){
-            Assertions.assertEquals("Phone validation failed", exception.getMessage());
+            Assertions.assertEquals("Customer not found", exception.getMessage());
         }
     }
 
     @Test
     @DisplayName("Should test delete method with success")
     void shouldTestDeleteMethodWithSuccess() {
-        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(PhoneEntityDataBuilder.builder().build()));
         Assertions.assertTrue(service.delete(1L));
     }
@@ -197,7 +198,7 @@ class PhoneServiceTest {
             service.delete(1L);
             Assertions.fail();
         }
-        catch (ObjectNotFoundException exception) {
+        catch (InvalidRequestException exception) {
             Assertions.assertEquals("Phone not found", exception.getMessage());
         }
 

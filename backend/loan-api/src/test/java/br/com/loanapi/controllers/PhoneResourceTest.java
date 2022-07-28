@@ -31,7 +31,7 @@ class PhoneResourceTest {
     void shouldTestCreateEndPoint(){
         Mockito.when(service.create(Mockito.any())).thenReturn(PhoneDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
                         "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1," +
@@ -51,7 +51,7 @@ class PhoneResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(PhoneDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
                         "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
@@ -64,7 +64,7 @@ class PhoneResourceTest {
     void shouldTestUpdate() {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(PhoneDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
                         "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), score=ScoreDTO(id=1, " +
