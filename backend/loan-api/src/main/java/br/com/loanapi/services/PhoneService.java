@@ -79,13 +79,21 @@ public class PhoneService {
     }
 
     public List<PhoneDTO> findAll() {
-        if(!repository.findAll().isEmpty())
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findAll method");
+        if(!repository.findAll().isEmpty()) {
+            log.warn(REQUEST_SUCCESSFULL);
             return repository.findAll().stream().map(x -> modelMapper.mapper().map(x, PhoneDTO.class))
                     .collect(Collectors.toList());
+        }
+        log.warn(PHONE_NOT_FOUND_LOG);
         throw new ObjectNotFoundException("There is no phones saved in the database");
     }
 
     public PhoneDTO findById(Long id) {
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findById method");
+
         Optional<PhoneEntity> phone = repository.findById(id);
         return modelMapper.mapper().map(
                 phone.orElseThrow(() -> new ObjectNotFoundException(PHONE_NOT_FOUND)), PhoneDTO.class);
