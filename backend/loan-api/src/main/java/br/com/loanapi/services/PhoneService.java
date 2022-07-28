@@ -3,6 +3,7 @@ package br.com.loanapi.services;
 import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
+import br.com.loanapi.models.dto.CustomerDTO;
 import br.com.loanapi.models.dto.PhoneDTO;
 import br.com.loanapi.models.entities.AddressEntity;
 import br.com.loanapi.models.entities.CustomerEntity;
@@ -45,8 +46,8 @@ public class PhoneService {
         log.info(LOG_BAR);
         log.info("[STARTING] Starting create method");
 
-        log.info("[PROGRESS] Finding a customer in database betwen the id {}...", phone.getCustomerId());
-        Optional<CustomerEntity> optionalCustomer = customerRepository.findById(phone.getCustomerId());
+        log.info("[PROGRESS] Finding a customer in database betwen the id {}...", phone.getCustomerJsonId());
+        Optional<CustomerEntity> optionalCustomer = customerRepository.findById(phone.getCustomerJsonId());
 
         if (optionalCustomer.isEmpty()) {
             log.warn(CUSTOMER_NOT_FOUND_LOG);
@@ -55,21 +56,10 @@ public class PhoneService {
 
         if (validation.validateRequest(ValidationTypeEnum.CREATE, phone, repository)) {
 
-            log.info("[PROGRESS] Getting the address of the customer and assigning this into a variable...");
-            CustomerEntity customer = optionalCustomer.get();
-            AddressEntity address = customer.getAddress();
-
-            log.info("[PROGRESS] Adding the phone into customer phone list...");
-            customer.addPhone(modelMapper.mapper().map(phone, PhoneEntity.class));
-
-            log.info("[PROGRESS] Updating the address customer list into AddressEntity class...");
-            address.updateCustomer(customer);
-
-            log.info("[PROGRESS] Saving at database in cascade: AddressEntity (Update) -> CustomerEntity (Insert) -> PhoneEntity (New)...");
-            addressRepository.save(address);
+            phone.setCustomer(modelMapper.mapper().map(optionalCustomer.get(), CustomerDTO.class));
 
             log.info(REQUEST_SUCCESSFULL);
-            return phone;
+            return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(phone, PhoneEntity.class)), PhoneDTO.class);
 
         }
 
@@ -107,8 +97,8 @@ public class PhoneService {
         log.info("[PROGRESS] Searching for a phoneEntity by id {}...", id);
         Optional<PhoneEntity> phoneEntityOptional = repository.findById(id);
 
-        log.info("[PROGRESS] Searching for a customer by id {}...", phone.getCustomerId());
-        Optional<CustomerEntity> phoneCustomerOptional = customerRepository.findById(phone.getCustomerId());
+        log.info("[PROGRESS] Searching for a customer by id {}...", phone.getCustomerJsonId());
+        Optional<CustomerEntity> phoneCustomerOptional = customerRepository.findById(phone.getCustomerJsonId());
 
         if (phoneCustomerOptional.isEmpty()) {
             log.warn(CUSTOMER_NOT_FOUND_LOG);
