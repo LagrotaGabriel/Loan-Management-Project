@@ -93,20 +93,36 @@ public class PhoneService {
 
     public PhoneDTO update(Long id, PhoneDTO phone) {
 
-        if (validation.validateRequest(ValidationTypeEnum.UPDATE, phone, repository)) {
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting update method");
 
-            PhoneDTO dto = modelMapper.mapper().map(findById(id), PhoneDTO.class);
-            dto.setNumber(phone.getNumber());
-            dto.setPrefix(phone.getPrefix());
-            dto.setPhoneType(phone.getPhoneType());
-            dto.setCustomer(phone.getCustomer());
+        log.info("[PROGRESS] Searching for a phoneEntity by id {}...", id);
+        Optional<PhoneEntity> phoneEntityOptional = repository.findById(id);
 
-            return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(dto, PhoneEntity.class)), PhoneDTO.class);
+        log.info("[PROGRESS] Searching for a customer by id {}...", phone.getCustomerId());
+        Optional<CustomerEntity> phoneCustomerOptional = customerRepository.findById(phone.getCustomerId());
+
+        if (phoneCustomerOptional.isEmpty()) {
+            log.warn(CUSTOMER_NOT_FOUND_LOG);
+            throw new InvalidRequestException(CUSTOMER_NOT_FOUND);
         }
-        else{
-            throw new InvalidRequestException("Phone validation failed");
+
+        if (phoneEntityOptional.isPresent() && validation.validateRequest(ValidationTypeEnum.UPDATE, phone, repository)) {
+
+            PhoneEntity phoneEntity = phoneEntityOptional.get();
+            log.warn("[INFO] Phone found: ({}){}", phoneEntity.getPrefix(), phoneEntity.getNumber());
+
+            log.info("[PROGRESS] Charging the phone with the updated attributes...");
+            phoneEntity.setPhoneType(phone.getPhoneType());
+            phoneEntity.setNumber(phone.getNumber());
+            phoneEntity.setPrefix(phone.getPrefix());
+            phoneEntity.setCustomer(phoneCustomerOptional.get());
+            repository.save(phoneEntity);
+            return phone;
         }
 
+        log.warn(PHONE_NOT_FOUND_LOG);
+        throw new InvalidRequestException(PHONE_NOT_FOUND);
     }
 
     public Boolean delete(Long id){
