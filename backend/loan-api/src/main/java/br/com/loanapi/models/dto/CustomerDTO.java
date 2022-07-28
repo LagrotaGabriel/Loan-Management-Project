@@ -48,11 +48,11 @@ public class CustomerDTO {
     @NotNull(message = "The customer email can't be null")
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Double pontuation = 0.00;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AddressDTO address;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private ScoreDTO score;
 
     @NotNull(message = "The customer phone can't be null")
     private List<PhoneDTO> phones = new ArrayList<>();

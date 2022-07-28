@@ -40,14 +40,12 @@ public class CustomerEntity {
     private String cpf;
     @Column(name = "email", length = 65, unique = true)
     private String email;
+    @Column(name = "pontuation")
+    private Double pontuation;
 
     @ManyToOne(targetEntity = AddressEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name="address_id")
     private AddressEntity address;
-
-    @OneToOne(targetEntity = ScoreEntity.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "score_id")
-    private ScoreEntity score;
 
     @OneToMany(targetEntity = PhoneEntity.class, mappedBy = "customer", cascade ={CascadeType.ALL})
     private List<PhoneEntity> phones = new ArrayList<>();

@@ -33,6 +33,7 @@ public class CustomerValidation {
         verifyCpf(customer.getCpf());
         verifyEmail(customer.getEmail());
         verifyBirthDate(customer.getBirthDate());
+        verifyPontuation(customer.getPontuation());
         verifyPhone(validationType, customer.getPhones(), phoneRepository);
 
         log.info("[SUCCESS]  Validation successfull");
@@ -126,6 +127,11 @@ public class CustomerValidation {
 
         log.error("[FAILURE] Email validation failed. The email pattern is invalid: {}", email);
         throw new InvalidRequestException("Email validation failed. The email pattern is invalid");
+    }
+
+    public boolean verifyPontuation(Double pontuation) {
+        if(pontuation.toString().matches(SCORE_PATTERN) && pontuation <= 100.0 && pontuation >= 0.00) return true;
+        throw new InvalidRequestException("Pontuation validation failed. The pontuation must be between 0-100");
     }
 
     public boolean verifyPhone(ValidationTypeEnum validationType, List<PhoneDTO> phones, PhoneRepository phoneRepository){
