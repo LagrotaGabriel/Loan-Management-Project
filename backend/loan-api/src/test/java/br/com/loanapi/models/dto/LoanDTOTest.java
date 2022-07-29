@@ -19,8 +19,9 @@ class LoanDTOTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters()  {
 
-        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, " +
-                        "interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -43,11 +44,12 @@ class LoanDTOTest {
                 10,
                 PaymentDateEnum.FIFTH_BUSINESS_DAY,
                 AmortizationEnum.SAC,
+                1L,
                 CustomerDTODataBuilder.builder().build(),
                 new ArrayList<>());
 
         Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0," +
-                " interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+                " interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=1, " +
                 "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, " +
                 "rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, " +
                 "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
@@ -59,7 +61,7 @@ class LoanDTOTest {
     @DisplayName("Should test hashcode")
     void shouldTestHashcode(){
         LoanDTO loan = new LoanDTO();
-        Assertions.assertEquals(739008883, loan.hashCode());
+        Assertions.assertEquals(651853616, loan.hashCode());
     }
 
 
