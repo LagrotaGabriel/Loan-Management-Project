@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @SpringBootTest
@@ -24,6 +25,22 @@ class InstallmentResourceTest {
 
     @Mock
     InstallmentService service;
+
+    @Test
+    @DisplayName("Should test create endpoint")
+    void shouldTestCreateEndPoint() {
+        Mockito.when(service.create(Mockito.any())).thenReturn(InstallmentDTODataBuilder.builder().build());
+        Assertions.assertEquals("<200 OK OK,InstallmentDTO(id=1, maturityDate=11-11-2011, " +
+                        "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
+                        "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customer=CustomerDTO(id=1, name=João, " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, " +
+                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]), installments=[])),[]>",
+                resource.create(InstallmentDTODataBuilder.builder().build()).toString());
+    }
 
     @Test
     @DisplayName("Should test find all endpoint")
@@ -40,13 +57,28 @@ class InstallmentResourceTest {
                         "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
                         "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], " +
-                        "loans=[]), installments=[])),[]>",
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customer=CustomerDTO(id=1, name=João, " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, " +
+                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]), installments=[])),[]>",
                 resource.findById(1L).toString());
+    }
+
+    @Test
+    @DisplayName("Should test update")
+    void shouldTestUpdate() {
+        Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(InstallmentDTODataBuilder.builder().build());
+        Assertions.assertEquals("<200 OK OK,InstallmentDTO(id=1, maturityDate=11-11-2011, " +
+                        "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
+                        "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customer=CustomerDTO(id=1, name=João, " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, " +
+                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, customers=[]), phones=[], loans=[]), installments=[])),[]>",
+                resource.update(InstallmentDTODataBuilder.builder().build(), 1L).toString());
     }
 
     @Test

@@ -1,7 +1,9 @@
 package br.com.loanapi.services;
 
 import br.com.loanapi.config.ModelMapperConfig;
+import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
+import br.com.loanapi.mocks.dto.InstallmentDTODataBuilder;
 import br.com.loanapi.mocks.entity.InstallmentEntityDataBuilder;
 import br.com.loanapi.models.entities.InstallmentEntity;
 import br.com.loanapi.repositories.InstallmentRepository;
@@ -17,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +42,43 @@ class InstallmentServiceTest {
     ModelMapperConfig modelMapper;
 
     @Test
+    @DisplayName("Should test create method with success")
+    void shouldTestCreateMethodWithSuccess() {
+
+        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
+        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
+        Mockito.when(repository.save(Mockito.any())).thenReturn(InstallmentEntityDataBuilder.builder().build());
+
+        Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
+                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
+                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null), installments=null))",
+                service.create(InstallmentDTODataBuilder.builder().build()).toString());
+
+    }
+
+    @Test
+    @DisplayName("Should test create method with exception")
+    void shouldTestCreateMethodWithException(){
+
+        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
+
+        try {
+            service.create(InstallmentDTODataBuilder.builder().build());
+            Assertions.fail();
+        }
+        catch(InvalidRequestException exception) {
+            Assertions.assertEquals("Installment validation failed", exception.getMessage());
+        }
+
+    }
+
+    @Test
     @DisplayName("Should test findAll method with success")
     void shouldTestFindAllMethodWithSuccess() {
 
@@ -51,7 +91,7 @@ class InstallmentServiceTest {
         Assertions.assertEquals("[InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
                         "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
-                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -89,7 +129,7 @@ class InstallmentServiceTest {
         Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
                         "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
-                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -113,6 +153,43 @@ class InstallmentServiceTest {
             Assertions.assertEquals("Installment not found", exception.getMessage());
         }
 
+    }
+
+    @Test
+    @DisplayName("Should test update method with success")
+    void shouldTestUpdateMethodWithSuccess() {
+
+        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
+        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(InstallmentEntityDataBuilder.builder().build()));
+        Mockito.when(repository.save(Mockito.any())).thenReturn(InstallmentEntityDataBuilder.builder().build());
+
+        Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
+                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
+                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
+                        "phones=null, loans=null), installments=null))",
+                service.update(1L, InstallmentDTODataBuilder.builder().build()).toString());
+
+    }
+
+    @Test
+    @DisplayName("Should test update method with exception")
+    void shouldTestUpdateMethodWithException() {
+
+        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
+
+        try{
+            service.update(1L, InstallmentDTODataBuilder.builder().build());
+            Assertions.fail();
+        }
+        catch(InvalidRequestException exception){
+            Assertions.assertEquals("Installment validation failed", exception.getMessage());
+        }
     }
 
     @Test
