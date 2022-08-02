@@ -7,6 +7,7 @@ public class StringConstants {
     public static final String ADDRESS_NOT_FOUND_LOG = "[FAILURE]  Address not found";
     public static final String CUSTOMER_NOT_FOUND_LOG = "[FAILURE]  Customer not found";
     public static final String PHONE_NOT_FOUND_LOG = "[FAILURE]  Phone not found";
+    public static final String MICROSERVICE_CONNECTION_FAILED_LOG = "[FAILURE] Installment Microservice connection failed";
 
     public static final String ADDRESS_NOT_FOUND = "Address not found";
     public static final String CUSTOMER_NOT_FOUND = "Customer not found";

@@ -1,6 +1,7 @@
 package br.com.loanapi.services;
 
 import br.com.loanapi.config.ModelMapperConfig;
+import br.com.loanapi.exceptions.ConnectionFailedException;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
 import br.com.loanapi.models.dto.InstallmentDTO;
@@ -69,15 +70,15 @@ public class LoanService {
                 log.info("[PROGRESS] Setting the debit balance equals than the original loan value");
                 loan.setDebitBalance(loan.getOriginalValue());
 
-                log.info("[PROGRESS] Saving the loan into the customer with id {}", loan.getCustomerJsonId());
+                log.info("[PROGRESS] Saving the loan into the customer with id {}", customerId);
                 customer.addLoan(modelMapper.mapper().map(loan, LoanEntity.class));
 
                 log.info("[PROGRESS] Updating the customer in the database...");
                 customerRepository.save(customer);
             }
             else {
-                //TODO Create a exception to connection failure with the micro service
-                return null;
+                log.error(MICROSERVICE_CONNECTION_FAILED_LOG);
+                throw new ConnectionFailedException("Installment Microservice connection failed");
             }
 
             return loan;

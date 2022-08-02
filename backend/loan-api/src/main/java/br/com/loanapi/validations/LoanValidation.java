@@ -15,10 +15,13 @@ public class LoanValidation {
         return true;
     }
 
-    public boolean notNull(LoanDTO loan){ //TODO Improve the not null request validation
+    public boolean notNull(LoanDTO loan){
         if(loan.getOriginalValue() != null &&
-        loan.getInterestRate() != null &&
-        loan.getNumberOfInstallments() != null) return true;
+                loan.getInterestRate() != null &&
+                loan.getStartDate() != null &&
+                loan.getPaymentDate() != null &&
+                loan.getAmortization() != null &&
+                loan.getNumberOfInstallments() != null) return true;
         throw new InvalidRequestException("Loan validation failed. Some of the attributes is null or empty");
     }
 
