@@ -29,7 +29,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandartError> objectNotFoundException(ObjectNotFoundException objectNotFoundException,
-                                                                 HttpServletRequest httpServletRequest){
+                                                                 HttpServletRequest httpServletRequest) {
 
         StandartError standartError = new StandartError(
                 LocalDateTime.now(),
@@ -39,6 +39,21 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standartError);
+
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<StandartError> connectionFailedException(ConnectionFailedException connectionFailedException,
+                                                                   HttpServletRequest httpServletRequest) {
+
+        StandartError standartError = new StandartError(
+                LocalDateTime.now(),
+                403,
+                connectionFailedException.getMessage(),
+                httpServletRequest.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standartError);
 
     }
 
