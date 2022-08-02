@@ -31,7 +31,7 @@ class LoanResourceTest {
         Mockito.when(service.create(Mockito.any(), Mockito.any())).thenReturn(LoanDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -53,7 +53,7 @@ class LoanResourceTest {
         Mockito.when(service.findById(Mockito.any())).thenReturn(LoanDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -68,7 +68,7 @@ class LoanResourceTest {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(LoanDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +

@@ -1,6 +1,7 @@
 package br.com.loanapi.mocks.entity;
 
 import br.com.loanapi.models.entities.CustomerEntity;
+import br.com.loanapi.models.entities.LoanEntity;
 import br.com.loanapi.models.entities.PhoneEntity;
 
 import java.util.ArrayList;
@@ -35,6 +36,13 @@ public class CustomerEntityDataBuilder {
         List<PhoneEntity> phones = new ArrayList<>();
         phones.add(PhoneEntityDataBuilder.builder().build());
         customer.setPhones(phones);
+        return this;
+    }
+
+    public CustomerEntityDataBuilder withLoanList() {
+        List<LoanEntity> loans = new ArrayList<>();
+        loans.add(LoanEntityDataBuilder.builder().build());
+        customer.setLoans(loans);
         return this;
     }
 

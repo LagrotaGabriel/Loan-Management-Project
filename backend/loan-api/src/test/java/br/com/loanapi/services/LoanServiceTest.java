@@ -3,9 +3,14 @@ package br.com.loanapi.services;
 import br.com.loanapi.config.ModelMapperConfig;
 import br.com.loanapi.exceptions.InvalidRequestException;
 import br.com.loanapi.exceptions.ObjectNotFoundException;
+import br.com.loanapi.mocks.dto.InstallmentDTODataBuilder;
 import br.com.loanapi.mocks.dto.LoanDTODataBuilder;
+import br.com.loanapi.mocks.entity.CustomerEntityDataBuilder;
 import br.com.loanapi.mocks.entity.LoanEntityDataBuilder;
+import br.com.loanapi.models.dto.InstallmentDTO;
 import br.com.loanapi.models.entities.LoanEntity;
+import br.com.loanapi.proxys.InstallmentServiceProxy;
+import br.com.loanapi.repositories.CustomerRepository;
 import br.com.loanapi.repositories.LoanRepository;
 import br.com.loanapi.validations.LoanValidation;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,24 +44,41 @@ class LoanServiceTest {
     LoanRepository repository;
 
     @Mock
+    InstallmentServiceProxy proxy;
+
+    @Mock
+    CustomerRepository customerRepository;
+
+    @Mock
     ModelMapperConfig modelMapper;
 
     @Test
     @DisplayName("Should test create method with success")
     void shouldTestCreateMethodWithSuccess() {
 
+        List<InstallmentDTO> installmentDTOList = new ArrayList<>();
+        installmentDTOList.add(InstallmentDTODataBuilder.builder().build());
+
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
-        Mockito.when(repository.save(Mockito.any())).thenReturn(LoanEntityDataBuilder.builder().build());
+        Mockito.when(proxy.calculateInstallments(Mockito.any())).thenReturn(ResponseEntity.ok().body(installmentDTOList));
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().withLoanList().build()));
 
-        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
-                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=5000.0, " +
+                        "interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "phones=null, loans=null), installments=null)",
+                        "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], " +
+                        "loans=[]), installments=[InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
+                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
+                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], " +
+                        "loans=[]), installments=[]))])",
                 service.create(1L, LoanDTODataBuilder.builder().build()).toString());
 
     }
@@ -65,13 +88,14 @@ class LoanServiceTest {
     void shouldTestCreateMethodWithException(){
 
         Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(CustomerEntityDataBuilder.builder().build()));
 
         try {
             service.create(1L, LoanDTODataBuilder.builder().build());
             Assertions.fail();
         }
         catch(InvalidRequestException exception) {
-            Assertions.assertEquals("Loan validation failed", exception.getMessage());
+            Assertions.assertEquals("Customer not found", exception.getMessage());
         }
 
     }
@@ -88,7 +112,7 @@ class LoanServiceTest {
 
         Assertions.assertEquals("[LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -125,7 +149,7 @@ class LoanServiceTest {
 
         Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
@@ -162,7 +186,7 @@ class LoanServiceTest {
 
         Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
+                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
