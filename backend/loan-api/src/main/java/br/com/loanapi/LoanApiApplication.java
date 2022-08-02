@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = {"br.com.loanapi.models"})
 @EnableJpaRepositories("br.com.loanapi.repositories")
 @ComponentScan("br.com.loanapi.services")
-@ComponentScan("br.com.loanapi.resources")
+@ComponentScan("br.com.loanapi.controllers")
 @ComponentScan("br.com.loanapi.config")
 @ComponentScan("br.com.loanapi.exceptions")
 @ComponentScan("br.com.loanapi.validations")
+@ComponentScan("br.com.loanapi.utils")
 @SpringBootApplication
 public class LoanApiApplication {
 
