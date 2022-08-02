@@ -91,22 +91,50 @@ public class LoanService {
     }
 
     public List<LoanDTO> findAll() {
-        if(!repository.findAll().isEmpty())
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findAll method...");
+        log.info("[PROGRESS] Verifying if there is loans saved in the database...");
+        if(!repository.findAll().isEmpty()) {
+            log.info(REQUEST_SUCCESSFULL);
             return repository.findAll().stream().map(x -> modelMapper.mapper().map(x, LoanDTO.class))
                     .collect(Collectors.toList());
+        }
+        log.error("[FAILURE]  There is no loans saved in the database");
         throw new ObjectNotFoundException("There is no loans saved in the database");
     }
 
     public LoanDTO findById(Long id) {
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting findById method...");
+
+        log.info("[PROGRESS] Searching for a loan by id {}...", id);
         Optional<LoanEntity> loan = repository.findById(id);
+
+        loan.ifPresent(loanEntity -> log.info(REQUEST_SUCCESSFULL));
+        if(loan.isEmpty()) log.error("[FAILURE]  Loan with id {} not found", id);
+
         return modelMapper.mapper().map(
                 loan.orElseThrow(() -> new ObjectNotFoundException(LOAN_NOT_FOUND)), LoanDTO.class);
     }
 
     public Boolean delete(Long id){
-        LoanEntity entity = modelMapper.mapper().map(findById(id), LoanEntity.class);
-        repository.delete(entity);
-        return true;
+
+        log.info(LOG_BAR);
+        log.info("[STARTING] Starting deleteById method...");
+
+        log.info("[PROGRESS] Searching for a loan by id {}...", id);
+        Optional<LoanEntity> loan = repository.findById(id);
+
+        if (loan.isPresent()) {
+            log.warn("[PROGRESS] Loan finded. Removing...");
+            repository.deleteById(id);
+
+            log.warn(REQUEST_SUCCESSFULL);
+            return true;
+        }
+        log.error("[FAILURE]  Loan with id {} not found", id);
+        throw new ObjectNotFoundException(LOAN_NOT_FOUND);
     }
 
 }
