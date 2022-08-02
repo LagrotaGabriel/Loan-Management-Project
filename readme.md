@@ -19,8 +19,7 @@ The Loan Project provide the complete structure for a money lending company mana
 https://github.com/LagrotaGabriel/LoanApi-CRUD/blob/master/documentation/First_Sprint.pdf
 
 ## Swagger Endpoints
-
-![](documentation/swagger-crud.png)
+https://github.com/LagrotaGabriel/LoanApi-CRUD/blob/master/documentation/swagger-crud.png
 
 ## UML
 
