@@ -43,13 +43,13 @@ public class LoanService {
 
     LoanValidation validation = new LoanValidation();
 
-    public LoanDTO create(LoanDTO loan){
+    public LoanDTO create(Long customerId, LoanDTO loan){
 
         log.info(LOG_BAR);
         log.info("[STARTING] Starting create method");
 
         log.info("[PROGRESS] Searching for a customer with the customerId received in JSON...");
-        Optional<CustomerEntity> optionalCustomer = customerRepository.findById(loan.getCustomerJsonId());
+        Optional<CustomerEntity> optionalCustomer = customerRepository.findById(customerId);
 
         if (validation.validateRequest(loan) && optionalCustomer.isPresent()) {
 

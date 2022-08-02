@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 @SpringBootTest
@@ -29,7 +28,7 @@ class LoanResourceTest {
     @Test
     @DisplayName("Should test create endpoint")
     void shouldTestCreateEndPoint() {
-        Mockito.when(service.create(Mockito.any())).thenReturn(LoanDTODataBuilder.builder().build());
+        Mockito.when(service.create(Mockito.any(), Mockito.any())).thenReturn(LoanDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
                         "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, customerJsonId=null, " +
@@ -38,7 +37,7 @@ class LoanResourceTest {
                         "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
                         "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), " +
                         "phones=[], loans=[]), installments=[]),[]>",
-                resource.create(LoanDTODataBuilder.builder().build()).toString());
+                resource.create(1L, LoanDTODataBuilder.builder().build()).toString());
     }
 
     @Test

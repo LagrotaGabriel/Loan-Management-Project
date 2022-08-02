@@ -19,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +56,7 @@ class LoanServiceTest {
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
                         "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
                         "phones=null, loans=null), installments=null)",
-                service.create(LoanDTODataBuilder.builder().build()).toString());
+                service.create(1L, LoanDTODataBuilder.builder().build()).toString());
 
     }
 
@@ -68,7 +67,7 @@ class LoanServiceTest {
         Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
 
         try {
-            service.create(LoanDTODataBuilder.builder().build());
+            service.create(1L, LoanDTODataBuilder.builder().build());
             Assertions.fail();
         }
         catch(InvalidRequestException exception) {

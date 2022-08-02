@@ -50,9 +50,6 @@ public class LoanDTO {
     @NotNull(message = "Amortization can't be null")
     private AmortizationEnum amortization;
 
-    @JsonProperty(value = "customerId", access = JsonProperty.Access.WRITE_ONLY)
-    private Long customerJsonId;
-
     @JsonIgnore
     private CustomerDTO customer;
 

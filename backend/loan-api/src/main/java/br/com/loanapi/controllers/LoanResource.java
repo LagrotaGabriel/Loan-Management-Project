@@ -39,8 +39,8 @@ public class LoanResource {
             @ApiResponse(code = 401, message = "Unauthorized access"),
     })
     @PostMapping
-    public ResponseEntity<LoanDTO> create(@RequestBody LoanDTO loan) {
-        return ResponseEntity.ok().body(service.create(loan));
+    public ResponseEntity<LoanDTO> create(@RequestParam Long customerId, @RequestBody LoanDTO loan) {
+        return ResponseEntity.ok().body(service.create(customerId, loan));
     }
 
     @ApiOperation(
