@@ -31,9 +31,6 @@ public class InstallmentDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String paymentDate;
 
-    @NotNull(message = "Expired can't be null")
-    private Boolean expired;
-
     @NotNull(message = "Installment month can't be null")
     private Integer month;
 

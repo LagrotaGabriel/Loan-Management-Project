@@ -42,7 +42,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(InvalidRequestException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(ConnectionFailedException.class)
     public ResponseEntity<StandartError> connectionFailedException(ConnectionFailedException connectionFailedException,
                                                                    HttpServletRequest httpServletRequest) {
 

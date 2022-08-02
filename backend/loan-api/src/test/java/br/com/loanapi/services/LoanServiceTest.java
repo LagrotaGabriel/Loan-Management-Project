@@ -176,42 +176,6 @@ class LoanServiceTest {
     }
 
     @Test
-    @DisplayName("Should test update method with success")
-    void shouldTestUpdateMethodWithSuccess() {
-
-        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(true);
-        Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(LoanEntityDataBuilder.builder().build()));
-        Mockito.when(repository.save(Mockito.any())).thenReturn(LoanEntityDataBuilder.builder().build());
-
-        Assertions.assertEquals("LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
-                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
-                        "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
-                        "customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "phones=null, loans=null), installments=null)",
-                service.update(1L, LoanDTODataBuilder.builder().build()).toString());
-
-    }
-
-    @Test
-    @DisplayName("Should test update method with exception")
-    void shouldTestUpdateMethodWithException() {
-
-        Mockito.when(validation.validateRequest(Mockito.any())).thenReturn(false);
-
-        try{
-            service.update(1L, LoanDTODataBuilder.builder().build());
-            Assertions.fail();
-        }
-        catch(InvalidRequestException exception){
-            Assertions.assertEquals("Loan validation failed", exception.getMessage());
-        }
-    }
-
-    @Test
     @DisplayName("Should test delete method with success")
     void shouldTestDeleteMethodWithSuccess() {
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());

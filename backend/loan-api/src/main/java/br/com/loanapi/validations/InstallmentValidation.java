@@ -17,7 +17,6 @@ public class InstallmentValidation {
 
     public boolean notNull(InstallmentDTO installment) {
         if(installment.getMaturityDate() != null &&
-        installment.getExpired() != null &&
         installment.getMonth() != null &&
         installment.getAmortization() != null &&
         installment.getInterest() != null &&

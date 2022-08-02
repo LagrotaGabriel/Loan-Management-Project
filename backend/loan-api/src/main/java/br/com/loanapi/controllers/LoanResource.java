@@ -77,24 +77,6 @@ public class LoanResource {
     }
 
     @ApiOperation(
-            value = "Update",
-            notes = "This request will update a Loan in database of the project by id",
-            produces = MediaType.APPLICATION_JSON,
-            consumes = MediaType.APPLICATION_JSON
-    )
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "Loan updated with success", response = LoanDTO.class),
-            @ApiResponse(code = 400, message = "Fail on Loan update", response = InvalidRequestException.class),
-            @ApiResponse(code = 401, message = "Unauthorized access"),
-            @ApiResponse(code = 404, message = "There is no Loans saved in database with the passed id",
-                    response = ObjectNotFoundException.class),
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<LoanDTO> update(@RequestBody LoanDTO loan, @PathVariable Long id) {
-        return ResponseEntity.ok().body(service.update(id, loan));
-    }
-
-    @ApiOperation(
             value = "Delete",
             notes = "This request will delete a Loan by id",
             produces = MediaType.APPLICATION_JSON,

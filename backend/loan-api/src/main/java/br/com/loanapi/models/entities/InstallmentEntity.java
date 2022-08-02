@@ -31,9 +31,6 @@ public class InstallmentEntity {
     @Column(name = "installment_paymentDate")
     private String paymentDate;
 
-    @Column(name = "installment_expired", nullable = false)
-    private Boolean expired;
-
     @Column(name = "installment_month", nullable = false)
     private Integer month;
 

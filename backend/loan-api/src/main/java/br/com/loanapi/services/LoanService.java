@@ -103,29 +103,6 @@ public class LoanService {
                 loan.orElseThrow(() -> new ObjectNotFoundException(LOAN_NOT_FOUND)), LoanDTO.class);
     }
 
-    public LoanDTO update(Long id, LoanDTO loan) {
-
-        if (validation.validateRequest(loan)) {
-
-            LoanDTO dto = modelMapper.mapper().map(findById(id), LoanDTO.class);
-            dto.setOriginalValue(loan.getOriginalValue());
-            dto.setDebitBalance(loan.getOriginalValue());
-            dto.setAmortization(loan.getAmortization());
-            dto.setInterestRate(loan.getInterestRate());
-            dto.setNumberOfInstallments(loan.getNumberOfInstallments());
-            dto.setCustomer(loan.getCustomer());
-            dto.setPaymentDate(loan.getPaymentDate());
-            dto.setInstallments(loan.getInstallments());
-            dto.setStartDate(loan.getStartDate());
-
-            return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(dto, LoanEntity.class)), LoanDTO.class);
-        }
-        else{
-            throw new InvalidRequestException("Loan validation failed");
-        }
-
-    }
-
     public Boolean delete(Long id){
         LoanEntity entity = modelMapper.mapper().map(findById(id), LoanEntity.class);
         repository.delete(entity);

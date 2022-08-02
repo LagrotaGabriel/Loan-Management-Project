@@ -36,7 +36,6 @@ class InstallmentDTOTest {
                 1L,
                 "11-11-2011",
                 "11-11-2021",
-                false,
                 4,
                 1000.0,
                 10.0,

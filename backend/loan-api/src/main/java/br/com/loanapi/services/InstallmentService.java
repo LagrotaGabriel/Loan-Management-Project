@@ -56,7 +56,6 @@ public class InstallmentService {
             dto.setValue(installment.getValue());
             dto.setInterest(installment.getInterest());
             dto.setAmortization(installment.getAmortization());
-            dto.setExpired(installment.getExpired());
             dto.setPaymentDate(installment.getPaymentDate());
             dto.setMaturityDate(installment.getMaturityDate());
 

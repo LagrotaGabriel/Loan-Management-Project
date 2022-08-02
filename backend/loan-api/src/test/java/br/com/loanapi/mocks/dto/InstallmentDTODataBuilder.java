@@ -15,7 +15,6 @@ public class InstallmentDTODataBuilder {
         builder.installment.setId(1L);
         builder.installment.setMaturityDate("11-11-2011");
         builder.installment.setPaymentDate("11-11-2021");
-        builder.installment.setExpired(false);
         builder.installment.setMonth(4);
         builder.installment.setAmortization(1000.0);
         builder.installment.setInterest(10.0);
