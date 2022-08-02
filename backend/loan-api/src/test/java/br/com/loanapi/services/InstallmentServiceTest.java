@@ -50,7 +50,7 @@ class InstallmentServiceTest {
         Mockito.when(repository.save(Mockito.any())).thenReturn(InstallmentEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
                         "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
@@ -89,7 +89,7 @@ class InstallmentServiceTest {
         Mockito.when(repository.findAll()).thenReturn(installments);
 
         Assertions.assertEquals("[InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
                         "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
@@ -127,7 +127,7 @@ class InstallmentServiceTest {
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(InstallmentEntityDataBuilder.builder().build()));
 
         Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
                         "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
@@ -165,7 +165,7 @@ class InstallmentServiceTest {
         Mockito.when(repository.save(Mockito.any())).thenReturn(InstallmentEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "expired=false, month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
+                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, loan=LoanDTO(id=1, " +
                         "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
                         "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +

@@ -31,7 +31,7 @@ class InstallmentResourceTest {
     void shouldTestCreateEndPoint() {
         Mockito.when(service.create(Mockito.any())).thenReturn(InstallmentDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,InstallmentDTO(id=1, maturityDate=11-11-2011, " +
-                        "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
+                        "paymentDate=11-11-2021, month=4, amortization=1000.0, interest=10.0, " +
                         "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
                         "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
@@ -55,7 +55,7 @@ class InstallmentResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(InstallmentDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,InstallmentDTO(id=1, maturityDate=11-11-2011, " +
-                        "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
+                        "paymentDate=11-11-2021, month=4, amortization=1000.0, interest=10.0, " +
                         "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
                         "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
@@ -72,7 +72,7 @@ class InstallmentResourceTest {
     void shouldTestUpdate() {
         Mockito.when(service.update(Mockito.any(), Mockito.any())).thenReturn(InstallmentDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,InstallmentDTO(id=1, maturityDate=11-11-2011, " +
-                        "paymentDate=11-11-2021, expired=false, month=4, amortization=1000.0, interest=10.0, " +
+                        "paymentDate=11-11-2021, month=4, amortization=1000.0, interest=10.0, " +
                         "value=1100.0, loan=LoanDTO(id=1, startDate=11-11-2011, originalValue=5000.0, " +
                         "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
                         "paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
