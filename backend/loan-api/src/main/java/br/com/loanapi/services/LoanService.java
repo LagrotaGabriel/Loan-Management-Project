@@ -80,8 +80,7 @@ public class LoanService {
                 return null;
             }
 
-
-            return modelMapper.mapper().map(repository.save(modelMapper.mapper().map(loan, LoanEntity.class)), LoanDTO.class);
+            return loan;
         }
         else {
             log.warn(CUSTOMER_NOT_FOUND_LOG);
