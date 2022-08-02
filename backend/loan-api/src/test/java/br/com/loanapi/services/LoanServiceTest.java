@@ -178,7 +178,6 @@ class LoanServiceTest {
     @Test
     @DisplayName("Should test delete method with success")
     void shouldTestDeleteMethodWithSuccess() {
-        Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(LoanEntityDataBuilder.builder().build()));
         Assertions.assertTrue(service.delete(1L));
     }
