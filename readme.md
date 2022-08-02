@@ -5,6 +5,7 @@
 - [Project description](#project-description)
 - [Developer](#developer)
 - [Current Progress](#current-progress)
+- [Microservice triggering](#microservice-triggering)
 - [UML](#uml)
 - [Swagger endpoints](#swagger-endpoints)
 
@@ -20,6 +21,9 @@ https://github.com/LagrotaGabriel/LoanApi-CRUD/blob/master/documentation/First_S
 
 ## Swagger Endpoints
 https://github.com/LagrotaGabriel/LoanApi-CRUD/blob/master/documentation/swagger-crud.png
+
+## Microservice triggering
+![](documentation/microservice_trigger_flow.png)
 
 ## UML
 
