@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "installment-service", url = "http://wgod-alp-no0071.server01.foursys.local:8091/")
+@FeignClient(name = "installment-service")
 public interface InstallmentServiceProxy {
 
     @PostMapping(value="installment-service")
