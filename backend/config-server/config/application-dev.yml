@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: config-server
-estudo-ms:
-  mensagem: "Hello"
-  default-value: "World"
