@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: config-server
+estudo-ms:
+  mensagem: "Olá"
+  default-value: "Mundo"
