@@ -7,6 +7,16 @@ eureka:
 spring:
   application:
     name: api-gateway
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+          - gateway
 #  cloud:
 #    gateway:
 #      discovery:
