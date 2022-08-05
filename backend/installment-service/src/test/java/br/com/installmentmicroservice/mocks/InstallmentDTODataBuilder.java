@@ -19,6 +19,7 @@ public class InstallmentDTODataBuilder {
         builder.installment.setAmortization(1000.0);
         builder.installment.setInterest(10.0);
         builder.installment.setValue(1100.0);
+        builder.installment.setNotes("[]");
         builder.installment.setLoan(LoanDTODataBuilder.builder().build());
 
         return builder;
