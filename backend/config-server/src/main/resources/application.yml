@@ -7,6 +7,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/LagrotaGabriel/Loan-Management-Cfg.git
+          uri: https://github.com/LagrotaGabriel/Loan-Management-cfg.git
           search-paths:
             - 'ms-service*'

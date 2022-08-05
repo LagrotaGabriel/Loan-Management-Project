@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32c0cece-6cca-428b-b91f-1ba1e5b31d99" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/application-dev.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/application-prod.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gateway/src/main/java/br/com/gateway/config/ApiGatewayConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/java/br/com/gateway/config/ApiGatewayConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../loan-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../loan-api/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="452" />
+    <option name="totalTimeSeconds" value="712" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
