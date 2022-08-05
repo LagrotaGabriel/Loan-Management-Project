@@ -43,6 +43,8 @@ public class InstallmentDTO {
     @NotNull(message = "Value can't be null")
     private Double value;
 
+    private String notes;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LoanDTO loan;
 

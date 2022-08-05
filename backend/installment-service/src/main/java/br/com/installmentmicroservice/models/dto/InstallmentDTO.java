@@ -2,6 +2,9 @@ package br.com.installmentmicroservice.models.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /** Class that contains all attributes of the object of type InstallmentDTO
  ** @author Gabriel Lagrota
@@ -16,7 +19,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class InstallmentDTO {
-
     private Long id;
     private String maturityDate;
     private String paymentDate;
@@ -24,6 +26,6 @@ public class InstallmentDTO {
     private Double amortization;
     private Double interest;
     private Double value;
+    private String notes;
     private LoanDTO loan;
-
 }
