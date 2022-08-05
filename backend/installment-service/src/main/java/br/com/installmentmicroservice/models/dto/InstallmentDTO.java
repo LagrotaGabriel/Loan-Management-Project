@@ -2,6 +2,7 @@ package br.com.installmentmicroservice.models.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class InstallmentDTO {
     private Long id;
+    private LocalDateTime createdDate;
     private String maturityDate;
     private String paymentDate;
     private Integer month;

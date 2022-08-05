@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /** Class that contains all attributes of the object of type InstallmentDTO
  ** @author Gabriel Lagrota
@@ -23,6 +24,8 @@ public class InstallmentDTO {
 
     @JsonIgnore
     private Long id;
+
+    private LocalDateTime createdDate;
 
     @NotNull(message = "Maturity date can't be null")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

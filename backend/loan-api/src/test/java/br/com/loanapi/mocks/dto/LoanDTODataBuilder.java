@@ -22,7 +22,7 @@ public class LoanDTODataBuilder {
         builder.loan.setDebitBalance(2800.0);
         builder.loan.setInterestRate(10.0);
         builder.loan.setNumberOfInstallments(10);
-        builder.loan.setPaymentDate(PaymentDateEnum.FIFTH_BUSINESS_DAY);
+        builder.loan.setPaymentDate(PaymentDateEnum.LAST_BUSINESS_DAY);
         builder.loan.setAmortization(AmortizationEnum.SAC);
         builder.loan.setCustomer(CustomerDTODataBuilder.builder().build());
         builder.loan.setInstallments(new ArrayList<>());
