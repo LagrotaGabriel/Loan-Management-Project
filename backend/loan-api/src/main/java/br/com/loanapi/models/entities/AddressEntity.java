@@ -41,6 +41,8 @@ public class AddressEntity {
     @Enumerated(EnumType.STRING)
     private StateEnum state;
 
+    private String complement;
+
     @OneToMany(targetEntity = CustomerEntity.class, cascade={CascadeType.ALL}, mappedBy = "address")
     private List<CustomerEntity> customers = new ArrayList<>();
 

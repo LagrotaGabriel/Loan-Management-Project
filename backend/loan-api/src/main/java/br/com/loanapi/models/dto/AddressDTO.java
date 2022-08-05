@@ -43,6 +43,8 @@ public class AddressDTO {
     @NotNull(message = "The state can't be null")
     private StateEnum state;
 
+    private String complement;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<CustomerDTO> customers = new ArrayList<>();
 
