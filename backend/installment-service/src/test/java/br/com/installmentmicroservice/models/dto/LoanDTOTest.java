@@ -16,7 +16,7 @@ class LoanDTOTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters()  {
         Assertions.assertEquals("LoanDTO(startDate=11-11-2011, originalValue=5000.0, interestRate=10.0, " +
-                "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC)",
+                        "numberOfInstallments=1, paymentDate=LAST_BUSINESS_DAY, amortization=SAC)",
                 LoanDTODataBuilder.builder().build().toString());
     }
 
@@ -29,11 +29,11 @@ class LoanDTOTest {
                 5000.0,
                 10.0,
                 10,
-                PaymentDateEnum.FIFTH_BUSINESS_DAY,
+                PaymentDateEnum.LAST_BUSINESS_DAY,
                 AmortizationEnum.SAC);
 
         Assertions.assertEquals("LoanDTO(startDate=11-11-2011, originalValue=5000.0, interestRate=10.0, " +
-                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC)", loan.toString());
+                "numberOfInstallments=10, paymentDate=LAST_BUSINESS_DAY, amortization=SAC)", loan.toString());
 
     }
 

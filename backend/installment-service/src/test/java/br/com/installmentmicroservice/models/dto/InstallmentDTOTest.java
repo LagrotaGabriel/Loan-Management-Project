@@ -16,10 +16,11 @@ class InstallmentDTOTest {
     @Test
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters() {
-        Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2011, month=4, " +
-                "amortization=1000.0, interest=10.0, value=1100.0, notes=[], loan=LoanDTO(startDate=11-11-2011, " +
-                "originalValue=5000.0, interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, " +
-                "amortization=SAC))", InstallmentDTODataBuilder.builder().build().toString());
+        Assertions.assertEquals("InstallmentDTO(id=1, createdDate=null, maturityDate=11-11-2011, " +
+                "paymentDate=11-11-2011, month=4, amortization=1000.0, interest=10.0, value=1100.0, notes=[], " +
+                "loan=LoanDTO(startDate=11-11-2011, originalValue=5000.0, interestRate=10.0, numberOfInstallments=1, " +
+                "paymentDate=LAST_BUSINESS_DAY, amortization=SAC))",
+                InstallmentDTODataBuilder.builder().build().toString());
     }
 
     @Test
@@ -28,6 +29,7 @@ class InstallmentDTOTest {
 
         InstallmentDTO installment = new InstallmentDTO(
                 1L,
+                null,
                 "11-11-2011",
                 "11-11-2011",
                 4,
@@ -37,10 +39,10 @@ class InstallmentDTOTest {
                 "[]",
                 LoanDTODataBuilder.builder().build());
 
-        Assertions.assertEquals("InstallmentDTO(id=1, maturityDate=11-11-2011, paymentDate=11-11-2011, month=4, " +
-                "amortization=1000.0, interest=10.0, value=1100.0, notes=[], loan=LoanDTO(startDate=11-11-2011, " +
-                "originalValue=5000.0, interestRate=10.0, numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, " +
-                "amortization=SAC))", installment.toString());
+        Assertions.assertEquals("InstallmentDTO(id=1, createdDate=null, maturityDate=11-11-2011, " +
+                "paymentDate=11-11-2011, month=4, amortization=1000.0, interest=10.0, value=1100.0, notes=[], " +
+                "loan=LoanDTO(startDate=11-11-2011, originalValue=5000.0, interestRate=10.0, numberOfInstallments=1, " +
+                "paymentDate=LAST_BUSINESS_DAY, amortization=SAC))", installment.toString());
 
     }
 
@@ -48,6 +50,6 @@ class InstallmentDTOTest {
     @DisplayName("Should test hashcode")
     void shouldTestHashcode(){
         InstallmentDTO installment = new InstallmentDTO();
-        Assertions.assertEquals(158117686, installment.hashCode());
+        Assertions.assertEquals(739008925, installment.hashCode());
     }
 }
