@@ -6,8 +6,31 @@
   <component name="ChangeListManager">
     <list default="true" id="32c0cece-6cca-428b-b91f-1ba1e5b31d99" name="Changes" comment="Config server updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gateway/src/main/java/br/com/gateway/config/ApiGatewayConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/java/br/com/gateway/config/ApiGatewayConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/models/dto/InstallmentDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/models/dto/InstallmentDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/models/dto/LoanDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/models/dto/LoanDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/services/InstallmentCalculationServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../installment-service/src/test/java/br/com/installmentmicroservice/services/InstallmentCalculationServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/AddressResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/AddressResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/CustomerResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/CustomerResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/InstallmentResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/InstallmentResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/LoanResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/LoanResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/PhoneResourceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/controllers/PhoneResourceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/AddressDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/AddressDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/CustomerDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/CustomerDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/InstallmentDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/InstallmentDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/LoanDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/LoanDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/PhoneDTOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/dto/PhoneDTOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/AddressEntityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/AddressEntityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/CustomerEntityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/CustomerEntityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/InstallmentEntityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/InstallmentEntityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/LoanEntityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/LoanEntityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/PhoneEntityTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/models/entities/PhoneEntityTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/AddressServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/AddressServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/CustomerServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/CustomerServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/InstallmentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/InstallmentServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/LoanServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/LoanServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/PhoneServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../loan-api/src/test/java/br/com/loanapi/services/PhoneServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../documentation/Second_Sprint.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../../documentation/Second_Sprint.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../documentation/Sprints/Second_Sprint.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../documentation/Sprints/Second_Sprint.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +38,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="1201" />
+    <option name="totalTimeSeconds" value="1253" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />

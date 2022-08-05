@@ -18,7 +18,7 @@ class AddressDTOTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters(){
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[])",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=[])",
                 AddressDTODataBuilder.builder().build().toString());
     }
 
@@ -27,17 +27,18 @@ class AddressDTOTest {
     void shouldTestAllArgsConstructor(){
 
         AddressDTO address = new AddressDTO(1L, "Rua 9", "Lauzane Paulista", 583,
-                "02442-090", "São Paulo", StateEnum.SAO_PAULO, new ArrayList<>());
+                "02442-090", "São Paulo", StateEnum.SAO_PAULO, "Casa 1", new ArrayList<>());
 
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[])", address.toString());
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=Casa 1, customers=[])",
+                address.toString());
     }
 
     @Test
     @DisplayName("Should test equals and hashcode")
     void shouldTestEqualsAndHashcode(){
         AddressDTO addressDTO = new AddressDTO();
-        Assertions.assertEquals(-506892473, addressDTO.hashCode());
+        Assertions.assertEquals(158117644, addressDTO.hashCode());
     }
 
     @Test

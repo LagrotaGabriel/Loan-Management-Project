@@ -21,9 +21,10 @@ class CustomerDTOTest {
     void shouldTestGettersAndSetters() {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=0.0, " +
-                "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], loans=[])",
+                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
+                        "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, " +
+                        "customers=[]), phones=[], loans=[])",
                 CustomerDTODataBuilder.builder().build().toString());
 
     }
@@ -48,8 +49,8 @@ class CustomerDTOTest {
 
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                 "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, pontuation=100.0, " +
-                "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], loans=[])", customer.toString());
+                "address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, " +
+                "city=São Paulo, state=SAO_PAULO, complement=null, customers=[]), phones=[], loans=[])", customer.toString());
 
     }
 

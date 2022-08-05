@@ -18,15 +18,15 @@ class InstallmentEntityTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters() {
 
-        Assertions.assertEquals("InstallmentEntity(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, notes=null, loan=LoanEntity(id=1, " +
-                        "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
-                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
-                        "customer=CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "pontuation=null, address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "phones=null, loans=null), installments=null))",
+        Assertions.assertEquals("InstallmentEntity(id=1, createdDate=null, maturityDate=11-11-2011, " +
+                        "paymentDate=11-11-2021, month=4, amortization=1000.0, interest=10.0, value=1100.0, " +
+                        "notes=null, loan=LoanEntity(id=1, startDate=11-11-2011, originalValue=5000.0, " +
+                        "debitBalance=2800.0, interestRate=10.0, numberOfInstallments=10, " +
+                        "paymentDate=LAST_BUSINESS_DAY, amortization=SAC, customer=CustomerEntity(id=1, name=João, " +
+                        "lastName=da Silva, birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, " +
+                        "cpf=391.534.277-44, email=joao@email.com, pontuation=null, address=AddressEntity(id=1, " +
+                        "street=Rua 9, neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, complement=null, customers=null), phones=null, loans=null), installments=null))",
                 InstallmentEntityDataBuilder.builder().build().toString());
 
     }
@@ -37,6 +37,7 @@ class InstallmentEntityTest {
 
         InstallmentEntity installment = new InstallmentEntity(
                 1L,
+                null,
                 "11-11-2011",
                 "11-11-2021",
                 4,
@@ -46,15 +47,15 @@ class InstallmentEntityTest {
                 "[]",
                 LoanEntityDataBuilder.builder().build());
 
-        Assertions.assertEquals("InstallmentEntity(id=1, maturityDate=11-11-2011, paymentDate=11-11-2021, " +
-                        "month=4, amortization=1000.0, interest=10.0, value=1100.0, notes=[], loan=LoanEntity(id=1, " +
-                        "startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, interestRate=10.0, " +
-                        "numberOfInstallments=10, paymentDate=FIFTH_BUSINESS_DAY, amortization=SAC, " +
+        Assertions.assertEquals("InstallmentEntity(id=1, createdDate=null, maturityDate=11-11-2011, " +
+                        "paymentDate=11-11-2021, month=4, amortization=1000.0, interest=10.0, value=1100.0, notes=[], " +
+                        "loan=LoanEntity(id=1, startDate=11-11-2011, originalValue=5000.0, debitBalance=2800.0, " +
+                        "interestRate=10.0, numberOfInstallments=10, paymentDate=LAST_BUSINESS_DAY, amortization=SAC, " +
                         "customer=CustomerEntity(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), phones=null, " +
-                        "loans=null), installments=null))",
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, " +
+                        "customers=null), phones=null, loans=null), installments=null))",
                 installment.toString());
 
     }
@@ -63,7 +64,7 @@ class InstallmentEntityTest {
     @DisplayName("Should test hashcode")
     void shouldTestHashcode(){
         InstallmentEntity installment = new InstallmentEntity();
-        Assertions.assertEquals(158117686, installment.hashCode());
+        Assertions.assertEquals(739008925, installment.hashCode());
     }
 
 }

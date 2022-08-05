@@ -104,8 +104,8 @@ class CustomerServiceTest {
         Assertions.assertEquals("[CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "phones=null, loans=null)]",
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, " +
+                        "customers=null), phones=null, loans=null)]",
                 service.findAll().toString());
 
     }
@@ -138,8 +138,8 @@ class CustomerServiceTest {
         Assertions.assertEquals("CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
                         "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
                         "pontuation=null, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null), " +
-                        "phones=null, loans=null)",
+                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, " +
+                        "customers=null), phones=null, loans=null)",
                 service.findById(1L).toString());
 
     }

@@ -34,8 +34,8 @@ class PhoneResourceTest {
                         "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
                         "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
                         "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
-                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, " +
-                        "customers=[]), phones=[], loans=[])),[]>",
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, complement=null, customers=[]), phones=[], loans=[])),[]>",
                 resource.create(PhoneDTODataBuilder.builder().build()).toString());
     }
 
@@ -51,11 +51,11 @@ class PhoneResourceTest {
     void shouldTestFindById() {
         Mockito.when(service.findById(Mockito.any())).thenReturn(PhoneDTODataBuilder.builder().build());
         Assertions.assertEquals("<200 OK OK,PhoneDTO(id=1, prefix=11, number=97981-5415, phoneType=MOBILE, " +
-                        "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, birthDate=11-11-2011, " +
-                        "signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, email=joao@email.com, " +
-                        "pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, " +
-                        "number=583, postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=[]), phones=[], " +
-                        "loans=[])),[]>",
+                        "customerJsonId=1, customer=CustomerDTO(id=1, name=João, lastName=da Silva, " +
+                        "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
+                        "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
+                        "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
+                        "state=SAO_PAULO, complement=null, customers=[]), phones=[], loans=[])),[]>",
                 resource.findById(1L).toString());
     }
 
@@ -68,7 +68,7 @@ class PhoneResourceTest {
                         "birthDate=11-11-2011, signUpDate=11-11-2021, rg=55.626.926-4, cpf=391.534.277-44, " +
                         "email=joao@email.com, pontuation=0.0, address=AddressDTO(id=1, street=Rua 9, " +
                         "neighborhood=Lauzane Paulista, number=583, postalCode=02442-090, city=São Paulo, " +
-                        "state=SAO_PAULO, customers=[]), phones=[], loans=[])),[]>",
+                        "state=SAO_PAULO, complement=null, customers=[]), phones=[], loans=[])),[]>",
                 resource.update(PhoneDTODataBuilder.builder().build(), 1L).toString());
     }
 

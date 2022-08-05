@@ -50,7 +50,7 @@ class AddressServiceTest {
         Mockito.when(repository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=null)",
                 service.create(AddressDTODataBuilder.builder().build()).toString());
 
     }
@@ -86,9 +86,9 @@ class AddressServiceTest {
 
         Mockito.when(repository.findAll()).thenReturn(addressEntityList);
         Mockito.when(modelMapper.mapper()).thenReturn(new ModelMapper());
-
         Assertions.assertEquals("[AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)]", service.findAll().toString());
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=null)]",
+                service.findAll().toString());
 
     }
 
@@ -124,7 +124,7 @@ class AddressServiceTest {
         Mockito.when(repository.findById(Mockito.any())).thenReturn(Optional.of(AddressEntityDataBuilder.builder().build()));
 
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=null)",
                 service.findById(1L).toString());
 
     }
@@ -162,7 +162,7 @@ class AddressServiceTest {
         Mockito.when(repository.save(Mockito.any())).thenReturn(AddressEntityDataBuilder.builder().build());
 
         Assertions.assertEquals("AddressDTO(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=null)",
                 service.update(1L, AddressDTODataBuilder.builder().build()).toString());
 
     }

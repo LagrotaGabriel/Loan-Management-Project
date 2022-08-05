@@ -16,7 +16,7 @@ class AddressEntityTest {
     @DisplayName("Should test getters and setters")
     void shouldTestGettersAndSetters(){
         Assertions.assertEquals("AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)",
+                        "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=null, customers=null)",
                 AddressEntityDataBuilder.builder().build().toString());
     }
 
@@ -25,17 +25,18 @@ class AddressEntityTest {
     void shouldTestAllArgsConstructor(){
 
         AddressEntity address = new AddressEntity(1L, "Rua 9", "Lauzane Paulista", 583,
-                "02442-090", "São Paulo", StateEnum.SAO_PAULO, null);
+                "02442-090", "São Paulo", StateEnum.SAO_PAULO, "Casa 1", null);
 
         Assertions.assertEquals("AddressEntity(id=1, street=Rua 9, neighborhood=Lauzane Paulista, number=583, " +
-                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, customers=null)", address.toString());
+                "postalCode=02442-090, city=São Paulo, state=SAO_PAULO, complement=Casa 1, customers=null)",
+                address.toString());
     }
 
     @Test
     @DisplayName("Should test equals and hashcode")
     void shouldTestEqualsAndHashcode(){
         AddressEntity addressEntity = new AddressEntity();
-        Assertions.assertEquals(-506892473, addressEntity.hashCode());
+        Assertions.assertEquals(158117644, addressEntity.hashCode());
     }
 
     @Test
