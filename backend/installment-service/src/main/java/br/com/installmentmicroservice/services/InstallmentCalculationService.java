@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class InstallmentCalculationService {
             installment.setMonth(i);
             installment.setPaymentDate(null);
             installment.setMaturityDate(maturityDateUtil.maturityDateCalculation(loan, i));
+            installment.setCreatedDate(LocalDateTime.now());
 
             installment.setAmortization(Double.valueOf(df.format(amortizationValue).replace(",", ".")));
             log.info("[PROGRESS] Setting the amortization value: ${}...", installment.getAmortization());
@@ -87,6 +89,7 @@ public class InstallmentCalculationService {
             installment.setValue(Double.valueOf(df.format(value).replace(",", ".")));
             installment.setPaymentDate(null);
             installment.setMaturityDate(maturityDateUtil.maturityDateCalculation(loan, i));
+            installment.setCreatedDate(LocalDateTime.now());
 
             Double interest = debitBalance * (loan.getInterestRate()/100);
             installment.setInterest(Double.valueOf(df.format(interest).replace(",", ".")));

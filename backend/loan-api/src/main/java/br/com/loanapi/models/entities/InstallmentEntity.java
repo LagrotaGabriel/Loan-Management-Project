@@ -3,6 +3,7 @@ package br.com.loanapi.models.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /** Class that contains all attributes of the object of type InstallmentEntity
  ** @author Gabriel Lagrota
@@ -24,6 +25,9 @@ public class InstallmentEntity {
     @Column(name = "installment_id", nullable = false, updatable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
     @Column(name = "installment_maturityDate", nullable = false)
     private String maturityDate;
