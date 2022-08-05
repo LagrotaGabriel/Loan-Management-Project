@@ -3,8 +3,6 @@ package br.com.installmentmicroservice.models.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /** Class that contains all attributes of the object of type InstallmentDTO
